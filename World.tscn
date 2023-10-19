@@ -1,0 +1,19 @@
+[gd_scene load_steps=3 format=3 uid="uid://bkd34gv2qo74h"]
+
+[ext_resource type="Texture2D" uid="uid://b2hieifim6jb1" path="res://Assets/TX Tileset Grass.png" id="1_f0ste"]
+[ext_resource type="PackedScene" uid="uid://3s30xhs7xn4c" path="res://Network/Network.tscn" id="3_q7ekw"]
+
+[node name="World" type="Node2D"]
+
+[node name="Floor" type="Node2D" parent="."]
+
+[node name="TextureRect" type="TextureRect" parent="Floor"]
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 1190.0
+offset_bottom = 682.0
+texture = ExtResource("1_f0ste")
+stretch_mode = 1
+
+[node name="Network" parent="." instance=ExtResource("3_q7ekw")]
+metadata/_edit_lock_ = true
