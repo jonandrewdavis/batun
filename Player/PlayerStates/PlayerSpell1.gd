@@ -1,9 +1,10 @@
 extends State
-class_name PlayerAttack1
+class_name PlayerSpell1
 
+## TODO: proliferation of attacks & spells helps customization, but may hurt long run
 func Enter():
 	player.animation_player.stop()
-	player.weapon.attack1()
+	player.weapon.spell1()
 
 func Update(_delta): 
 	if not (player.weapon.animation_player.is_playing()):

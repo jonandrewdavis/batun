@@ -3,10 +3,18 @@
 [ext_resource type="Script" path="res://Weapons/Weapon.gd" id="1_laf63"]
 [ext_resource type="AnimationLibrary" uid="uid://dxdajaufgkl4x" path="res://Weapons/WeaponAnimations.res" id="2_o0f3e"]
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_n0me4"]
-
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_ieg80"]
 radius = 3.0
+
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_b3hd5"]
+properties/0/path = NodePath("AnimationPlayer:current_animation")
+properties/0/spawn = true
+properties/0/sync = true
+properties/0/watch = false
+properties/1/path = NodePath(".:rotation")
+properties/1/spawn = true
+properties/1/sync = true
+properties/1/watch = false
 
 [node name="Weapon" type="Node2D"]
 scale = Vector2(1, 1.01074)
@@ -17,7 +25,6 @@ script = ExtResource("1_laf63")
 [node name="Line2D" type="Line2D" parent="Pointer"]
 position = Vector2(7, 3)
 rotation = -0.471239
-scale = Vector2(1, 1)
 points = PackedVector2Array(7, 0, 5, 0)
 width = 0.5
 default_color = Color(0.980392, 1, 1, 1)
@@ -34,13 +41,6 @@ default_color = Color(0.980392, 1, 1, 1)
 libraries = {
 "WeaponAnimations": ExtResource("2_o0f3e")
 }
-
-[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="AnimationPlayer"]
-texture_repeat = 2
-material = SubResource("ShaderMaterial_n0me4")
-position = Vector2(0, -10)
-polygon = PackedVector2Array(-1, 8, -1, -3, -3, -5, -7, -5, -7, -10, 8, -10, 8, -5, 4, -5, 2, -3, 2, 8, 3, 8, 3, 10, -2, 10, -2, 8)
-disabled = true
 
 [node name="Sword" type="Area2D" parent="."]
 visible = false
@@ -76,3 +76,9 @@ polygon = PackedVector2Array(0, -8.76471, -1, -25, -2, -28.1765, 0, -34, 2, -28.
 [node name="S2" type="CollisionPolygon2D" parent="Spear"]
 position = Vector2(0, 7)
 polygon = PackedVector2Array(0, -8.76471, -1, -25, -2, -28.1765, 0, -34, 2, -28.1765, 1, -25, 1, -3.91177)
+
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
+replication_config = SubResource("SceneReplicationConfig_b3hd5")
+
+[connection signal="body_entered" from="Sword" to="." method="_on_sword_body_entered"]
+[connection signal="body_entered" from="Spear" to="." method="_on_spear_body_entered"]

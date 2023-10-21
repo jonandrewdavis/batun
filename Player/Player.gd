@@ -12,6 +12,8 @@ const CONST_ACCELERATION = 300 # decrease to cause more startup time
 @export var acceleration = CONST_ACCELERATION 
 @export var max_speed = CONST_STARTING_SPEED 
 
+@onready var radial = $TextureProgressBar
+@onready var progress = $ProgressBar
 @onready var animated_sprite: AnimatedSprite2D = $AnimatedSprite2D
 @onready var animation_player: AnimationPlayer = $AnimationPlayer
 @onready var mov_direction: Vector2 = Vector2.ZERO
@@ -22,6 +24,8 @@ const CONST_ACCELERATION = 300 # decrease to cause more startup time
 # TODO: is choosing a node better? :thinking: programmatic is probably best, even though
 # FSM doesn't do it.
 @onready var weapon = $Weapon
+
+var evade_timer = Timer.new()
 
 # TODO: UI, weapon swapz
 # var UI = preload("res://UI/UI.tscn")
@@ -51,6 +55,7 @@ func _ready() -> void:
 	newCamera.ignore_rotation = true
 	newCamera.limit_smoothed = true
 	add_child(newCamera)
+	add_child(evade_timer)
 	# add_child(newUI)
 	# UIref = get_node("UI")
 	_restore_previous_state()
@@ -59,10 +64,25 @@ func is_player():
 	return true
 
 func _physics_process(delta: float) -> void:
+	if not is_multiplayer_authority(): return
 	if mov_direction != Vector2.ZERO:
 		velocity = velocity.move_toward(mov_direction * max_speed, acceleration * delta)
 	else:
 		velocity = velocity.move_toward(Vector2.ZERO, FRICTION * delta)
+
+func _process(_delta: float) -> void:
+	# if OS.is_debug_build(): userlabel.text = FSM.current_state.name
+	if not is_multiplayer_authority(): return
+	mouse_direction = (get_global_mouse_position() - global_position).normalized()
+	if mouse_direction.x > 0 and animated_sprite.flip_h:
+		animated_sprite.flip_h = false
+	elif mouse_direction.x < 0 and not animated_sprite.flip_h:
+		animated_sprite.flip_h = true
+	# NOTE: maybe have a node that mounts the timers and UI? 
+	# the UI node would be persistent, that way it's _process
+	# can be used instead of crowding up the Player one.
+	if not evade_timer.is_stopped(): 
+		radial.value = 	evade_timer.time_left * 100
 
 func set_state(state):
 	FSM.on_child_transition(FSM.current_state, state)
@@ -107,15 +127,6 @@ func _restore_previous_state() -> void:
 		position = Vector2(PLAYER_START.x - randf() * RESPAWN_RADIUS, PLAYER_START.y - randf() * RESPAWN_RADIUS)
 
 
-func _process(_delta: float) -> void:
-	if OS.is_debug_build(): userlabel.text = FSM.current_state.name
-	if not is_multiplayer_authority(): return
-	mouse_direction = (get_global_mouse_position() - global_position).normalized()
-	if mouse_direction.x > 0 and animated_sprite.flip_h:
-		animated_sprite.flip_h = false
-	elif mouse_direction.x < 0 and not animated_sprite.flip_h:
-		animated_sprite.flip_h = true
-
 
 func _unhandled_input(_event):
 	if not is_multiplayer_authority(): return
@@ -130,11 +141,20 @@ func attack():
 		set_state('PlayerAttack1')
 	elif Input.is_action_just_pressed("right_click"):
 		set_state('PlayerAttack2')
+	elif Input.is_action_just_pressed('f'):
+		set_state('PlayerSpell1')
+
+func activate():
+	if Input.is_action_just_pressed("e"): 
+		set_state('PlayerBusy')
 
 func evade():
-	if Input.is_action_just_pressed("space"):
-		print('trying evade!')
+	if Input.is_action_just_pressed("space") and evade_timer.is_stopped():
 		set_state('PlayerEvade')
+	elif Input.is_action_just_pressed("space"):
+		radial.visible = true
+		await get_tree().create_timer(1.4).timeout
+		radial.visible = false
 
 # TODO: check weapon length to make sure it's present.
 func change_weapon(): 
@@ -153,7 +173,6 @@ func change_weapon():
 		
 func get_input() -> void:
 	if not is_multiplayer_authority(): return
-		
 	mov_direction = Vector2.ZERO
 	mov_direction.x = Input.get_action_strength("ui_right") - Input.get_action_strength("ui_left")
 	mov_direction.y = Input.get_action_strength("ui_down") - Input.get_action_strength("ui_up")

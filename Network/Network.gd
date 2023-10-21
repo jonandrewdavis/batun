@@ -14,7 +14,7 @@ var enet_peer = ENetMultiplayerPeer.new()
 var Player = preload('res://Player/Player.tscn')
 
 var nospawn = false
-var debug_override = true
+var debug_override = false
 
 const ip = 'HARDCODE FOR PLAYERS HERE'
 
@@ -61,7 +61,7 @@ func _on_host_pressed():
 	multiplayer.peer_connected.connect(add_player)
 	multiplayer.peer_disconnected.connect(remove_player)
 	print('DEBUG: SEVER IS READY:', multiplayer.get_unique_id())
-	add_player(multiplayer.get_unique_id())	
+	add_player(multiplayer.get_unique_id())
 	if toggle_upnp == true:
 		upnp_setup()
 

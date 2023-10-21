@@ -11,8 +11,11 @@
 [ext_resource type="Script" path="res://Player/PlayerStates/PlayerEvade.gd" id="9_mj8we"]
 [ext_resource type="Script" path="res://Player/PlayerStates/PlayerBusy.gd" id="10_5i5je"]
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_qwcga"]
-bg_color = Color(0.6, 0.6, 0.6, 0.596078)
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_3rjln"]
+bg_color = Color(1, 1, 1, 0.811765)
+border_width_left = 1
+shadow_size = 1
+anti_aliasing = false
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_vs6ol"]
 bg_color = Color(1, 0.898039, 0.266667, 0.870588)
@@ -20,7 +23,7 @@ anti_aliasing = false
 
 [sub_resource type="Gradient" id="Gradient_ilpl8"]
 offsets = PackedFloat32Array(0.950617, 0.996914, 1)
-colors = PackedColorArray(0.847059, 0.815686, 0.831373, 0.572549, 1, 1, 1, 1, 1, 1, 1, 0)
+colors = PackedColorArray(0.845668, 0.813924, 0.83271, 0.72549, 1, 1, 1, 1, 1, 1, 1, 0)
 
 [sub_resource type="GradientTexture2D" id="GradientTexture2D_ed2uj"]
 gradient = SubResource("Gradient_ilpl8")
@@ -67,22 +70,23 @@ metadata/_edit_use_anchors_ = true
 [node name="ProgressBar" type="ProgressBar" parent="."]
 visible = false
 offset_left = -10.0
-offset_top = 15.0
+offset_top = 13.0
 offset_right = 10.0
-offset_bottom = 18.0
-theme_override_styles/background = SubResource("StyleBoxFlat_qwcga")
+offset_bottom = 17.0
+theme_override_styles/background = SubResource("StyleBoxFlat_3rjln")
 theme_override_styles/fill = SubResource("StyleBoxFlat_vs6ol")
 step = 1.0
 value = 50.0
+rounded = true
 show_percentage = false
 
 [node name="TextureProgressBar" type="TextureProgressBar" parent="."]
 visible = false
-offset_left = 11.0
-offset_top = 10.0
-offset_right = 75.0
-offset_bottom = 74.0
-scale = Vector2(0.156259, 0.156259)
+offset_left = 6.0
+offset_top = 12.0
+offset_right = 70.0
+offset_bottom = 76.0
+scale = Vector2(0.266166, 0.266166)
 value = 16.0
 fill_mode = 4
 texture_progress = SubResource("GradientTexture2D_ed2uj")
@@ -90,8 +94,9 @@ texture_progress = SubResource("GradientTexture2D_ed2uj")
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 scale = Vector2(0.694979, 0.7)
 sprite_frames = ExtResource("3_6xpi2")
-animation = &"idle"
+animation = &"action"
 autoplay = "idle"
+frame = 1
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 

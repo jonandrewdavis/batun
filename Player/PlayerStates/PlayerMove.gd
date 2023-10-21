@@ -7,7 +7,6 @@ class_name PlayerMove
 
 func Enter():
 	player.animation_player.play("PlayerAnimationSaved/move")
-	print('entered, move')
 	pass
 
 func Physics_Update(_delta: float):
