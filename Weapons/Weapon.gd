@@ -9,25 +9,36 @@ extends Node2D
 @export var locked = false
 
 # TODO: on ready, loop through and connct
+# TODO: Clean up variables, ya goof. We're all over the place.
 
+# TODO: generate programattically from the Animations Weapon
+# is equipped with!
 @onready var all_weapons = [
 	{
 		'name': 'Spear',
-		'damage1': 10,
-		'slow1': 2,
-		'playerAnimation' : null,
-		'node': $Spear
+		'node': $Spear,
+		'attacks': {
+			'WeaponAnimations/Spear1': {
+				"damage": 10,
+				"knockback": 2,
+				"slow": 2,
+			},
+		}
 	},
 	{ 
 		'name': 'Hammer',
-		'damage1': 50,
-		'slow1': 30,
-		'playerAnimation' : 'PlayerAnimationSaved/action',
-		'node': $HammerHolder/Hammer
+		'node': $HammerHolder/Hammer,
+		'attacks': {
+			'WeaponAnimations/Hammer1': {
+				"damage": 50,
+				"slow": 30,
+				"knockback": 25,
+			},
+		}
 	}
 ]
 
-@onready var current_weapon = all_weapons[0]
+@export var current_weapon_index: int = 0
 
 var all_spells = [
 	{
@@ -38,7 +49,21 @@ var all_spells = [
 ]
 
 var current_spell = all_spells[0]
+var current_weapon = null
 
+func _ready():
+	for single_weapon in all_weapons:
+		single_weapon.node.weapon_ref = self
+		# single_weapon.node.body_entered.connect(_test)
+		# single_weapon.node.body_entered.connect('_on_body_entered')
+	current_weapon = all_weapons[current_weapon_index]	
+	
+func set_weapon(index):
+	current_weapon_index = index
+	current_weapon = all_weapons[current_weapon_index]	
+	
+func _test():
+	print('test')
 
 func _process(delta):
 	if not is_multiplayer_authority(): return
@@ -74,18 +99,22 @@ func _process(delta):
 # slow in windup, stop at swing
 # slow in cooldown
 
-var ani_lookup1 = "WeaponAnimations/%s1"
 
+func get_weapon_hit():
+	var this_attack = all_weapons[current_weapon_index].attacks[animation_player.current_animation]
+	return {
+		'damage': this_attack.damage,
+		'knockback': this_attack.knockback		
+	}
 
 func attack1():
-	player.apply_slow(current_weapon.slow1)
-	animation_player.play(ani_lookup1 % current_weapon.name)
-	if current_weapon.playerAnimation: 	player.animation_player.play(current_weapon.playerAnimation)
+	var attackRoot = "WeaponAnimations/%s1"
+	var attackString = attackRoot % current_weapon.name
+	animation_player.play(attackString)
+	player.apply_slow(current_weapon.attacks[attackString].slow)
+	player.animation_player.play('PlayerAnimationSaved/action')
 	
 func spell1():
-	player.apply_slow(current_spell.slow1)	
+	pass
+	# player.apply_slow(current_spell.slow1)	
 
-
-# TODO:
-# hitbox, hurtbox
-# target dummy (player??)

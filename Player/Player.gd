@@ -135,7 +135,8 @@ func _unhandled_input(_event):
 			get_tree().quit()
 		else:
 			pass
-			
+
+# Reduce boilerplate by abstracting instances of "attack1"
 func attack():
 	if Input.is_action_just_pressed("left_click"): 
 		set_state('PlayerAttack1')
@@ -159,10 +160,10 @@ func evade():
 # TODO: check weapon length to make sure it's present.
 func change_weapon(): 
 	if Input.is_action_just_pressed("1"):
-		weapon.current_weapon = weapon.all_weapons[0]
+		weapon.set_weapon(0)
 		set_state("PlayerBusy")
 	if Input.is_action_just_pressed("2"):
-		weapon.current_weapon = weapon.all_weapons[1]
+		weapon.set_weapon(1)
 		set_state("PlayerBusy")
 	if Input.is_action_just_pressed("3"):
 		# weapon.current_weapon = weapon.all_weapons[2]
@@ -194,15 +195,15 @@ func interact():
 	# pick closest
 	pass
 
-# TODO: This should be emit, (signal up)
 func player_pvp(value):
 	if value == true:
 		userlabel.add_theme_color_override("font_color", Color(1,0,0))
 	else:
 		userlabel.remove_theme_color_override("font_color")
-	self.set_collision_layer_value(6, value)
 
-
-
-# TODO: Change wepaons
-# TODO: hitboxes, knockback, dummy
+func _on_area_2d_area_entered(area):
+	# don't get hit by server objects, TODO: understand authority better!
+	if not is_multiplayer_authority(): return
+	if area.is_multiplayer_authority() == false:
+		if area.get('weapon_ref') and area.weapon_ref.has_method('get_weapon_hit'):
+			print('Ouch', area.weapon_ref.get_weapon_hit().damage)

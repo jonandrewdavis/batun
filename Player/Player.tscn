@@ -1,8 +1,7 @@
-[gd_scene load_steps=16 format=3 uid="uid://b2m56omrcu8lr"]
+[gd_scene load_steps=18 format=3 uid="uid://b2m56omrcu8lr"]
 
 [ext_resource type="Script" path="res://Player/Player.gd" id="1_bv6p2"]
 [ext_resource type="SpriteFrames" uid="uid://d2tsowqgx0ycq" path="res://Player/PlayerSpriteSaved.tres" id="3_6xpi2"]
-[ext_resource type="AnimationLibrary" uid="uid://c10qvppetni82" path="res://Player/PlayerAnimationSaved.res" id="4_od33s"]
 [ext_resource type="PackedScene" uid="uid://bwhwvvqj2od7u" path="res://Weapons/Weapon.tscn" id="5_cc2db"]
 [ext_resource type="Script" path="res://Player/FSM.gd" id="5_ckd0r"]
 [ext_resource type="Script" path="res://Player/PlayerStates/PlayerIdle.gd" id="6_bcrpe"]
@@ -10,6 +9,7 @@
 [ext_resource type="Script" path="res://Player/PlayerStates/PlayerAttack1.gd" id="8_ym6h3"]
 [ext_resource type="Script" path="res://Player/PlayerStates/PlayerEvade.gd" id="9_mj8we"]
 [ext_resource type="Script" path="res://Player/PlayerStates/PlayerBusy.gd" id="10_5i5je"]
+[ext_resource type="AnimationLibrary" uid="uid://c10qvppetni82" path="res://Player/PlayerAnimationSaved.res" id="10_gmj6u"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_qwcga"]
 bg_color = Color(0.6, 0.6, 0.6, 0.596078)
@@ -32,24 +32,24 @@ fill_to = Vector2(0.5, 0)
 [sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_rdcvt"]
 properties/0/path = NodePath("Label:text")
 properties/0/spawn = true
-properties/0/sync = true
-properties/0/watch = false
+properties/0/replication_mode = 1
 properties/1/path = NodePath(".:position")
 properties/1/spawn = true
-properties/1/sync = true
-properties/1/watch = false
+properties/1/replication_mode = 1
 properties/2/path = NodePath(".:hp")
 properties/2/spawn = true
-properties/2/sync = true
-properties/2/watch = false
+properties/2/replication_mode = 1
 properties/3/path = NodePath("AnimatedSprite2D:flip_h")
 properties/3/spawn = true
-properties/3/sync = true
-properties/3/watch = false
-properties/4/path = NodePath("AnimationPlayer:current_animation")
-properties/4/spawn = true
-properties/4/sync = true
-properties/4/watch = false
+properties/3/replication_mode = 1
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_kuhee"]
+radius = 5.0
+height = 16.0
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_i3fan"]
+radius = 3.0
+height = 14.0
 
 [node name="CharacterBody2D" type="CharacterBody2D"]
 script = ExtResource("1_bv6p2")
@@ -93,18 +93,13 @@ sprite_frames = ExtResource("3_6xpi2")
 animation = &"idle"
 autoplay = "idle"
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {
-"PlayerAnimationSaved": ExtResource("4_od33s")
+"PlayerAnimationSaved": ExtResource("10_gmj6u")
 }
 
 [node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
 replication_config = SubResource("SceneReplicationConfig_rdcvt")
-
-[node name="Weapon" parent="." instance=ExtResource("5_cc2db")]
-scale = Vector2(1, 1.00613)
 
 [node name="FSM" type="Node2D" parent="." node_paths=PackedStringArray("initial_state", "parentPlayer")]
 script = ExtResource("5_ckd0r")
@@ -125,3 +120,19 @@ script = ExtResource("9_mj8we")
 
 [node name="PlayerBusy" type="Node" parent="FSM"]
 script = ExtResource("10_5i5je")
+
+[node name="Weapon" parent="FSM" instance=ExtResource("5_cc2db")]
+scale = Vector2(1, 1.00613)
+
+[node name="PlayerArea" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="PlayerArea"]
+shape = SubResource("CapsuleShape2D_kuhee")
+debug_color = Color(0.807843, 0.392157, 0.380392, 0.419608)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CapsuleShape2D_i3fan")
+
+[node name="Weapon" parent="." instance=ExtResource("5_cc2db")]
+
+[connection signal="area_entered" from="PlayerArea" to="." method="_on_area_2d_area_entered"]

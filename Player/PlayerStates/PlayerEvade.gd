@@ -16,8 +16,8 @@ func Physics_Update(_delta: float):
 	player.move()
 	
 func Exit():
-	player.radial.max_value = 8 * 100
+	player.radial.max_value = 6 * 100
 	player.evade_timer.one_shot = true
-	player.evade_timer.wait_time = 8
+	player.evade_timer.wait_time = 6
 	player.evade_timer.start()
 	player.remove_slow()
