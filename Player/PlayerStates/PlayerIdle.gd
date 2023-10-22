@@ -2,7 +2,6 @@ extends State
 class_name PlayerIdle
 
 func Enter():
-
 	if (player.animation_player): player.animation_player.play("PlayerAnimationSaved/move")
 	
 func Update(_delta: float):

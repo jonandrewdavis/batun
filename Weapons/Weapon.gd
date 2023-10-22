@@ -5,6 +5,9 @@ extends Node2D
 @onready var player = get_parent()
 @onready var pointer = $Pointer
 @onready var hammer_holder = $HammerHolder
+@onready var hammer = $HammerHolder/Hammer
+@onready var axe_holder = $AxeHolder
+@onready var axe = $AxeHolder/Axe
 
 @export var locked = false
 
@@ -19,9 +22,9 @@ extends Node2D
 		'node': $Spear,
 		'attacks': {
 			'WeaponAnimations/Spear1': {
-				"damage": 10,
-				"knockback": 2,
-				"slow": 2,
+				"damage": 8,
+				"slow": 1,
+				"knockback": 75,
 			},
 		}
 	},
@@ -30,12 +33,24 @@ extends Node2D
 		'node': $HammerHolder/Hammer,
 		'attacks': {
 			'WeaponAnimations/Hammer1': {
-				"damage": 50,
+				"damage": 30,
 				"slow": 30,
-				"knockback": 25,
+				"knockback": 150,
+			},
+		}
+	},
+	{ 
+		'name': 'Axe',
+		'node': $AxeHolder/Axe,
+		'attacks': {
+			'WeaponAnimations/Axe1': {
+				"damage": 25,
+				"slow": 30,
+				"knockback": 125,
 			},
 		}
 	}
+	
 ]
 
 @export var current_weapon_index: int = 0
@@ -43,8 +58,10 @@ extends Node2D
 var all_spells = [
 	{
 		'name': 'LightningBolt',
-		'damage1': 33,
-		'slow1': 20,
+		'damage1': 13,
+		'slow': 1000,
+		'knockback': 0,
+		'cast_time': 0.8,
 	},
 ]
 
@@ -54,18 +71,15 @@ var current_weapon = null
 func _ready():
 	for single_weapon in all_weapons:
 		single_weapon.node.weapon_ref = self
-		# single_weapon.node.body_entered.connect(_test)
-		# single_weapon.node.body_entered.connect('_on_body_entered')
+	# TODO: Improve current weapon tracking
 	current_weapon = all_weapons[current_weapon_index]	
 	
 func set_weapon(index):
 	current_weapon_index = index
 	current_weapon = all_weapons[current_weapon_index]	
-	
-func _test():
-	print('test')
 
-func _process(delta):
+
+func _process(_delta):
 	if not is_multiplayer_authority(): return
 	# Do not allow looking or swinging if we're "mid-swing".
 	if locked == true: 
@@ -79,11 +93,16 @@ func _process(delta):
 		return
 	if mouse_direction.x > 0:
 		hammer_holder.scale.x = 1
-		all_weapons[1].node.scale.y = 1
+		hammer.scale.y = 1
+		axe_holder.scale.x = 1
+		axe.scale.y = 1
+		axe.scale.x = 1
 	elif mouse_direction.x < 0:
 		hammer_holder.scale.x = -1
-		all_weapons[1].node.scale.y = -1
-
+		hammer.scale.y = -1
+		axe_holder.scale.x = -1
+		axe.scale.y = -1
+		axe.scale.x = -1
 # TODO: figure out how we want to do "activating". extend from base weapon is probably correct.
 # TODO: Ton of animations, state transition when complete?
 
@@ -104,7 +123,8 @@ func get_weapon_hit():
 	var this_attack = all_weapons[current_weapon_index].attacks[animation_player.current_animation]
 	return {
 		'damage': this_attack.damage,
-		'knockback': this_attack.knockback		
+		'knockback': this_attack.knockback,
+		'angle': self.rotation,
 	}
 
 func attack1():
@@ -115,6 +135,9 @@ func attack1():
 	player.animation_player.play('PlayerAnimationSaved/action')
 	
 func spell1():
+	player.apply_slow(current_spell.slow)
+	player.animation_player.play('PlayerAnimationSaved/action')
+	
 	pass
 	# player.apply_slow(current_spell.slow1)	
 

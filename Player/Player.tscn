@@ -1,6 +1,7 @@
-[gd_scene load_steps=18 format=3 uid="uid://b2m56omrcu8lr"]
+[gd_scene load_steps=20 format=3 uid="uid://b2m56omrcu8lr"]
 
 [ext_resource type="Script" path="res://Player/Player.gd" id="1_bv6p2"]
+[ext_resource type="AnimationLibrary" uid="uid://cgd5bhyubfwyp" path="res://Player/PlayerAnimationSaved.res" id="2_lwcqa"]
 [ext_resource type="SpriteFrames" uid="uid://d2tsowqgx0ycq" path="res://Player/PlayerSpriteSaved.tres" id="3_6xpi2"]
 [ext_resource type="PackedScene" uid="uid://bwhwvvqj2od7u" path="res://Weapons/Weapon.tscn" id="5_cc2db"]
 [ext_resource type="Script" path="res://Player/FSM.gd" id="5_ckd0r"]
@@ -9,13 +10,17 @@
 [ext_resource type="Script" path="res://Player/PlayerStates/PlayerAttack1.gd" id="8_ym6h3"]
 [ext_resource type="Script" path="res://Player/PlayerStates/PlayerEvade.gd" id="9_mj8we"]
 [ext_resource type="Script" path="res://Player/PlayerStates/PlayerBusy.gd" id="10_5i5je"]
-[ext_resource type="AnimationLibrary" uid="uid://c10qvppetni82" path="res://Player/PlayerAnimationSaved.res" id="10_gmj6u"]
+[ext_resource type="Script" path="res://Player/PlayerStates/PlayerHurt.gd" id="11_g31tm"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_qwcga"]
 bg_color = Color(0.6, 0.6, 0.6, 0.596078)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_vs6ol"]
-bg_color = Color(1, 0.898039, 0.266667, 0.870588)
+bg_color = Color(0, 0.831373, 0.243137, 0.870588)
+anti_aliasing = false
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_sekca"]
+bg_color = Color(0.960784, 0.729412, 0, 1)
 anti_aliasing = false
 
 [sub_resource type="Gradient" id="Gradient_ilpl8"]
@@ -32,16 +37,32 @@ fill_to = Vector2(0.5, 0)
 [sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_rdcvt"]
 properties/0/path = NodePath("Label:text")
 properties/0/spawn = true
-properties/0/replication_mode = 1
+properties/0/sync = true
+properties/0/watch = false
 properties/1/path = NodePath(".:position")
 properties/1/spawn = true
-properties/1/replication_mode = 1
+properties/1/sync = true
+properties/1/watch = false
 properties/2/path = NodePath(".:hp")
 properties/2/spawn = true
-properties/2/replication_mode = 1
+properties/2/sync = true
+properties/2/watch = false
 properties/3/path = NodePath("AnimatedSprite2D:flip_h")
 properties/3/spawn = true
-properties/3/replication_mode = 1
+properties/3/sync = true
+properties/3/watch = false
+properties/4/path = NodePath("AnimationPlayer:current_animation")
+properties/4/spawn = true
+properties/4/sync = true
+properties/4/watch = false
+properties/5/path = NodePath("Healthbar:value")
+properties/5/spawn = true
+properties/5/sync = true
+properties/5/watch = false
+properties/6/path = NodePath("Healthbar:visible")
+properties/6/spawn = true
+properties/6/sync = true
+properties/6/watch = false
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_kuhee"]
 radius = 5.0
@@ -56,22 +77,33 @@ script = ExtResource("1_bv6p2")
 
 [node name="Label" type="Label" parent="."]
 offset_left = -44.0
-offset_top = -19.0
+offset_top = -22.0
 offset_right = 43.0
-offset_bottom = 7.0
+offset_bottom = 4.0
 theme_override_font_sizes/font_size = 5
 text = "unnamed noob"
 horizontal_alignment = 1
-metadata/_edit_use_anchors_ = true
+
+[node name="Healthbar" type="ProgressBar" parent="."]
+visible = false
+offset_left = -10.0
+offset_top = -14.0
+offset_right = 10.0
+offset_bottom = -12.0
+theme_override_styles/background = SubResource("StyleBoxFlat_qwcga")
+theme_override_styles/fill = SubResource("StyleBoxFlat_vs6ol")
+step = 1.0
+value = 20.0
+show_percentage = false
 
 [node name="ProgressBar" type="ProgressBar" parent="."]
 visible = false
 offset_left = -10.0
 offset_top = 15.0
 offset_right = 10.0
-offset_bottom = 18.0
+offset_bottom = 17.0
 theme_override_styles/background = SubResource("StyleBoxFlat_qwcga")
-theme_override_styles/fill = SubResource("StyleBoxFlat_vs6ol")
+theme_override_styles/fill = SubResource("StyleBoxFlat_sekca")
 step = 1.0
 value = 50.0
 show_percentage = false
@@ -87,19 +119,32 @@ value = 16.0
 fill_mode = 4
 texture_progress = SubResource("GradientTexture2D_ed2uj")
 
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+autoplay = "PlayerAnimationSaved/idle"
+libraries = {
+"PlayerAnimationSaved": ExtResource("2_lwcqa")
+}
+
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+position = Vector2(1, 0)
 scale = Vector2(0.694979, 0.7)
 sprite_frames = ExtResource("3_6xpi2")
-animation = &"idle"
+animation = &"dead"
 autoplay = "idle"
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
-libraries = {
-"PlayerAnimationSaved": ExtResource("10_gmj6u")
-}
+[node name="Weapon" parent="." instance=ExtResource("5_cc2db")]
 
 [node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
 replication_config = SubResource("SceneReplicationConfig_rdcvt")
+
+[node name="PlayerArea" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="PlayerArea"]
+shape = SubResource("CapsuleShape2D_kuhee")
+debug_color = Color(0.807843, 0.392157, 0.380392, 0.419608)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CapsuleShape2D_i3fan")
 
 [node name="FSM" type="Node2D" parent="." node_paths=PackedStringArray("initial_state", "parentPlayer")]
 script = ExtResource("5_ckd0r")
@@ -121,18 +166,7 @@ script = ExtResource("9_mj8we")
 [node name="PlayerBusy" type="Node" parent="FSM"]
 script = ExtResource("10_5i5je")
 
-[node name="Weapon" parent="FSM" instance=ExtResource("5_cc2db")]
-scale = Vector2(1, 1.00613)
-
-[node name="PlayerArea" type="Area2D" parent="."]
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="PlayerArea"]
-shape = SubResource("CapsuleShape2D_kuhee")
-debug_color = Color(0.807843, 0.392157, 0.380392, 0.419608)
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-shape = SubResource("CapsuleShape2D_i3fan")
-
-[node name="Weapon" parent="." instance=ExtResource("5_cc2db")]
+[node name="PlayerHurt" type="Node" parent="FSM"]
+script = ExtResource("11_g31tm")
 
 [connection signal="area_entered" from="PlayerArea" to="." method="_on_area_2d_area_entered"]

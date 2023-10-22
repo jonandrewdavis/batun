@@ -7,12 +7,15 @@ func Enter():
 	player.weapon.spell1()
 
 func Update(_delta): 
-	if not (player.weapon.animation_player.is_playing()):
-		Transitioned.emit(self, "PlayerIdle")
+	pass
 	
+
 func Physics_Update(_delta: float):
 	player.get_input()
 	player.move()
+	# TODO: Allow cancelling spells, with evade?
+	# is this too powerful? 
+	player.evade()
 	
 func Exit():
 	player.remove_slow()
