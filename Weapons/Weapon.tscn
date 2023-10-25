@@ -39,7 +39,7 @@ tracks/2/loop_wrap = true
 tracks/2/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
-"update": 1,
+"update": 0,
 "values": [true]
 }
 tracks/3/type = "value"
@@ -51,7 +51,7 @@ tracks/3/loop_wrap = true
 tracks/3/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
-"update": 1,
+"update": 0,
 "values": [false]
 }
 
@@ -87,6 +87,10 @@ properties/4/path = NodePath("Hammer:skew")
 properties/4/spawn = true
 properties/4/sync = true
 properties/4/watch = false
+properties/5/path = NodePath(".:current_weapon_index")
+properties/5/spawn = true
+properties/5/sync = true
+properties/5/watch = true
 
 [node name="Weapon" type="Node2D"]
 script = ExtResource("1_laf63")
@@ -158,7 +162,7 @@ disabled = true
 
 [node name="Spear" type="Area2D" parent="."]
 visible = false
-position = Vector2(1.79128, 0)
+position = Vector2(5, 0)
 rotation = 1.5708
 script = ExtResource("3_dtosq")
 

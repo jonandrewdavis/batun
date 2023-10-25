@@ -1,12 +1,12 @@
 extends Node2D
 
 # When entities take a hit, they use these two values to 
-# look up what hit them. 
+# look up what hit them. They must be in the MultiplayerSyncronizer to be accurate.
 @onready var animation_player = $AnimationPlayer
 @export var current_weapon_index: int = 0
 
 @onready var player = get_parent()
-@onready var pointer = $Pointer
+
 @onready var hammer = $Hammer
 
 # TODO: ALL "swing directional" weapons should use a SINGLE "sheathe",
@@ -14,14 +14,15 @@ extends Node2D
 # this makes the swing more predictable for the player.
 @onready var holder = $Holder
 @onready var inner_holder = $Holder/InnerHolder
-@export var locked = true
-
-var all_weapons = null
 
 # TODO: Pointer, Locked, Visible, is controlled in animations
 # this is a pain if I have to redo the animations.
 # granular control is nice, but a quick "lock / unlock" that does
 # all the things would be a nice func.
+@export var locked = false
+@onready var pointer = $Pointer
+
+var all_weapons = null
 
 func _prepare_all_weapons(): 
 	var spearAttack1 = Attack.new()
@@ -90,16 +91,14 @@ var current_spell = all_spells[0]
 var current_weapon = null
 
 func _ready():
-	if is_multiplayer_authority:
-		all_weapons = _prepare_all_weapons()
-		for single_weapon in all_weapons:
-			single_weapon.node.weapon_ref = self
-		current_weapon = all_weapons[current_weapon_index]
-	animation_player.play('RESET')
+	all_weapons = _prepare_all_weapons()
+	for single_weapon in all_weapons:
+		single_weapon.node.weapon_ref = self
+	current_weapon = all_weapons[current_weapon_index]
+
 
 func set_weapon(index):
 	current_weapon_index = index
-	current_weapon = all_weapons[current_weapon_index]
 
 func _process(_delta):
 	if not is_multiplayer_authority(): return
@@ -141,15 +140,11 @@ func _process(_delta):
 # Locking: lock after swing has STARTEd.
 # slow in windup, stop at swing
 # slow in cooldown
-
-# RESET i think needs to be a seperate animation, it's not pic,king up
-
-# TODO: 
 func get_weapon_hit() -> Hit:
 	if animation_player.is_playing():
 		var animation_index = int(animation_player.current_animation.left(animation_player.current_animation.length() - 1))
-		var attack_stats = current_weapon.attacks[animation_index]
-		if current_weapon.attacks[animation_index]:
+		var attack_stats = all_weapons[current_weapon_index].attacks[animation_index]
+		if all_weapons[current_weapon_index].attacks[animation_index]:
 			var hit = Hit.new()
 			hit.damage = attack_stats.damage
 			hit.knockback = attack_stats.knockback
@@ -158,7 +153,7 @@ func get_weapon_hit() -> Hit:
 	return Hit.new()
 
 func attack1():
-	var current_attack = current_weapon.attacks[0]
+	var current_attack = all_weapons[current_weapon_index].attacks[0]
 	animation_player.play(current_attack.animation)
 	player.apply_slow(current_attack.self_slow)
 	player.animation_player.play('PlayerAnimationSaved/action')

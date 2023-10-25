@@ -1,7 +1,5 @@
 extends CharacterBody2D
 
-var current_weapon: Node2D
-
 const CONST_MAX_HP = 100;
 const CONST_STARTING_SPEED = 120; # increase for top speed
 const CONST_ACCELERATION = 300 # decrease to cause more startup time
@@ -179,13 +177,10 @@ func interact():
 	pass
 
 
-func _on_area_2d_area_entered(area):
+func _on_area_2d_area_entered(area: Area2D):
 	# prevents self damage.
 	if area.get_multiplayer_authority() == get_multiplayer_authority():
-		return	
-	# BUG: there are two weapon hits, a spear and the correct one. Why.
+		return
 	if "weapon_ref" in area and area.weapon_ref != null:
 		var hit: Hit = area.weapon_ref.get_weapon_hit()
-		print('DEBUG: index', area.weapon_ref, 'owned by', area.get_multiplayer_authority(), 'damage',  hit.damage)
-		if hit.damage > 5: take_damage(hit.damage, hit.knockback, hit.angle)
-
+		if hit.damage > 0: take_damage(hit.damage, hit.knockback, hit.angle)
