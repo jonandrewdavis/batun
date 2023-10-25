@@ -73,6 +73,9 @@ radius = 3.0
 height = 14.0
 
 [node name="CharacterBody2D" type="CharacterBody2D"]
+motion_mode = 1
+platform_on_leave = 2
+platform_floor_layers = 4294967294
 script = ExtResource("1_bv6p2")
 
 [node name="Label" type="Label" parent="."]
@@ -126,13 +129,10 @@ libraries = {
 }
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
-position = Vector2(1, 0)
 scale = Vector2(0.694979, 0.7)
 sprite_frames = ExtResource("3_6xpi2")
-animation = &"dead"
+animation = &"idle"
 autoplay = "idle"
-
-[node name="Weapon" parent="." instance=ExtResource("5_cc2db")]
 
 [node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
 replication_config = SubResource("SceneReplicationConfig_rdcvt")
@@ -168,5 +168,7 @@ script = ExtResource("10_5i5je")
 
 [node name="PlayerHurt" type="Node" parent="FSM"]
 script = ExtResource("11_g31tm")
+
+[node name="Weapon" parent="." instance=ExtResource("5_cc2db")]
 
 [connection signal="area_entered" from="PlayerArea" to="." method="_on_area_2d_area_entered"]

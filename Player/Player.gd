@@ -97,7 +97,8 @@ func take_damage(damage: int, knockback: int, direction: Vector2) -> void:
 		velocity += direction * knockback
 	
 func apply_slow(_factor = 10):
-	max_speed = CONST_STARTING_SPEED / _factor
+	if _factor != 0:
+		max_speed = CONST_STARTING_SPEED / _factor
 	
 func remove_slow():
 	max_speed = CONST_STARTING_SPEED
@@ -162,7 +163,7 @@ func change_weapon():
 		weapon.set_weapon(2)
 		set_state("PlayerBusy")
 	if Input.is_action_just_pressed("4"):
-		# weapon.current_weapon = weapon.all_weapons[3]
+		weapon.set_weapon(3)
 		set_state("PlayerBusy")
 		
 func get_input() -> void:
@@ -177,14 +178,14 @@ func interact():
 	# pick closest
 	pass
 
-# ON HIT
-# ON HIT
-# ON HIT
+
 func _on_area_2d_area_entered(area):
-	# don't get hit by server objects, TODO: understand authority better!
-	if not is_multiplayer_authority(): return
-	if area.is_multiplayer_authority() == false:
-		if area.get('weapon_ref') and area.weapon_ref.has_method('get_weapon_hit'):
-			var stats = area.weapon_ref.get_weapon_hit()
-			var get_angle = Vector2(cos(stats.angle), sin(stats.angle))
-			take_damage(stats.damage, stats.knockback, get_angle)
+	# prevents self damage.
+	if area.get_multiplayer_authority() == get_multiplayer_authority():
+		return	
+	# BUG: there are two weapon hits, a spear and the correct one. Why.
+	if "weapon_ref" in area and area.weapon_ref != null:
+		var hit: Hit = area.weapon_ref.get_weapon_hit()
+		print('DEBUG: index', area.weapon_ref, 'owned by', area.get_multiplayer_authority(), 'damage',  hit.damage)
+		if hit.damage > 5: take_damage(hit.damage, hit.knockback, hit.angle)
+

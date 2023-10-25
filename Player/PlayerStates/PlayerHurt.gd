@@ -9,7 +9,7 @@ const death_value = 3.5
 
 func Enter():
 	player.animation_player.play("PlayerAnimationSaved/hurt")
-	player.weapon.animation_player.play("WeaponAnimations/None")
+	player.weapon.animation_player.call_deferred('stop')
 	player.remove_slow()
 	player.is_invincible = true
 	busy_timer = get_tree().create_timer(busy_value)

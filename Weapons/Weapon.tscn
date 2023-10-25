@@ -1,11 +1,70 @@
-[gd_scene load_steps=6 format=3 uid="uid://bwhwvvqj2od7u"]
+[gd_scene load_steps=9 format=3 uid="uid://bwhwvvqj2od7u"]
 
 [ext_resource type="Script" path="res://Weapons/Weapon.gd" id="1_laf63"]
 [ext_resource type="AnimationLibrary" uid="uid://dxdajaufgkl4x" path="res://Weapons/WeaponAnimations.res" id="2_cr52x"]
 [ext_resource type="Script" path="res://Weapons/WeaponRefs.gd" id="3_dtosq"]
 
-[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_ieg80"]
+[sub_resource type="Animation" id="Animation_gm1x1"]
+resource_name = "RESET"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Holder/InnerHolder/Sword:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0.00102138),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Holder/InnerHolder/Sword:rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0.00102138),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Spear/Spear2:disabled")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Spear:visible")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_srij4"]
+_data = {
+"RESET": SubResource("Animation_gm1x1")
+}
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_ap280"]
 radius = 3.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_icuoq"]
+radius = 8.29554
 
 [sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_htl3o"]
 properties/0/path = NodePath("AnimationPlayer:current_animation")
@@ -16,21 +75,20 @@ properties/1/path = NodePath(".:rotation")
 properties/1/spawn = true
 properties/1/sync = true
 properties/1/watch = false
-properties/2/path = NodePath("HammerHolder:scale")
+properties/2/path = NodePath("Holder:scale")
 properties/2/spawn = true
 properties/2/sync = true
 properties/2/watch = false
-properties/3/path = NodePath("HammerHolder/Hammer:scale")
+properties/3/path = NodePath("Holder/InnerHolder:scale")
 properties/3/spawn = true
 properties/3/sync = true
 properties/3/watch = false
-properties/4/path = NodePath(".:current_weapon_index")
+properties/4/path = NodePath("Hammer:skew")
 properties/4/spawn = true
 properties/4/sync = true
 properties/4/watch = false
 
 [node name="Weapon" type="Node2D"]
-scale = Vector2(1, 1.01074)
 script = ExtResource("1_laf63")
 
 [node name="Pointer" type="Node2D" parent="."]
@@ -52,63 +110,84 @@ width = 0.5
 default_color = Color(0.980392, 1, 1, 1)
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+autoplay = "RESET"
 libraries = {
+"": SubResource("AnimationLibrary_srij4"),
 "WeaponAnimations": ExtResource("2_cr52x")
 }
 
-[node name="Sword" type="Area2D" parent="."]
+[node name="Holder" type="Node2D" parent="."]
+
+[node name="InnerHolder" type="Node2D" parent="Holder"]
+
+[node name="Sword" type="Area2D" parent="Holder/InnerHolder"]
 visible = false
+position = Vector2(4, 2)
 script = ExtResource("3_dtosq")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Sword"]
-shape = SubResource("CapsuleShape2D_ieg80")
+[node name="S1" type="Polygon2D" parent="Holder/InnerHolder/Sword"]
+scale = Vector2(2.10345, 2.10345)
+polygon = PackedVector2Array(0.800534, -0.337672, 1.90296, -0.573908, 2.06045, -1.51885, 2.25732, -0.416418, 9.34437, -0.810143, 10.0531, -0.573908, 9.42312, -0.14081, 2.37543, 0.292288, 2.37543, 1.00099, 1.86359, 0.213543, 0.721788, 0.292288, 0.328063, 0.449778, 0.1312, -0.416418)
+
+[node name="Swipe" type="Polygon2D" parent="Holder/InnerHolder/Sword"]
+visible = false
+scale = Vector2(2.12132, 2.12132)
+polygon = PackedVector2Array(9.97988, -0.759911, 9.97988, -1.60081, 9.55943, -2.65193, 7.93019, -4.43883, 6.22212, -4.75417, 7.87764, -4.17605, 9.03387, -2.65193, 9.13898, -1.67964, 8.92876, -1.02269, 9.45432, -0.996412)
+
+[node name="SwordShape" type="CollisionShape2D" parent="Holder/InnerHolder/Sword"]
+position = Vector2(12, 0)
+rotation = 1.5708
+scale = Vector2(0.683572, 0.813891)
+shape = SubResource("CapsuleShape2D_ap280")
 disabled = true
 
-[node name="HammerHolder" type="Node2D" parent="."]
-
-[node name="Hammer" type="Area2D" parent="HammerHolder"]
+[node name="Axe" type="Area2D" parent="Holder/InnerHolder"]
 visible = false
+position = Vector2(4, 2)
 script = ExtResource("3_dtosq")
 
-[node name="H1" type="Polygon2D" parent="HammerHolder/Hammer"]
-scale = Vector2(2.12244, 2.22431)
-color = Color(0.231373, 0.231373, 0.231373, 1)
-polygon = PackedVector2Array(-0.486035, 0, -0.486035, -6.02044, -2, -7, -6, -7, -6, -12, 6, -12, 6, -7, 2, -7, 0.486035, -6.02044, 0.486035, 0)
-
-[node name="H2" type="CollisionPolygon2D" parent="HammerHolder/Hammer"]
-scale = Vector2(2.07605, 2.23691)
-polygon = PackedVector2Array(-0.466579, 0, -0.466579, -6.03371, -2, -7, -6, -7, -6, -12, 6, -12, 6, -7, 2, -7, 0.466579, -6.03371, 0.466579, 0)
-disabled = true
-
-[node name="AxeHolder" type="Node2D" parent="."]
-
-[node name="Axe" type="Area2D" parent="AxeHolder"]
-visible = false
-script = ExtResource("3_dtosq")
-
-[node name="A1" type="Polygon2D" parent="AxeHolder/Axe"]
-scale = Vector2(-2.12207, 2.02241)
+[node name="A1" type="Polygon2D" parent="Holder/InnerHolder/Axe"]
+scale = Vector2(-1.98613, 1.89286)
 color = Color(0.231373, 0.231373, 0.231373, 1)
 polygon = PackedVector2Array(-0.466579, 0, -0.466579, -6.03371, -2, -7, -4.81684, -4.42295, -6.26189, -7.07672, -6.74358, -9.28819, -6.26189, -11.942, -4.81684, -14.1534, -2.40842, -11.942, 2.8901, -10.6151, 6, -7, 2, -7, 0.466579, -6.03371, 0.466579, 0)
 
-[node name="A2" type="CollisionPolygon2D" parent="AxeHolder/Axe"]
-scale = Vector2(-2.25245, 2.04244)
+[node name="A2" type="CollisionPolygon2D" parent="Holder/InnerHolder/Axe"]
+scale = Vector2(-2.09595, 1.90053)
 polygon = PackedVector2Array(-0.466579, 0, -0.466579, -6.03371, -2, -7, -4.81684, -4.42295, -6.26189, -7.07672, -6.74358, -9.28819, -6.26189, -11.942, -4.81684, -14.1534, -2.40842, -11.942, 2.8901, -10.6151, 6, -7, 2, -7, 0.466579, -6.03371, 0.466579, 0)
 disabled = true
 
 [node name="Spear" type="Area2D" parent="."]
 visible = false
+position = Vector2(1.79128, 0)
 rotation = 1.5708
 script = ExtResource("3_dtosq")
 
 [node name="S1" type="Polygon2D" parent="Spear"]
 position = Vector2(0, 9)
-scale = Vector2(1, 1.0303)
+scale = Vector2(0.624945, 1.1491)
 polygon = PackedVector2Array(0, -8.76471, -1, -25, -2, -28.1765, 0, -34, 2, -28.1765, 1, -25, 1, -3.91177)
 
-[node name="S2" type="CollisionPolygon2D" parent="Spear"]
-position = Vector2(0, 7)
+[node name="Spear2" type="CollisionPolygon2D" parent="Spear"]
+position = Vector2(0, 6.04733)
+scale = Vector2(-0.58299, 1.09373)
 polygon = PackedVector2Array(0, -8.76471, -1, -25, -2, -28.1765, 0, -34, 2, -28.1765, 1, -25, 1, -3.91177)
+disabled = true
+
+[node name="Hammer" type="Area2D" parent="."]
+visible = false
+position = Vector2(25, 0)
+scale = Vector2(0.472113, 0.472113)
+script = ExtResource("3_dtosq")
+
+[node name="H1" type="Line2D" parent="Hammer"]
+position = Vector2(0, 11)
+points = PackedVector2Array(0.98937, -1, 6.9256, -4.00003, 9.89371, -8.00004, 9.89369, -14, 6.92555, -18, 1.97867, -21, -2.9682, -21, -6.92568, -18, -9.89379, -14, -9.89377, -7.99996, -6.92563, -3.99998, -2.96813, -0.999989, 1.97874, -1.00001)
+width = 2.0
+default_color = Color(0.536795, 0.536795, 0.536795, 1)
+
+[node name="H2" type="CollisionShape2D" parent="Hammer"]
+scale = Vector2(1.8, 1.8)
+shape = SubResource("CircleShape2D_icuoq")
 disabled = true
 
 [node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]

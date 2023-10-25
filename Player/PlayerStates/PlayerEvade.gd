@@ -5,7 +5,8 @@ func Enter():
 	player.animation_player.play("PlayerAnimationSaved/evade")
 	player.max_speed = player.max_speed * 1.3
 	player.acceleration = player.acceleration * 1.8
-
+	await get_tree().create_timer(0.1).timeout
+	player.is_invincible = true
 
 func Update(_delta): 
 	if not player.animation_player.is_playing():
@@ -21,3 +22,4 @@ func Exit():
 	player.evade_timer.wait_time = 6
 	player.evade_timer.start()
 	player.remove_slow()
+	player.is_invincible = false
