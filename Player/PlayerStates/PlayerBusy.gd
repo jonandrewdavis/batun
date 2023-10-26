@@ -2,7 +2,7 @@ extends State
 class_name PlayerBusy
 
 var busy_timer
-const busy_value = 0.4
+const busy_value = 0.5
 
 func Enter():
 	player.animation_player.play("PlayerAnimationSaved/idle",true)

@@ -1,0 +1,169 @@
+[gd_scene load_steps=5 format=3 uid="uid://cndm01sayqd7b"]
+
+[ext_resource type="Script" path="res://UI/UIScript.gd" id="1_rkwpo"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_na50n"]
+bg_color = Color(0.133333, 0.133333, 0.133333, 0.827451)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ulbpv"]
+bg_color = Color(0, 0, 0, 0.733333)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_po2rx"]
+bg_color = Color(0.6, 0.580392, 0.6, 0.74902)
+
+[node name="UI" type="Node2D"]
+position = Vector2(240, 130)
+script = ExtResource("1_rkwpo")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="Scores" type="PanelContainer" parent="CanvasLayer"]
+offset_right = 80.0
+offset_bottom = 120.0
+size_flags_vertical = 3
+theme_override_styles/panel = SubResource("StyleBoxFlat_na50n")
+
+[node name="Control" type="Control" parent="CanvasLayer"]
+layout_mode = 3
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 0
+
+[node name="PanelContainer" type="PanelContainer" parent="CanvasLayer/Control"]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -35.0
+offset_top = -22.0
+offset_right = 35.0
+offset_bottom = -3.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_styles/panel = SubResource("StyleBoxFlat_ulbpv")
+
+[node name="WeaponContainer" type="MarginContainer" parent="CanvasLayer/Control/PanelContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 2
+theme_override_constants/margin_top = 2
+theme_override_constants/margin_right = 2
+theme_override_constants/margin_bottom = 2
+
+[node name="WeaponPanels" type="HBoxContainer" parent="CanvasLayer/Control/PanelContainer/WeaponContainer"]
+layout_mode = 2
+theme_override_constants/separation = 2
+
+[node name="Panel" type="Panel" parent="CanvasLayer/Control/PanelContainer/WeaponContainer/WeaponPanels"]
+custom_minimum_size = Vector2(15, 15)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_po2rx")
+
+[node name="ColorRect" type="ColorRect" parent="CanvasLayer/Control/PanelContainer/WeaponContainer/WeaponPanels/Panel"]
+visible = false
+layout_mode = 0
+offset_right = 15.0
+offset_bottom = 15.0
+color = Color(1, 1, 1, 0.470588)
+
+[node name="TextureRect" type="TextureRect" parent="CanvasLayer/Control/PanelContainer/WeaponContainer/WeaponPanels/Panel"]
+visible = false
+layout_mode = 2
+offset_right = 20.0
+offset_bottom = 20.0
+expand_mode = 1
+stretch_mode = 3
+
+[node name="Label" type="Label" parent="CanvasLayer/Control/PanelContainer/WeaponContainer/WeaponPanels/Panel"]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 23.0
+theme_override_font_sizes/font_size = 3
+text = "Sword"
+
+[node name="Panel4" type="Panel" parent="CanvasLayer/Control/PanelContainer/WeaponContainer/WeaponPanels"]
+custom_minimum_size = Vector2(15, 15)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_po2rx")
+
+[node name="ColorRect" type="ColorRect" parent="CanvasLayer/Control/PanelContainer/WeaponContainer/WeaponPanels/Panel4"]
+visible = false
+layout_mode = 0
+offset_right = 15.0
+offset_bottom = 15.0
+color = Color(1, 1, 1, 0.470588)
+
+[node name="TextureRect" type="TextureRect" parent="CanvasLayer/Control/PanelContainer/WeaponContainer/WeaponPanels/Panel4"]
+visible = false
+layout_mode = 2
+offset_left = -0.166656
+offset_right = 19.8333
+offset_bottom = 20.0
+expand_mode = 1
+
+[node name="Label" type="Label" parent="CanvasLayer/Control/PanelContainer/WeaponContainer/WeaponPanels/Panel4"]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 23.0
+theme_override_font_sizes/font_size = 3
+text = "Hammer
+"
+
+[node name="Panel2" type="Panel" parent="CanvasLayer/Control/PanelContainer/WeaponContainer/WeaponPanels"]
+custom_minimum_size = Vector2(15, 15)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_po2rx")
+
+[node name="ColorRect" type="ColorRect" parent="CanvasLayer/Control/PanelContainer/WeaponContainer/WeaponPanels/Panel2"]
+visible = false
+layout_mode = 0
+offset_right = 15.0
+offset_bottom = 15.0
+color = Color(1, 1, 1, 0.470588)
+
+[node name="TextureRect" type="TextureRect" parent="CanvasLayer/Control/PanelContainer/WeaponContainer/WeaponPanels/Panel2"]
+visible = false
+layout_mode = 2
+offset_right = 20.0
+offset_bottom = 20.0
+expand_mode = 1
+
+[node name="Label" type="Label" parent="CanvasLayer/Control/PanelContainer/WeaponContainer/WeaponPanels/Panel2"]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 23.0
+theme_override_font_sizes/font_size = 3
+text = "Axe"
+
+[node name="Panel3" type="Panel" parent="CanvasLayer/Control/PanelContainer/WeaponContainer/WeaponPanels"]
+custom_minimum_size = Vector2(15, 15)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_po2rx")
+
+[node name="ColorRect" type="ColorRect" parent="CanvasLayer/Control/PanelContainer/WeaponContainer/WeaponPanels/Panel3"]
+visible = false
+layout_mode = 0
+offset_right = 15.0
+offset_bottom = 15.0
+color = Color(1, 1, 1, 0.470588)
+
+[node name="TextureRect" type="TextureRect" parent="CanvasLayer/Control/PanelContainer/WeaponContainer/WeaponPanels/Panel3"]
+visible = false
+layout_mode = 2
+offset_left = 4.0
+offset_right = 14.0
+offset_bottom = 21.0
+expand_mode = 1
+
+[node name="Label" type="Label" parent="CanvasLayer/Control/PanelContainer/WeaponContainer/WeaponPanels/Panel3"]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 23.0
+theme_override_font_sizes/font_size = 3
+text = "Spear
+"

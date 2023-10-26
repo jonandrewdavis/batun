@@ -43,6 +43,7 @@ func _ready():
 			check_button.hide()
 			address_entry.text = ip
 
+
 func _on_join_pressed():
 	main_menu.hide()
 	if username.text != '': SavedData.username = username.text
@@ -104,3 +105,4 @@ func upnp_setup():
 
 func _on_check_button_toggled(button_pressed):
 	toggle_upnp = button_pressed
+

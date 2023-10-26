@@ -20,11 +20,12 @@ const CONST_ACCELERATION = 300 # decrease to cause more startup time
 @onready var userlabel = $Label
 @onready var weapon = $Weapon
 
+
 var evade_timer = Timer.new()
 var is_invincible = false	
 
 # TODO: UI, weapon swapz
-# var UI = preload("res://UI/UI.tscn")
+var UI = load("res://UI/UI.tscn")
 var UIref = null
 
 var mouse_direction: Vector2
@@ -43,17 +44,22 @@ func _ready() -> void:
 	if not is_multiplayer_authority():
 		return
 	# ---- Player Client Nodes -----
-	# var newUI = UI.instantiate()
+	var newUI = UI.instantiate()
 	var newCamera = Camera2D.new()
 	userlabel.text = SavedData.username
 	newCamera.ignore_rotation = true
 	newCamera.limit_smoothed = true
 	add_child(newCamera)
 	add_child(evade_timer)
-	# add_child(newUI)
-	# UIref = get_node("UI")
+	add_child(newUI)
+	UIref = get_node("UI")
 	restore_previous_state()
+	print_once_per_client(SavedData.username)
 	
+@rpc()
+func print_once_per_client(username):
+	print("print once, username: ", username)
+
 func is_player():
 	return true
 
@@ -89,6 +95,8 @@ func take_damage(damage: int, knockback: int, direction: Vector2) -> void:
 	if not is_multiplayer_authority(): return
 	if is_invincible == false:
 		set_state('PlayerHurt')
+		$StatusFeedback/Label.text = "%s" % damage
+		$StatusFeedback/AnimationPlayer.play("show_number")
 		hp -= damage
 		health_bar.value = hp
 		health_bar.visible = true
@@ -153,15 +161,19 @@ func evade():
 func change_weapon():
 	if Input.is_action_just_pressed("1"):
 		weapon.set_weapon(0)
+		UIref.set_weapon(0)
 		set_state("PlayerBusy")
 	if Input.is_action_just_pressed("2"):
 		weapon.set_weapon(1)
+		UIref.set_weapon(1)
 		set_state("PlayerBusy")
 	if Input.is_action_just_pressed("3"):
 		weapon.set_weapon(2)
+		UIref.set_weapon(2)
 		set_state("PlayerBusy")
 	if Input.is_action_just_pressed("4"):
 		weapon.set_weapon(3)
+		UIref.set_weapon(3)
 		set_state("PlayerBusy")
 		
 func get_input() -> void:

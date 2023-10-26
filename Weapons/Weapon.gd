@@ -32,11 +32,16 @@ func _prepare_all_weapons():
 	spearAttack1.knockback = 50
 
 	return [
-	{
-		'name': 'Spear',
-		'node': $Spear,
+	{ 
+		'name': 'Sword',
+		'node': $Holder/InnerHolder/Sword,
 		'attacks': [
-			spearAttack1
+			{
+				"animation" : 'WeaponAnimations/Sword1',
+				"damage": 7,
+				"self_slow": 4,
+				"knockback": 50,
+			},
 		]
 	},
 	{ 
@@ -63,18 +68,13 @@ func _prepare_all_weapons():
 			},
 		]
 	},
-		{ 
-		'name': 'Sword',
-		'node': $Holder/InnerHolder/Sword,
+	{
+		'name': 'Spear',
+		'node': $Spear,
 		'attacks': [
-			{
-				"animation" : 'WeaponAnimations/Sword1',
-				"damage": 7,
-				"self_slow": 4,
-				"knockback": 50,
-			},
+			spearAttack1
 		]
-	}
+	},
 ]
 
 var all_spells = [
