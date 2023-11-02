@@ -1,0 +1,27 @@
+[gd_scene load_steps=2 format=3 uid="uid://bk2c4rt30hr3p"]
+
+[ext_resource type="Script" path="res://UI/PlayerLineItem.gd" id="1_qnsyh"]
+
+[node name="PlayerLineItem" type="HBoxContainer"]
+size_flags_horizontal = 3
+theme_override_constants/separation = 4
+script = ExtResource("1_qnsyh")
+
+[node name="Label" type="Label" parent="."]
+visible = false
+layout_mode = 2
+theme_override_font_sizes/font_size = 8
+text = "Player ID:"
+
+[node name="Label2" type="Label" parent="."]
+layout_mode = 2
+theme_override_font_sizes/font_size = 8
+text = "Name"
+
+[node name="Label3" type="Label" parent="."]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 8
+text = "0
+"
+horizontal_alignment = 2

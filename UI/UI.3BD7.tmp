@@ -23,22 +23,13 @@ script = ExtResource("1_rkwpo")
 
 [node name="Scores" type="PanelContainer" parent="CanvasLayer"]
 visible = false
-custom_minimum_size = Vector2(80, 30)
-offset_left = 15.0
-offset_top = 15.0
-offset_right = 95.0
-offset_bottom = 71.0
+custom_minimum_size = Vector2(80, 40)
+offset_right = 23.0
+offset_bottom = 56.0
 size_flags_vertical = 3
 theme_override_styles/panel = SubResource("StyleBoxFlat_na50n")
 
-[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/Scores"]
-layout_mode = 2
-theme_override_constants/margin_left = 4
-theme_override_constants/margin_top = 4
-theme_override_constants/margin_right = 4
-theme_override_constants/margin_bottom = 4
-
-[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/Scores/MarginContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/Scores"]
 layout_mode = 2
 theme_override_constants/separation = 4
 
@@ -100,10 +91,8 @@ stretch_mode = 3
 
 [node name="Label" type="Label" parent="CanvasLayer/Control/PanelContainer/WeaponContainer/WeaponPanels/Panel"]
 layout_mode = 0
-offset_left = 2.0
-offset_top = 5.0
-offset_right = 42.0
-offset_bottom = 28.0
+offset_right = 40.0
+offset_bottom = 23.0
 theme_override_font_sizes/font_size = 3
 text = "Sword"
 
@@ -129,10 +118,8 @@ expand_mode = 1
 
 [node name="Label" type="Label" parent="CanvasLayer/Control/PanelContainer/WeaponContainer/WeaponPanels/Panel4"]
 layout_mode = 0
-offset_left = 1.0
-offset_top = 5.0
-offset_right = 41.0
-offset_bottom = 28.0
+offset_right = 40.0
+offset_bottom = 23.0
 theme_override_font_sizes/font_size = 3
 text = "Hammer
 "
@@ -158,10 +145,8 @@ expand_mode = 1
 
 [node name="Label" type="Label" parent="CanvasLayer/Control/PanelContainer/WeaponContainer/WeaponPanels/Panel2"]
 layout_mode = 0
-offset_left = 4.0
-offset_top = 5.0
-offset_right = 44.0
-offset_bottom = 28.0
+offset_right = 40.0
+offset_bottom = 23.0
 theme_override_font_sizes/font_size = 3
 text = "Axe"
 
@@ -187,10 +172,8 @@ expand_mode = 1
 
 [node name="Label" type="Label" parent="CanvasLayer/Control/PanelContainer/WeaponContainer/WeaponPanels/Panel3"]
 layout_mode = 0
-offset_left = 3.0
-offset_top = 5.0
-offset_right = 43.0
-offset_bottom = 28.0
+offset_right = 40.0
+offset_bottom = 23.0
 theme_override_font_sizes/font_size = 3
 text = "Spear
 "

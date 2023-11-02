@@ -6,7 +6,6 @@ extends Node2D
 @export var current_weapon_index: int = 0
 
 @onready var player = get_parent()
-
 @onready var hammer = $Hammer
 
 # TODO: ALL "swing directional" weapons should use a SINGLE "sheathe",
@@ -22,12 +21,13 @@ extends Node2D
 @export var locked = false
 @onready var pointer = $Pointer
 
+
 var all_weapons = null
 
 func _prepare_all_weapons(): 
 	var spearAttack1 = Attack.new()
 	spearAttack1.animation = 'WeaponAnimations/Spear1'
-	spearAttack1.damage = 4
+	spearAttack1.damage = 10
 	spearAttack1.self_slow = 1
 	spearAttack1.knockback = 50
 
@@ -63,7 +63,7 @@ func _prepare_all_weapons():
 			{
 				"animation": 'WeaponAnimations/Axe1',
 				"damage": 15,
-				"self_slow": 20,
+				"self_slow": 12,
 				"knockback": 70,
 			},
 		]
@@ -77,17 +77,8 @@ func _prepare_all_weapons():
 	},
 ]
 
-var all_spells = [
-	{
-		'name': 'LightningBolt',
-		'damage1': 13,
-		'slow': 1000,
-		'knockback': 0,
-		'cast_time': 0.8,
-	},
-]
-
-var current_spell = all_spells[0]
+@export var combo_factor = 1
+@export var combo_window = false
 var current_weapon = null
 
 func _ready():
@@ -102,6 +93,13 @@ func set_weapon(index):
 
 func _process(_delta):
 	if not is_multiplayer_authority(): return
+
+	if Input.is_action_just_pressed("left_click") and combo_window == true and combo_factor == 1:
+		attack1_combo()	
+
+	if Input.is_action_just_pressed("left_click") and combo_window == true and combo_factor == -1:
+		attack1_combo1()	
+		
 	# Do not allow looking or swinging if we're "mid-swing".
 	if locked == true: 
 		return
@@ -111,7 +109,7 @@ func _process(_delta):
 	var mouse_direction = (get_global_mouse_position() - global_position).normalized()
 	if mouse_direction.x > 0:
 		holder.scale.x = 1
-		inner_holder.scale.y = 1
+		inner_holder.scale.y = 1 * combo_factor
 		inner_holder.scale.x = 1
 		if mouse_direction.y < 0:
 			hammer.skew = -10
@@ -119,7 +117,7 @@ func _process(_delta):
 			hammer.skew = 10
 	elif mouse_direction.x < 0:
 		holder.scale.x = -1
-		inner_holder.scale.y = -1
+		inner_holder.scale.y = -1 * combo_factor
 		inner_holder.scale.x = -1
 		if mouse_direction.y < 0:
 			hammer.skew = 10
@@ -157,14 +155,20 @@ func attack1():
 	animation_player.play(current_attack.animation)
 	player.apply_slow(current_attack.self_slow)
 	player.animation_player.play('PlayerAnimationSaved/action')
-	pass
+	
 
-func spell1():
-	player.apply_slow(current_spell.slow)
+func attack1_combo():
+	combo_factor = -1
+	var current_attack = all_weapons[current_weapon_index].attacks[0]
+	animation_player.stop()
+	animation_player.play(current_attack.animation)
+	player.apply_slow(current_attack.self_slow)
 	player.animation_player.play('PlayerAnimationSaved/action')
-	pass
 
-
-func ult():
-	print('ult')
-	pass 
+func attack1_combo1():
+	combo_factor = 1
+	var current_attack = all_weapons[current_weapon_index].attacks[0]
+	animation_player.stop()
+	animation_player.play(current_attack.animation)
+	player.apply_slow(current_attack.self_slow)
+	player.animation_player.play('PlayerAnimationSaved/action')

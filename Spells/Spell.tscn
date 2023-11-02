@@ -1,0 +1,55 @@
+[gd_scene load_steps=4 format=3 uid="uid://g7iggehxwgwl"]
+
+[ext_resource type="Script" path="res://Spells/Spell.gd" id="1_oyb3y"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_topfp"]
+radius = 3.8414
+height = 17.9475
+
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_3g3dl"]
+properties/0/path = NodePath(".:direction")
+properties/0/spawn = true
+properties/0/sync = true
+properties/0/watch = false
+properties/1/path = NodePath(".:rotation")
+properties/1/spawn = true
+properties/1/sync = true
+properties/1/watch = false
+properties/2/path = NodePath(".:damage")
+properties/2/spawn = true
+properties/2/sync = true
+properties/2/watch = false
+properties/3/path = NodePath(".:knockback")
+properties/3/spawn = true
+properties/3/sync = true
+properties/3/watch = false
+
+[node name="Spell" type="Node2D"]
+scale = Vector2(0.990583, 0.973398)
+script = ExtResource("1_oyb3y")
+
+[node name="FireboltSprite" type="Node2D" parent="."]
+
+[node name="FireboltPoly" type="Polygon2D" parent="FireboltSprite"]
+rotation = 1.5708
+color = Color(1, 0.321569, 0.321569, 1)
+polygon = PackedVector2Array(-4.87415, -5.53875, -3.33711, -8.87749, -0.343924, -9.91092, 1.7594, -9.59295, 3.13465, -9.116, 4.6717, -7.28765, 5.0762, -4.42588, 4.91441, -2.836, 3.78185, -4.74385, 2.48749, -6.25422, 2.40659, -4.98232, 0.869543, -6.73118, 0.707754, -5.53877, -0.748398, -6.57219, -2.12365, -7.44661, -2.12365, -5.45927, -3.418, -6.73116, -3.66069, -5.14129, -4.22696, -3.39243)
+
+[node name="Polygon2D" type="Polygon2D" parent="FireboltSprite"]
+position = Vector2(0.200538, 0.10204)
+color = Color(0.960784, 0.956863, 0, 1)
+polygon = PackedVector2Array(3.27897, -3.18402, 5.59504, -3.14117, 4.12118, -2.24124, 4.41595, -1.51273, 5.80559, -1.55558, 3.311, -0.545053, 5.63715, -0.655651, 3.32108, 1.35847, 4.87916, 1.57274, 3.53164, 2.68694, 4.2054, 2.85836, 2.39466, 3.28689, 0.120701, 2.55838, -1.39527, 2.21555, -2.86913, 2.00128, -0.553064, 1.65845, -1.05839, 1.01564, -3.41656, 1.14421, -6.53272, 0.629961, -2.49014, 0.201424, -1.14261, -0.0128444, -0.763615, -0.52709, -3.41656, -0.86992, -1.39527, -1.46987, -0.510953, -2.11268, -1.5216, -2.28409, -0.258292, -2.75548)
+
+[node name="Polygon2D2" type="Polygon2D" parent="FireboltSprite"]
+polygon = PackedVector2Array(-2.92418, -1.32859, -4.59532, -0.376227, -7.40285, -0.172148, -11.9484, 0.440086, -8.3387, 0.508113, -7.26916, 1.2564, -4.66217, 1.5285, -8.53923, 1.39245, -10.7451, 0.780216, -13.5527, 0.712191, -10.2104, -0.376227, -6.6007, -0.852409, -5.13009, -0.852409)
+
+[node name="Area2D" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+rotation = 1.5708
+shape = SubResource("CapsuleShape2D_topfp")
+
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
+replication_config = SubResource("SceneReplicationConfig_3g3dl")
+
+[connection signal="area_exited" from="Area2D" to="." method="_on_area_2d_area_exited"]

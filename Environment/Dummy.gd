@@ -19,6 +19,11 @@ func _on_hurtbox_area_entered(area):
 	# TODO: Better check here.
 	# don't get hit by server objects, TODO: understand authority better!
 	# TODO: test working 
+	print('DUMMY HIT', area)
+	if "damage" in area.get_parent():
+		var spell = area.get_parent()
+		take_damage(spell.damage, spell.knockback, spell.direction)
+	
 	if "weapon_ref" in area and area.weapon_ref != null:
 		var hit: Hit = area.weapon_ref.get_weapon_hit()
 		if hit != null:

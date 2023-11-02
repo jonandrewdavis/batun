@@ -19,7 +19,9 @@ const CONST_ACCELERATION = 300 # decrease to cause more startup time
 @onready var FSM = $FSM
 @onready var userlabel = $Label
 @onready var weapon = $Weapon
+@onready var spellbook = $Spellbook
 
+@onready var Network = get_tree().get_root().get_node('/root/Main/World/Network')
 
 var evade_timer = Timer.new()
 var is_invincible = false	
@@ -54,11 +56,6 @@ func _ready() -> void:
 	add_child(newUI)
 	UIref = get_node("UI")
 	restore_previous_state()
-	print_once_per_client(SavedData.username)
-	
-@rpc()
-func print_once_per_client(username):
-	print("print once, username: ", username)
 
 func is_player():
 	return true
@@ -85,13 +82,14 @@ func _process(_delta: float) -> void:
 		radial.value = 	evade_timer.time_left * 100
 
 func set_state(state):
+	# userlabel.text = state
 	FSM.on_child_transition(FSM.current_state, state)
 
 func move() -> void:
 	move_and_slide()
 	
 # take_damage should set state: hurt
-func take_damage(damage: int, knockback: int, direction: Vector2) -> void:
+func take_damage(damage: int, knockback: int, direction: Vector2, source) -> void:
 	if not is_multiplayer_authority(): return
 	if is_invincible == false:
 		set_state('PlayerHurt')
@@ -101,7 +99,12 @@ func take_damage(damage: int, knockback: int, direction: Vector2) -> void:
 		health_bar.value = hp
 		health_bar.visible = true
 		velocity += direction * knockback
-	
+		# TODO: keep a log of most recent damage, clear it ~10 seconds
+		# Credit the one with the most damage in last 5-10 seconds
+		if (hp <= 0):
+			print('dying!')
+			Network._on_player_scored.rpc(source)
+
 func apply_slow(_factor = 10):
 	if _factor != 0:
 		max_speed = CONST_STARTING_SPEED / _factor
@@ -175,7 +178,8 @@ func change_weapon():
 		weapon.set_weapon(3)
 		UIref.set_weapon(3)
 		set_state("PlayerBusy")
-		
+
+
 func get_input() -> void:
 	if not is_multiplayer_authority(): return
 	mov_direction = Vector2.ZERO
@@ -189,10 +193,21 @@ func interact():
 	pass
 
 
+# STRIKE 1
+
+
 func _on_area_2d_area_entered(area: Area2D):
+	# IMPORTANT.
 	# prevents self damage.
 	if area.get_multiplayer_authority() == get_multiplayer_authority():
 		return
+	
+	if "player_id" in area.get_parent() and area.get_parent().player_id != get_multiplayer_authority():
+		var spell = area.get_parent()
+		take_damage(spell.damage, spell.knockback, spell.direction, spell.player_id)
+		area.queue_free()
+
 	if "weapon_ref" in area and area.weapon_ref != null:
 		var hit: Hit = area.weapon_ref.get_weapon_hit()
-		if hit.damage > 0: take_damage(hit.damage, hit.knockback, hit.angle)
+		if hit.damage > 0: take_damage(hit.damage, hit.knockback, hit.angle, area.get_multiplayer_authority())
+		

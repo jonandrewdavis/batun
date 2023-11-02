@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://fosuxj5q1tpx"]
+
+[ext_resource type="Script" path="res://Spells/Spellbook.gd" id="1_pi8gi"]
+
+[node name="Spellbook" type="Node2D"]
+script = ExtResource("1_pi8gi")

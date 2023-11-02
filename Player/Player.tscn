@@ -1,4 +1,4 @@
-[gd_scene load_steps=21 format=3 uid="uid://b2m56omrcu8lr"]
+[gd_scene load_steps=23 format=3 uid="uid://b2m56omrcu8lr"]
 
 [ext_resource type="Script" path="res://Player/Player.gd" id="1_bv6p2"]
 [ext_resource type="AnimationLibrary" uid="uid://cgd5bhyubfwyp" path="res://Player/PlayerAnimationSaved.res" id="2_lwcqa"]
@@ -11,7 +11,9 @@
 [ext_resource type="Script" path="res://Player/PlayerStates/PlayerEvade.gd" id="9_mj8we"]
 [ext_resource type="Script" path="res://Player/PlayerStates/PlayerBusy.gd" id="10_5i5je"]
 [ext_resource type="Script" path="res://Player/PlayerStates/PlayerHurt.gd" id="11_g31tm"]
+[ext_resource type="Script" path="res://Player/PlayerStates/PlayerSpell1.gd" id="11_kfrwc"]
 [ext_resource type="PackedScene" uid="uid://cbha66ayqfvc6" path="res://Weapons/StatusFeedback.tscn" id="12_xacmc"]
+[ext_resource type="PackedScene" uid="uid://fosuxj5q1tpx" path="res://Spells/Spellbook.tscn" id="14_vfxlj"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_qwcga"]
 bg_color = Color(0.6, 0.6, 0.6, 0.596078)
@@ -74,6 +76,7 @@ radius = 3.0
 height = 14.0
 
 [node name="CharacterBody2D" type="CharacterBody2D"]
+y_sort_enabled = true
 motion_mode = 1
 platform_on_leave = 2
 platform_floor_layers = 4294967294
@@ -123,17 +126,17 @@ value = 16.0
 fill_mode = 4
 texture_progress = SubResource("GradientTexture2D_ed2uj")
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
-autoplay = "PlayerAnimationSaved/idle"
-libraries = {
-"PlayerAnimationSaved": ExtResource("2_lwcqa")
-}
-
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 scale = Vector2(0.694979, 0.7)
 sprite_frames = ExtResource("3_6xpi2")
 animation = &"idle"
 autoplay = "idle"
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+autoplay = "PlayerAnimationSaved/idle"
+libraries = {
+"PlayerAnimationSaved": ExtResource("2_lwcqa")
+}
 
 [node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
 replication_config = SubResource("SceneReplicationConfig_rdcvt")
@@ -170,8 +173,13 @@ script = ExtResource("10_5i5je")
 [node name="PlayerHurt" type="Node" parent="FSM"]
 script = ExtResource("11_g31tm")
 
+[node name="PlayerSpell1" type="Node" parent="FSM"]
+script = ExtResource("11_kfrwc")
+
 [node name="Weapon" parent="." instance=ExtResource("5_cc2db")]
 
 [node name="StatusFeedback" parent="." instance=ExtResource("12_xacmc")]
+
+[node name="Spellbook" parent="." instance=ExtResource("14_vfxlj")]
 
 [connection signal="area_entered" from="PlayerArea" to="." method="_on_area_2d_area_entered"]

@@ -4,11 +4,11 @@ class_name PlayerSpell1
 ## TODO: proliferation of attacks & spells helps customization, but may hurt long run
 func Enter():
 	player.animation_player.stop()
-	player.weapon.spell1()
+	player.spellbook.spell1()
 
 func Update(_delta): 
 	pass
-	
+
 
 func Physics_Update(_delta: float):
 	player.get_input()
