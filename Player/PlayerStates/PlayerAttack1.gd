@@ -14,6 +14,7 @@ func Physics_Update(_delta: float):
 	player.move()
 	
 func Exit():
-	player.weapon.combo_factor = 1
+	player.weapon.animation_player.queue("RESET")
 	player.weapon.combo_window = false
+	player.weapon.combo_factor = 1
 	player.remove_slow()

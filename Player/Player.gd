@@ -1,8 +1,9 @@
 extends CharacterBody2D
 
+
 const CONST_MAX_HP = 100;
-const CONST_STARTING_SPEED = 120; # increase for top speed
-const CONST_ACCELERATION = 300 # decrease to cause more startup time
+const CONST_STARTING_SPEED = 130; # increase for top speed
+const CONST_ACCELERATION = 280 # decrease to cause more startup time
 
 @export var max_hp: int = CONST_MAX_HP
 @export var hp: int = CONST_MAX_HP
@@ -21,7 +22,7 @@ const CONST_ACCELERATION = 300 # decrease to cause more startup time
 @onready var weapon = $Weapon
 @onready var spellbook = $Spellbook
 
-@onready var Network = get_tree().get_root().get_node('/root/Main/World/Network')
+@onready var Network = get_tree().get_root().get_node('/root/Main/Network')
 
 var evade_timer = Timer.new()
 var is_invincible = false	
@@ -57,6 +58,7 @@ func _ready() -> void:
 	UIref = get_node("UI")
 	restore_previous_state()
 
+
 func is_player():
 	return true
 
@@ -66,7 +68,12 @@ func _physics_process(delta: float) -> void:
 		velocity = velocity.move_toward(mov_direction * max_speed, acceleration * delta)
 	else:
 		velocity = velocity.move_toward(Vector2.ZERO, FRICTION * delta)
+	if is_on_wall():
+		velocity = velocity.move_toward(Vector2.ZERO, FRICTION * delta)
 
+	move_and_slide()
+
+	
 func _process(_delta: float) -> void:
 	# if OS.is_debug_build(): userlabel.text = FSM.current_state.name
 	if not is_multiplayer_authority(): return
@@ -86,7 +93,8 @@ func set_state(state):
 	FSM.on_child_transition(FSM.current_state, state)
 
 func move() -> void:
-	move_and_slide()
+	pass
+
 	
 # take_damage should set state: hurt
 func take_damage(damage: int, knockback: int, direction: Vector2, source) -> void:
@@ -102,7 +110,6 @@ func take_damage(damage: int, knockback: int, direction: Vector2, source) -> voi
 		# TODO: keep a log of most recent damage, clear it ~10 seconds
 		# Credit the one with the most damage in last 5-10 seconds
 		if (hp <= 0):
-			print('dying!')
 			Network._on_player_scored.rpc(source)
 
 func apply_slow(_factor = 10):
@@ -192,20 +199,17 @@ func interact():
 	# pick closest
 	pass
 
-
-# STRIKE 1
-
-
 func _on_area_2d_area_entered(area: Area2D):
 	# IMPORTANT.
 	# prevents self damage.
 	if area.get_multiplayer_authority() == get_multiplayer_authority():
 		return
 	
-	if "player_id" in area.get_parent() and area.get_parent().player_id != get_multiplayer_authority():
+	if "player_id" in area.get_parent():
 		var spell = area.get_parent()
-		take_damage(spell.damage, spell.knockback, spell.direction, spell.player_id)
-		area.queue_free()
+		if spell.player_id != get_multiplayer_authority() and spell.player_id != 0:
+			take_damage(spell.damage, spell.knockback, spell.direction, spell.player_id)
+			spell.destroy()
 
 	if "weapon_ref" in area and area.weapon_ref != null:
 		var hit: Hit = area.weapon_ref.get_weapon_hit()

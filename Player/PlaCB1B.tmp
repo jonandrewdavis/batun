@@ -78,8 +78,8 @@ height = 14.0
 [node name="CharacterBody2D" type="CharacterBody2D"]
 y_sort_enabled = true
 motion_mode = 1
+wall_min_slide_angle = 0.785398
 platform_floor_layers = 4294967294
-safe_margin = 0.1
 script = ExtResource("1_bv6p2")
 
 [node name="Label" type="Label" parent="."]

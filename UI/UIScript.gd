@@ -8,7 +8,7 @@ var LineItem = preload('res://UI/PlayerLineItem.tscn')
 
 func _ready():
 	set_weapon(0)
-	var primary = get_tree().get_root().get_node('/root/Main/World/Network')
+	var primary = get_tree().get_root().get_node('/root/Main/Network')
 	primary.connect("player_connected", _on_player_connected)
 	primary.connect("score_signal", _on_player_scored)
 	

@@ -8,17 +8,30 @@ extends Node2D
 @export var speed = 0
 var acceleration = null
 
-func _ready():
-	if not multiplayer.is_server():
-		return
-	await get_tree().create_timer(3).timeout
-	queue_free()
+var destroy_timer = Timer.new()
 
 func _physics_process(delta: float) -> void:
 	position += direction * speed * delta
 
-
 func _on_area_2d_area_exited(area):
-	if area.get_multiplayer_authority() != player_id:
-		queue_free()
+	print(area.get_multiplayer_authority())
+	pass
 
+func _on_area_2d_area_entered(area: Area2D):
+	if "weapon_ref" in area and area.get_multiplayer_authority() != player_id:  
+		print('BOUNCe')
+		var hit: Hit = area.weapon_ref.get_weapon_hit()
+		direction = hit.angle
+		rotation = area.weapon_ref.get_position().angle_to_point(hit.angle)
+		player_id = area.get_multiplayer_authority()
+		$Timer.start()
+		return
+	elif area.get_parent().has_method("is_player"):
+		return
+	
+
+func _on_timer_timeout():
+	queue_free()
+
+func destroy():
+	queue_free()

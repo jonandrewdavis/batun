@@ -77,7 +77,7 @@ func _prepare_all_weapons():
 	},
 ]
 
-@export var combo_factor = 1
+var combo_factor = 1
 @export var combo_window = false
 var current_weapon = null
 
@@ -91,26 +91,18 @@ func _ready():
 func set_weapon(index):
 	current_weapon_index = index
 
+var mouse_direction = Vector2.ZERO
 func _process(_delta):
 	if not is_multiplayer_authority(): return
-
-	if Input.is_action_just_pressed("left_click") and combo_window == true and combo_factor == 1:
-		attack1_combo()	
-
-	if Input.is_action_just_pressed("left_click") and combo_window == true and combo_factor == -1:
-		attack1_combo1()	
-		
 	# Do not allow looking or swinging if we're "mid-swing".
-	if locked == true: 
-		return
-	# Powers the pointer!
-	look_at(get_global_mouse_position())
+	if locked == false: 
+		look_at(get_global_mouse_position())
+		mouse_direction = (get_global_mouse_position() - global_position).normalized()
 	
-	var mouse_direction = (get_global_mouse_position() - global_position).normalized()
-	if mouse_direction.x > 0:
+	if mouse_direction.x >= 0:
 		holder.scale.x = 1
 		inner_holder.scale.y = 1 * combo_factor
-		inner_holder.scale.x = 1
+		inner_holder.scale.x = 1 
 		if mouse_direction.y < 0:
 			hammer.skew = -10
 		else:
@@ -123,6 +115,12 @@ func _process(_delta):
 			hammer.skew = 10
 		else:
 			hammer.skew = -10
+
+	if Input.is_action_just_pressed("left_click") and combo_window == true and combo_factor == 1:
+		attack1_combo()	
+
+	if Input.is_action_just_pressed("left_click") and combo_window == true and combo_factor == -1:
+		attack1_combo2()	
 
 # TODO: figure out how we want to do "activating". extend from base weapon is probably correct.
 # TODO: Ton of animations, state transition when complete?
@@ -152,23 +150,24 @@ func get_weapon_hit() -> Hit:
 
 func attack1():
 	var current_attack = all_weapons[current_weapon_index].attacks[0]
+	animation_player.speed_scale = 1
 	animation_player.play(current_attack.animation)
 	player.apply_slow(current_attack.self_slow)
 	player.animation_player.play('PlayerAnimationSaved/action')
-	
+
 
 func attack1_combo():
 	combo_factor = -1
 	var current_attack = all_weapons[current_weapon_index].attacks[0]
-	animation_player.stop()
-	animation_player.play(current_attack.animation)
+	animation_player.queue(current_attack.animation)
+	animation_player.advance(1)
 	player.apply_slow(current_attack.self_slow)
 	player.animation_player.play('PlayerAnimationSaved/action')
-
-func attack1_combo1():
+	
+func attack1_combo2():
 	combo_factor = 1
 	var current_attack = all_weapons[current_weapon_index].attacks[0]
-	animation_player.stop()
-	animation_player.play(current_attack.animation)
+	animation_player.queue(current_attack.animation)
+	animation_player.advance(1)
 	player.apply_slow(current_attack.self_slow)
 	player.animation_player.play('PlayerAnimationSaved/action')

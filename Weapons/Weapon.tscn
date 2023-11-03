@@ -1,10 +1,14 @@
-[gd_scene load_steps=8 format=3 uid="uid://bwhwvvqj2od7u"]
+[gd_scene load_steps=9 format=3 uid="uid://bwhwvvqj2od7u"]
 
 [ext_resource type="Script" path="res://Weapons/Weapon.gd" id="1_laf63"]
+[ext_resource type="Animation" uid="uid://b6uwcb5qvr3h7" path="res://Weapons/WeaponRESET.res" id="2_1yumm"]
 [ext_resource type="AnimationLibrary" uid="uid://dxdajaufgkl4x" path="res://Weapons/WeaponAnimations.res" id="2_cr52x"]
 [ext_resource type="Script" path="res://Weapons/WeaponRefs.gd" id="3_dtosq"]
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_srij4"]
+_data = {
+"RESET": ExtResource("2_1yumm")
+}
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_ap280"]
 radius = 3.0
@@ -36,10 +40,11 @@ properties/4/watch = false
 properties/5/path = NodePath(".:current_weapon_index")
 properties/5/spawn = true
 properties/5/sync = true
-properties/5/watch = true
+properties/5/watch = false
 
 [node name="Weapon" type="Node2D"]
 script = ExtResource("1_laf63")
+locked = true
 
 [node name="Pointer" type="Node2D" parent="."]
 
@@ -72,6 +77,7 @@ libraries = {
 [node name="Sword" type="Area2D" parent="Holder/InnerHolder"]
 visible = false
 position = Vector2(4, 2)
+rotation = -0.959931
 script = ExtResource("3_dtosq")
 
 [node name="S1" type="Polygon2D" parent="Holder/InnerHolder/Sword"]
@@ -108,6 +114,7 @@ disabled = true
 
 [node name="Spear" type="Area2D" parent="."]
 visible = false
+position = Vector2(6.25041, 0)
 rotation = 1.5708
 script = ExtResource("3_dtosq")
 
@@ -125,14 +132,14 @@ disabled = true
 [node name="Hammer" type="Area2D" parent="."]
 visible = false
 position = Vector2(25, 0)
-scale = Vector2(0.4, 0.4)
+scale = Vector2(0.654683, 0.654683)
 script = ExtResource("3_dtosq")
 
 [node name="H1" type="Line2D" parent="Hammer"]
 position = Vector2(0, 11)
 points = PackedVector2Array(0.98937, -1, 6.9256, -4.00003, 9.89371, -8.00004, 9.89369, -14, 6.92555, -18, 1.97867, -21, -2.9682, -21, -6.92568, -18, -9.89379, -14, -9.89377, -7.99996, -6.92563, -3.99998, -2.96813, -0.999989, 1.97874, -1.00001)
 width = 2.0
-default_color = Color(1, 1, 1, 0.156863)
+default_color = Color(1, 1, 1, 0.489784)
 
 [node name="H2" type="CollisionShape2D" parent="Hammer"]
 scale = Vector2(1.8, 1.8)
@@ -140,6 +147,7 @@ shape = SubResource("CircleShape2D_icuoq")
 disabled = true
 
 [node name="Heffects" type="Node2D" parent="Hammer"]
+visible = false
 modulate = Color(1, 1, 1, 0.278431)
 
 [node name="Polygon2D" type="Polygon2D" parent="Hammer/Heffects"]

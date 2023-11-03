@@ -22,6 +22,7 @@ var players_loaded = 0
 @onready var join_button = $MainMenuCanvas/MainMenu/MarginContainer/VBoxContainer/Join
 @onready var host_button = $MainMenuCanvas/MainMenu/MarginContainer/VBoxContainer/Host
 @onready var check_button = $MainMenuCanvas/MainMenu/MarginContainer/VBoxContainer/CheckButton
+@onready var world_ref =  get_tree().get_root().get_node('/root/Main/World')
 
 var toggle_upnp = false
 const PORT = 9999
@@ -92,11 +93,10 @@ func add_player(peer_id):
 	var player = Player.instantiate()
 	player.name = str(peer_id)
 	print('DEBUG: Add player: ', peer_id)
-	get_parent().add_child.call_deferred(player)
-
+	world_ref.add_child.call_deferred(player)
 
 func remove_player(peer_id):
-	var player = get_parent().get_node_or_null(str(peer_id))
+	var player = world_ref.get_node_or_null(str(peer_id))
 	if player:
 		player.queue_free()
 		
