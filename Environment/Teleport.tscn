@@ -1,10 +1,10 @@
-[gd_scene load_steps=6 format=3 uid="uid://4r4enxra61dv"]
+[gd_scene load_steps=7 format=3 uid="uid://4r4enxra61dv"]
 
 [ext_resource type="Script" path="res://Environment/Teleport.gd" id="1_w4ms3"]
 [ext_resource type="Texture2D" uid="uid://bl5nka005u7k6" path="res://Assets/PROPSONLY.png" id="2_14don"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_4ejsg"]
-radius = 13.0
+radius = 15.0
 height = 44.0
 
 [sub_resource type="Animation" id="Animation_rap1b"]
@@ -28,6 +28,9 @@ _data = {
 "blink": SubResource("Animation_rap1b")
 }
 
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_ptn0u"]
+height = 32.0
+
 [node name="Teleport" type="Node2D"]
 script = ExtResource("1_w4ms3")
 
@@ -48,6 +51,7 @@ region_rect = Rect2(320, 256, 32, 32)
 [node name="Area2D" type="Area2D" parent="."]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+position = Vector2(0, -2)
 rotation = 1.5708
 shape = SubResource("CapsuleShape2D_4ejsg")
 
@@ -59,6 +63,14 @@ one_shot = true
 libraries = {
 "": SubResource("AnimationLibrary_7i00s")
 }
+
+[node name="StaticBody2D" type="StaticBody2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
+rotation = 1.5708
+shape = SubResource("CapsuleShape2D_ptn0u")
+disabled = true
+debug_color = Color(0.843137, 0.290196, 0.635294, 0.419608)
 
 [connection signal="area_entered" from="Area2D" to="." method="_on_area_2d_area_entered"]
 [connection signal="area_exited" from="Area2D" to="." method="_on_area_2d_area_exited"]

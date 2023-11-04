@@ -138,12 +138,10 @@ texture_progress = SubResource("GradientTexture2D_ed2uj")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 material = SubResource("CanvasItemMaterial_roa8a")
-position = Vector2(0, 5)
 scale = Vector2(0.694979, 0.7)
 sprite_frames = ExtResource("3_6xpi2")
 animation = &"idle"
 autoplay = "idle"
-offset = Vector2(0, -7.14286)
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 autoplay = "PlayerAnimationSaved/idle"
