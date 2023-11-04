@@ -3,11 +3,12 @@ extends CharacterBody2D
 
 const CONST_MAX_HP = 100;
 const CONST_STARTING_SPEED = 130; # increase for top speed
-const CONST_ACCELERATION = 280 # decrease to cause more startup time
+const CONST_ACCELERATION = 220 # decrease to cause more startup time
+const CONST_FRICTION = 280
 
 @export var max_hp: int = CONST_MAX_HP
 @export var hp: int = CONST_MAX_HP
-@export var FRICTION: int = 200 # decrease to cause sliding
+@export var friction: int = 250 # decrease to cause sliding
 @export var acceleration = CONST_ACCELERATION
 @export var max_speed = CONST_STARTING_SPEED
 
@@ -31,10 +32,12 @@ var is_invincible = false
 var UI = load("res://UI/UI.tscn")
 var UIref = null
 
+var PlayerLight = preload("res://Player/PlayerLight.tscn")
+
 var mouse_direction: Vector2
 
 const RESPAWN_RADIUS = 75
-var PLAYER_START: Vector2 = Vector2(-0, 10)
+var PLAYER_START: Vector2 = Vector2(-5, 35)
 
 func _enter_tree():
 	set_multiplayer_authority(str(name).to_int())
@@ -49,27 +52,56 @@ func _ready() -> void:
 	# ---- Player Client Nodes -----
 	var newUI = UI.instantiate()
 	var newCamera = Camera2D.new()
+	var newLight = PlayerLight.instantiate()
+
 	userlabel.text = SavedData.username
 	newCamera.ignore_rotation = true
 	newCamera.limit_smoothed = true
 	add_child(newCamera)
 	add_child(evade_timer)
 	add_child(newUI)
+	add_child(newLight)
 	UIref = get_node("UI")
 	restore_previous_state()
 
 
 func is_player():
 	return true
+	
+var shift = false
+	
+@onready var sprint_timer = $SprintTimer
+
+func sprint():
+	shift = true
+	sprint_timer.start()
+	await sprint_timer.timeout
+	acceleration = CONST_ACCELERATION * 1.8
+	max_speed = CONST_STARTING_SPEED * 1.05
+	friction = CONST_FRICTION * 1.5
+		
+func cancel_sprint():
+	shift = false
+	sprint_timer.stop()
+	acceleration = CONST_ACCELERATION
+	max_speed = CONST_STARTING_SPEED
+	friction = CONST_FRICTION
 
 func _physics_process(delta: float) -> void:
 	if not is_multiplayer_authority(): return
+	# if Input.is_action_pressed("shift") and shift == false:
+		# sprint()
+	
+	# if Input.is_action_just_released("shift") and shift == true:
+		# cancel_sprint()
+		
 	if mov_direction != Vector2.ZERO:
 		velocity = velocity.move_toward(mov_direction * max_speed, acceleration * delta)
 	else:
-		velocity = velocity.move_toward(Vector2.ZERO, FRICTION * delta)
+		velocity = velocity.move_toward(Vector2.ZERO, friction * delta)
+		
 	if is_on_wall():
-		velocity = velocity.move_toward(Vector2.ZERO, FRICTION * delta)
+		velocity = velocity.move_toward(mov_direction * max_speed * 0.9, (acceleration * 1.05) * delta)
 
 	move_and_slide()
 
@@ -147,6 +179,7 @@ func _unhandled_input(_event):
 			pass
 
 # Reduce boilerplate by abstracting instances of "attack1"
+# TODO: use just released, for charging!
 func attack():
 	if Input.is_action_just_pressed("left_click"):
 		set_state('PlayerAttack1')

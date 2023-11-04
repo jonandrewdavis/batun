@@ -42,7 +42,6 @@ func _on_player_connected(players):
 func _on_player_scored(player_id: int):
 	for n in scores_vbox.get_children():
 		if n.id == str(player_id):
-			print('found ID:', n.id)
 			n.score = n.score + 1
 			n.make_score(0) 
 	# get the id, new score

@@ -4,7 +4,7 @@ extends Node2D
 @onready var player = get_parent()
 
 # firebolt, lightningbolt, block?, rain of fire, powershot
-# cooldown
+# cooldown timer, each spell.
 
 var all_spells = [
 	{
@@ -13,8 +13,8 @@ var all_spells = [
 		'slow': 1000,
 		'knockback': 100,
 		'cast_time': 0.8,
-		'speed' : 140
-
+		'speed' : 220,
+		'cooldown': 4,
 	},
 	{
 		'name': 'LightningBolt',
@@ -31,11 +31,12 @@ var current_spell = all_spells[0]
 func spell1():
 	player.apply_slow(current_spell.slow)
 	player.animation_player.play('PlayerAnimationSaved/action')
-	await get_tree().create_timer(0.8).timeout
+	await get_tree().create_timer(current_spell.cast_time).timeout
 	var spell_rotation = self.global_position.direction_to(get_global_mouse_position()).angle()
 	var spell_direction = self.global_position.direction_to(get_global_mouse_position())
 	var spell_position = player.global_position
 	spawn_spell.rpc(spell_rotation, spell_direction, spell_position, current_spell, get_multiplayer_authority())
+	await get_tree().create_timer(0.4).timeout
 	player.set_state('PlayerIdle')
 
 

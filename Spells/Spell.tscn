@@ -29,6 +29,7 @@ properties/4/sync = true
 properties/4/watch = false
 
 [node name="Spell" type="Node2D"]
+z_index = 10
 scale = Vector2(0.990583, 0.973398)
 script = ExtResource("1_oyb3y")
 

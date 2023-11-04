@@ -1,0 +1,64 @@
+[gd_scene load_steps=6 format=3 uid="uid://4r4enxra61dv"]
+
+[ext_resource type="Script" path="res://Environment/Teleport.gd" id="1_w4ms3"]
+[ext_resource type="Texture2D" uid="uid://bl5nka005u7k6" path="res://Assets/PROPSONLY.png" id="2_14don"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_4ejsg"]
+radius = 13.0
+height = 44.0
+
+[sub_resource type="Animation" id="Animation_rap1b"]
+resource_name = "blink"
+length = 2.0
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Effects:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0.00102138, 1.40031, 1.50653, 1.60152, 1.7057, 1.81091, 1.90283, 1.98123),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 0.717647), Color(1, 1, 1, 0), Color(1, 1, 1, 1), Color(1, 1, 1, 0), Color(1, 1, 1, 1), Color(1, 1, 1, 0), Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_7i00s"]
+_data = {
+"blink": SubResource("Animation_rap1b")
+}
+
+[node name="Teleport" type="Node2D"]
+script = ExtResource("1_w4ms3")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+z_index = -1
+scale = Vector2(0.8, 0.8)
+texture = ExtResource("2_14don")
+region_enabled = true
+region_rect = Rect2(352, 256, 96, 96)
+
+[node name="Effects" type="Sprite2D" parent="."]
+modulate = Color(1, 1, 1, 0)
+z_index = -1
+texture = ExtResource("2_14don")
+region_enabled = true
+region_rect = Rect2(320, 256, 32, 32)
+
+[node name="Area2D" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+rotation = 1.5708
+shape = SubResource("CapsuleShape2D_4ejsg")
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 2.0
+one_shot = true
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_7i00s")
+}
+
+[connection signal="area_entered" from="Area2D" to="." method="_on_area_2d_area_entered"]
+[connection signal="area_exited" from="Area2D" to="." method="_on_area_2d_area_exited"]

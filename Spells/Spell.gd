@@ -14,12 +14,10 @@ func _physics_process(delta: float) -> void:
 	position += direction * speed * delta
 
 func _on_area_2d_area_exited(area):
-	print(area.get_multiplayer_authority())
 	pass
 
 func _on_area_2d_area_entered(area: Area2D):
 	if "weapon_ref" in area and area.get_multiplayer_authority() != player_id:  
-		print('BOUNCe')
 		var hit: Hit = area.weapon_ref.get_weapon_hit()
 		direction = hit.angle
 		rotation = area.weapon_ref.get_position().angle_to_point(hit.angle)

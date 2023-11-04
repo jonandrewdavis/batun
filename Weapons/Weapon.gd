@@ -14,13 +14,16 @@ extends Node2D
 @onready var holder = $Holder
 @onready var inner_holder = $Holder/InnerHolder
 
+# TODO: Hammer should be knockback based on CENTER of the hammer, not mouse
+
 # TODO: Pointer, Locked, Visible, is controlled in animations
 # this is a pain if I have to redo the animations.
 # granular control is nice, but a quick "lock / unlock" that does
 # all the things would be a nice func.
 @export var locked = false
-@onready var pointer = $Pointer
 
+var pointer = null
+var PointerScene = preload("res://Weapons/Pointer.tscn")
 
 var all_weapons = null
 
@@ -86,7 +89,13 @@ func _ready():
 	for single_weapon in all_weapons:
 		single_weapon.node.weapon_ref = self
 	current_weapon = all_weapons[current_weapon_index]
-
+	
+	if not is_multiplayer_authority(): return
+	# Client only effects
+	self.set_material(null)
+	pointer = PointerScene.instantiate()
+	add_child(pointer)
+	
 
 func set_weapon(index):
 	current_weapon_index = index
@@ -98,7 +107,7 @@ func _process(_delta):
 	if locked == false: 
 		look_at(get_global_mouse_position())
 		mouse_direction = (get_global_mouse_position() - global_position).normalized()
-	
+
 	if mouse_direction.x >= 0:
 		holder.scale.x = 1
 		inner_holder.scale.y = 1 * combo_factor
@@ -116,11 +125,15 @@ func _process(_delta):
 		else:
 			hammer.skew = -10
 
-	if Input.is_action_just_pressed("left_click") and combo_window == true and combo_factor == 1:
-		attack1_combo()	
+	# TODO: Charge attacks
 
-	if Input.is_action_just_pressed("left_click") and combo_window == true and combo_factor == -1:
-		attack1_combo2()	
+	# if Input.is_action_just_pressed("left_click") and combo_window == true and combo_factor == 1:
+		# animation_player.seek(0, false)	
+		# attack1_combo()	
+
+	# if Input.is_action_just_pressed("left_click") and combo_window == true and combo_factor == -1:
+		# animation_player.seek(0, false)
+		#	attack1_combo2()	
 
 # TODO: figure out how we want to do "activating". extend from base weapon is probably correct.
 # TODO: Ton of animations, state transition when complete?
@@ -159,15 +172,13 @@ func attack1():
 func attack1_combo():
 	combo_factor = -1
 	var current_attack = all_weapons[current_weapon_index].attacks[0]
-	animation_player.queue(current_attack.animation)
-	animation_player.advance(1)
+	animation_player.play(current_attack.animation)
 	player.apply_slow(current_attack.self_slow)
 	player.animation_player.play('PlayerAnimationSaved/action')
 	
 func attack1_combo2():
 	combo_factor = 1
 	var current_attack = all_weapons[current_weapon_index].attacks[0]
-	animation_player.queue(current_attack.animation)
-	animation_player.advance(1)
+	animation_player.play(current_attack.animation)
 	player.apply_slow(current_attack.self_slow)
 	player.animation_player.play('PlayerAnimationSaved/action')

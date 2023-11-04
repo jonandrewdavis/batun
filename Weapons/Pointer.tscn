@@ -1,0 +1,19 @@
+[gd_scene format=3 uid="uid://cjknayvafhtjp"]
+
+[node name="Pointer" type="Node2D"]
+use_parent_material = true
+
+[node name="Line2D" type="Line2D" parent="."]
+position = Vector2(7, 3)
+rotation = -0.471239
+points = PackedVector2Array(7, 0, 5, 0)
+width = 0.5
+default_color = Color(0.980392, 1, 1, 1)
+
+[node name="Line2D2" type="Line2D" parent="."]
+position = Vector2(7, -3.25)
+rotation = 0.471239
+scale = Vector2(1.00539, 0.99389)
+points = PackedVector2Array(7, 0, 5, 0)
+width = 0.5
+default_color = Color(0.980392, 1, 1, 1)

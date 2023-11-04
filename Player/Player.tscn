@@ -1,4 +1,4 @@
-[gd_scene load_steps=23 format=3 uid="uid://b2m56omrcu8lr"]
+[gd_scene load_steps=25 format=3 uid="uid://b2m56omrcu8lr"]
 
 [ext_resource type="Script" path="res://Player/Player.gd" id="1_bv6p2"]
 [ext_resource type="AnimationLibrary" uid="uid://cgd5bhyubfwyp" path="res://Player/PlayerAnimationSaved.res" id="2_lwcqa"]
@@ -14,6 +14,9 @@
 [ext_resource type="Script" path="res://Player/PlayerStates/PlayerSpell1.gd" id="11_kfrwc"]
 [ext_resource type="PackedScene" uid="uid://cbha66ayqfvc6" path="res://Weapons/StatusFeedback.tscn" id="12_xacmc"]
 [ext_resource type="PackedScene" uid="uid://fosuxj5q1tpx" path="res://Spells/Spellbook.tscn" id="14_vfxlj"]
+
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_3xwnn"]
+light_mode = 2
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_qwcga"]
 bg_color = Color(0.6, 0.6, 0.6, 0.596078)
@@ -36,6 +39,9 @@ use_hdr = true
 fill = 1
 fill_from = Vector2(0.5, 0.5)
 fill_to = Vector2(0.5, 0)
+
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_roa8a"]
+light_mode = 2
 
 [sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_rdcvt"]
 properties/0/path = NodePath("Label:text")
@@ -73,16 +79,19 @@ height = 16.0
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_i3fan"]
 radius = 3.0
-height = 14.0
+height = 10.0
 
 [node name="CharacterBody2D" type="CharacterBody2D"]
 y_sort_enabled = true
+material = SubResource("CanvasItemMaterial_3xwnn")
 motion_mode = 1
 platform_floor_layers = 4294967294
-safe_margin = 0.1
+safe_margin = 3.0
 script = ExtResource("1_bv6p2")
 
 [node name="Label" type="Label" parent="."]
+z_as_relative = false
+use_parent_material = true
 offset_left = -44.0
 offset_top = -22.0
 offset_right = 43.0
@@ -93,6 +102,7 @@ horizontal_alignment = 1
 
 [node name="Healthbar" type="ProgressBar" parent="."]
 visible = false
+use_parent_material = true
 offset_left = -10.0
 offset_top = -14.0
 offset_right = 10.0
@@ -127,10 +137,13 @@ fill_mode = 4
 texture_progress = SubResource("GradientTexture2D_ed2uj")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+material = SubResource("CanvasItemMaterial_roa8a")
+position = Vector2(0, 5)
 scale = Vector2(0.694979, 0.7)
 sprite_frames = ExtResource("3_6xpi2")
 animation = &"idle"
 autoplay = "idle"
+offset = Vector2(0, -7.14286)
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 autoplay = "PlayerAnimationSaved/idle"
@@ -148,7 +161,6 @@ shape = SubResource("CapsuleShape2D_kuhee")
 debug_color = Color(0.807843, 0.392157, 0.380392, 0.419608)
 
 [node name="CollideBox" type="CollisionShape2D" parent="."]
-position = Vector2(0, 2)
 shape = SubResource("CapsuleShape2D_i3fan")
 
 [node name="FSM" type="Node2D" parent="." node_paths=PackedStringArray("initial_state", "parentPlayer")]
@@ -182,5 +194,9 @@ script = ExtResource("11_kfrwc")
 [node name="StatusFeedback" parent="." instance=ExtResource("12_xacmc")]
 
 [node name="Spellbook" parent="." instance=ExtResource("14_vfxlj")]
+
+[node name="SprintTimer" type="Timer" parent="."]
+wait_time = 0.3
+one_shot = true
 
 [connection signal="area_entered" from="PlayerArea" to="." method="_on_area_2d_area_entered"]
