@@ -13,7 +13,7 @@ var destroy_timer = Timer.new()
 func _physics_process(delta: float) -> void:
 	position += direction * speed * delta
 
-func _on_area_2d_area_exited(area):
+func _on_area_2d_area_exited(_area):
 	pass
 
 func _on_area_2d_area_entered(area: Area2D):

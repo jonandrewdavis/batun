@@ -6,6 +6,7 @@ const CONST_STARTING_SPEED = 130; # increase for top speed
 const CONST_ACCELERATION = 220 # decrease to cause more startup time
 const CONST_FRICTION = 280
 
+
 @export var max_hp: int = CONST_MAX_HP
 @export var hp: int = CONST_MAX_HP
 @export var friction: int = 250 # decrease to cause sliding
@@ -36,8 +37,8 @@ var PlayerLight = preload("res://Player/PlayerLight.tscn")
 
 var mouse_direction: Vector2
 
-const RESPAWN_RADIUS = 75
-var PLAYER_START: Vector2 = Vector2(-5, 35)
+const RESPAWN_RADIUS = 70
+var PLAYER_START: Vector2 = Vector2(-5, -35)
 
 func _enter_tree():
 	set_multiplayer_authority(str(name).to_int())
@@ -47,6 +48,7 @@ func _ready() -> void:
 	# code runs only on the client. (Since each player is it's own authority).
 	# All nodes within these are LOCAL (client) only. Camera, Inventory, UI, etc.
 	# TODO: Move `userlabel.text` above this line and remove from sync
+	
 	if not is_multiplayer_authority():
 		return
 	# ---- Player Client Nodes -----
@@ -63,6 +65,7 @@ func _ready() -> void:
 	add_child(newLight)
 	UIref = get_node("UI")
 	restore_previous_state()
+	animated_sprite.set_modulate(Network.player_info.color)
 
 
 func is_player():

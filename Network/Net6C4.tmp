@@ -77,7 +77,7 @@ size_flags_horizontal = 8
 text = "Pick a color"
 flat = true
 alignment = 2
-color = Color(1, 1, 1, 1)
+color = Color(0.352941, 0.223529, 0.458824, 1)
 edit_alpha = false
 
 [node name="HBoxContainer" type="HBoxContainer" parent="MainMenuCanvas/MainMenu/MarginContainer/VBoxContainer"]

@@ -13,14 +13,15 @@ var players = {}
 # before the connection is made. It will be passed to every other peer.
 # For example, the value of "name" can be set to something the player
 # entered in a UI scene.
-var player_info = {"name": "Name", "score": 0}
+var player_info = {"name": "Name", "score": 0, "color": Color(1,1,1,1)}
+# var chosen_color_ui: Color = Color(0.35, 0.22, 0.46, 1)
 var players_loaded = 0
 
 @onready var main_menu = $MainMenuCanvas/MainMenu
 @onready var username = $MainMenuCanvas/MainMenu/MarginContainer/VBoxContainer/user
 @onready var address_entry = $MainMenuCanvas/MainMenu/MarginContainer/VBoxContainer/address
-@onready var join_button = $MainMenuCanvas/MainMenu/MarginContainer/VBoxContainer/Join
-@onready var host_button = $MainMenuCanvas/MainMenu/MarginContainer/VBoxContainer/Host
+@onready var join_button = $MainMenuCanvas/MainMenu/MarginContainer/VBoxContainer/HBoxContainer/Join
+@onready var host_button = $MainMenuCanvas/MainMenu/MarginContainer/VBoxContainer/HBoxContainer/Host
 @onready var check_button = $MainMenuCanvas/MainMenu/MarginContainer/VBoxContainer/CheckButton
 @onready var world_ref =  get_tree().get_root().get_node('/root/Main/World')
 
@@ -68,7 +69,7 @@ func _ready():
 
 func _on_join_pressed():
 	main_menu.hide()
-	player_info = {"name" : username.text, "score": 0}
+	player_info = {"name" : username.text, "score": 0, "color": player_info.color}
 	if username.text != '': SavedData.username = username.text
 	if OS.has_feature('client'):
 		enet_peer.create_client(address_entry.text, PORT)
@@ -106,6 +107,10 @@ func _on_user_text_changed(new_text):
 		join_button.disabled = false
 	else:
 		join_button.disabled = true
+		
+func _on_color_picker_button_color_changed(new_color):
+	player_info.color = new_color
+	pass # Replace with function body.
 
 func upnp_setup():
 	var upnp = UPNP.new()
@@ -146,6 +151,10 @@ func _register_player(new_player_info):
 	var new_player_id = multiplayer.get_remote_sender_id()
 	players[new_player_id] = new_player_info
 	player_connected.emit(players)
+	for player in players:
+		var world_children = world_ref.get_node(str(player))
+		if world_children and world_children.animated_sprite != null:
+			world_children.animated_sprite.set_modulate(players[player].color)
 
 func _on_player_disconnected(id):
 	players.erase(id)
@@ -172,3 +181,4 @@ func _on_server_disconnected():
 func _on_player_scored(player_id):
 	print('This player scored: ', player_id)
 	score_signal.emit(player_id)
+

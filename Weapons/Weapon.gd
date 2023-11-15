@@ -32,7 +32,7 @@ func _prepare_all_weapons():
 	spearAttack1.animation = 'WeaponAnimations/Spear1'
 	spearAttack1.damage = 10
 	spearAttack1.self_slow = 1
-	spearAttack1.knockback = 50
+	spearAttack1.knockback = 100
 
 	return [
 	{ 
