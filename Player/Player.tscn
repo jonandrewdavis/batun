@@ -1,4 +1,4 @@
-[gd_scene load_steps=27 format=3 uid="uid://b2m56omrcu8lr"]
+[gd_scene load_steps=28 format=3 uid="uid://b2m56omrcu8lr"]
 
 [ext_resource type="Script" path="res://Player/Player.gd" id="1_bv6p2"]
 [ext_resource type="Shader" path="res://Player/Player.gdshader" id="2_2c6fw"]
@@ -16,6 +16,7 @@
 [ext_resource type="PackedScene" uid="uid://cbha66ayqfvc6" path="res://Weapons/StatusFeedback.tscn" id="12_xacmc"]
 [ext_resource type="PackedScene" uid="uid://fosuxj5q1tpx" path="res://Spells/Spellbook.tscn" id="14_vfxlj"]
 [ext_resource type="Texture2D" uid="uid://882mh23lath0" path="res://Assets/LightSprite.png" id="15_gi7lm"]
+[ext_resource type="AudioStream" uid="uid://dbxd72e5v12ro" path="res://Assets/Sound/sfx_player_footsteps.mp3" id="17_d02nm"]
 
 [sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_jj06v"]
 light_mode = 2
@@ -145,7 +146,7 @@ material = SubResource("ShaderMaterial_x0utx")
 use_parent_material = true
 scale = Vector2(0.694979, 0.7)
 sprite_frames = ExtResource("3_6xpi2")
-animation = &"action"
+animation = &"move"
 autoplay = "idle"
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
@@ -206,5 +207,12 @@ one_shot = true
 editor_only = true
 energy = 0.0
 texture = ExtResource("15_gi7lm")
+
+[node name="Footsteps" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("17_d02nm")
+
+[node name="FootstepsTimer" type="Timer" parent="."]
+wait_time = 0.35
+one_shot = true
 
 [connection signal="area_entered" from="PlayerArea" to="." method="_on_area_2d_area_entered"]

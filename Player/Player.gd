@@ -102,9 +102,14 @@ func _physics_process(delta: float) -> void:
 		velocity = velocity.move_toward(mov_direction * max_speed, acceleration * delta)
 	else:
 		velocity = velocity.move_toward(Vector2.ZERO, friction * delta)
+
 		
 	if is_on_wall():
 		velocity = velocity.move_toward(mov_direction * max_speed * 0.9, (acceleration * 1.05) * delta)
+
+	if velocity != Vector2.ZERO and $FootstepsTimer.time_left <= 0 and FSM.current_state.name == 'PlayerIdle':
+		$Footsteps.play()
+		$FootstepsTimer.start(0.35)
 
 	move_and_slide()
 
