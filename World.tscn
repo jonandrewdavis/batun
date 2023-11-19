@@ -1,4 +1,4 @@
-[gd_scene load_steps=82 format=3 uid="uid://bkd34gv2qo74h"]
+[gd_scene load_steps=84 format=3 uid="uid://bkd34gv2qo74h"]
 
 [ext_resource type="PackedScene" uid="uid://dwd8xq77iqteb" path="res://Environment/Dummy.tscn" id="3_pbavd"]
 [ext_resource type="Texture2D" uid="uid://deiycfysmclbp" path="res://Assets/Texture/TX Tileset Grass.png" id="4_438qc"]
@@ -8,6 +8,7 @@
 [ext_resource type="PackedScene" uid="uid://4r4enxra61dv" path="res://Environment/Teleport.tscn" id="7_6ubxn"]
 [ext_resource type="Texture2D" uid="uid://1dikjy8wgurm" path="res://Assets/Texture/TX Struct.png" id="8_jgctj"]
 [ext_resource type="AudioStream" uid="uid://cx6nouwdf0w2l" path="res://Assets/Sound/haunted.mp3" id="8_t0j83"]
+[ext_resource type="Texture2D" uid="uid://bl5nka005u7k6" path="res://Assets/PROPSONLY.png" id="9_58c08"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_ph00u"]
 texture = ExtResource("4_q2pox")
@@ -1624,6 +1625,9 @@ sources/2 = SubResource("TileSetAtlasSource_0qykc")
 sources/4 = SubResource("TileSetAtlasSource_5yu2f")
 sources/3 = SubResource("TileSetAtlasSource_glk12")
 
+[sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_0iuex"]
+polygon = PackedVector2Array(-17, -119, -17, -107, -16, -107, -16, -102, -13, -99, 14, -99, 17, -102, 17, -106, 18, -107, 18, -119, 15, -122, 11, -122, 11, -127, 14, -127, 14, -128, 15, -128, 11, -161, 7, -168, -4, -168, -10, -161, -14, -128, -13, -128, -13, -127, -10, -127, -10, -122, -14, -122)
+
 [node name="World" type="Node2D"]
 y_sort_enabled = true
 
@@ -1647,10 +1651,10 @@ layer_2/modulate = Color(1, 1, 1, 1)
 layer_2/y_sort_enabled = true
 layer_2/y_sort_origin = 0
 layer_2/z_index = 0
-layer_2/tile_data = PackedInt32Array(196752, 458755, 2, 262288, 458755, 3, 327824, 458755, 4, 150, 458755, 2, 65686, 458755, 3, 131222, 458755, 4, 393366, 458755, 0, 458902, 458755, 1, 196763, 458755, 5, 262299, 458755, 6, -524146, 458755, 5, -458610, 458755, 6, -524127, 458755, 2, -458591, 458755, 3, -393055, 458755, 4, 3604627, 720899, 5, 3670163, 720899, 6, 3735699, 720899, 7, 3801235, 720899, 5, 3866771, 720899, 6, 3932307, 720899, 7, 3604637, 720899, 5, 3670173, 720899, 6, 3735709, 720899, 7, 3801245, 720899, 5, 3866781, 720899, 6, 3932317, 720899, 7)
+layer_2/tile_data = PackedInt32Array(196752, 458755, 2, 262288, 458755, 3, 327824, 458755, 4, 150, 458755, 2, 65686, 458755, 3, 131222, 458755, 4, 393366, 458755, 0, 458902, 458755, 1, 196763, 458755, 5, 262299, 458755, 6, -524146, 458755, 5, -458610, 458755, 6, -524127, 458755, 2, -458591, 458755, 3, -393055, 458755, 4, 3604627, 720899, 5, 3670163, 720899, 6, 3735699, 720899, 7, 3801235, 720899, 5, 3866771, 720899, 6, 3932307, 720899, 7, 3604637, 720899, 5, 3670173, 720899, 6, 3735709, 720899, 7, 3801245, 720899, 5, 3866781, 720899, 6, 3932317, 720899, 7, -131076, 720899, 5, -65540, 720899, 6, -4, 720899, 7, -131069, 851971, 6, -65533, 851971, 7)
 
 [node name="Dummy" parent="." instance=ExtResource("3_pbavd")]
-position = Vector2(109, -40)
+position = Vector2(76, -89)
 
 [node name="Marker2D" type="Marker2D" parent="."]
 position = Vector2(-5, -33)
@@ -1698,6 +1702,23 @@ connected = NodePath("../HomeSouth")
 position = Vector2(4854, -107)
 color = Color(0.658824, 0.741176, 1, 1)
 
-[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("8_t0j83")
-max_distance = 99999.0
+volume_db = -12.0
+bus = &"Music"
+
+[node name="Angel" type="StaticBody2D" parent="."]
+position = Vector2(0, 9)
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Angel"]
+polygon = PackedVector2Array(-16, -105, -13, -100, 13, -100, 17, -103, 18, -120, 15, -125, 14, -136, 11, -161, 5, -169, -3, -169, -10, -161, -11, -142, -14, -130, -15, -122, -17, -119, -17, -107)
+
+[node name="AngelSprite" type="Sprite2D" parent="Angel"]
+z_index = 2
+position = Vector2(1, -143)
+texture = ExtResource("9_58c08")
+region_enabled = true
+region_rect = Rect2(416, 0, 96, 96)
+
+[node name="LightOccluder2D" type="LightOccluder2D" parent="Angel"]
+occluder = SubResource("OccluderPolygon2D_0iuex")

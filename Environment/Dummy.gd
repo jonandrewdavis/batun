@@ -6,7 +6,7 @@ var hp = 1000
 
 func _physics_process(delta: float) -> void:
 	velocity = velocity.move_toward(Vector2.ZERO, FRICTION * delta)
-	move_and_slide()
+	# move_and_slide()
 
 func take_damage(damage: int, knockback: int, direction: Vector2) -> void:
 		hp -= damage
@@ -27,3 +27,4 @@ func _on_hurtbox_area_entered(area):
 		var hit: Hit = area.weapon_ref.get_weapon_hit()
 		if hit != null:
 			take_damage(hit.damage, hit.knockback, hit.angle)
+			$AnimationPlayer.play('dummy')

@@ -19,7 +19,7 @@ tracks/0/keys = {
 
 [sub_resource type="Animation" id="Animation_xbo0p"]
 resource_name = "show_number"
-length = 0.5
+length = 0.6
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -27,10 +27,10 @@ tracks/0/path = NodePath("Label:scale")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.489653),
+"times": PackedFloat32Array(0, 0.531263),
 "transitions": PackedFloat32Array(1, 1),
 "update": 0,
-"values": [Vector2(0.6, 0.6), Vector2(1, 1)]
+"values": [Vector2(0.6, 0.6), Vector2(0.8, 0.8)]
 }
 tracks/1/type = "value"
 tracks/1/imported = false
@@ -39,7 +39,7 @@ tracks/1/path = NodePath("Label:modulate")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
-"times": PackedFloat32Array(0, 0.386747, 0.488684),
+"times": PackedFloat32Array(0, 0.386747, 0.531968),
 "transitions": PackedFloat32Array(1, 1, 1),
 "update": 0,
 "values": [Color(1, 1, 1, 0.247059), Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
@@ -51,7 +51,7 @@ tracks/2/path = NodePath("Label:position")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/keys = {
-"times": PackedFloat32Array(0, 0.487715),
+"times": PackedFloat32Array(0, 0.531308),
 "transitions": PackedFloat32Array(1, 1),
 "update": 0,
 "values": [Vector2(-19, -12), Vector2(-19, -25)]
@@ -63,7 +63,7 @@ tracks/3/path = NodePath("Label:visible")
 tracks/3/interp = 1
 tracks/3/loop_wrap = true
 tracks/3/keys = {
-"times": PackedFloat32Array(0.00096874, 0.488244),
+"times": PackedFloat32Array(0.00096874, 0.530031),
 "transitions": PackedFloat32Array(1, 1),
 "update": 1,
 "values": [true, false]
@@ -82,8 +82,8 @@ properties/0/sync = true
 properties/0/watch = false
 properties/1/path = NodePath("Label:text")
 properties/1/spawn = true
-properties/1/sync = true
-properties/1/watch = false
+properties/1/sync = false
+properties/1/watch = true
 
 [node name="StatusFeedback" type="Node2D"]
 script = ExtResource("1_4ufy1")
@@ -95,12 +95,12 @@ libraries = {
 
 [node name="Label" type="Label" parent="."]
 visible = false
-modulate = Color(1, 1, 1, 0.63643)
+modulate = Color(1, 1, 1, 0.247059)
 offset_left = -19.0
-offset_top = -17.331
+offset_top = -12.0
 offset_right = 21.0
-offset_bottom = -2.33097
-scale = Vector2(0.763381, 0.763381)
+offset_bottom = 3.00003
+scale = Vector2(0.6, 0.6)
 pivot_offset = Vector2(19, 12)
 theme_override_font_sizes/font_size = 8
 text = "8

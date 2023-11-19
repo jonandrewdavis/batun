@@ -9,7 +9,9 @@ const death_value = 3.5
 
 func Enter():
 	player.animation_player.play("PlayerAnimationSaved/hurt")
+	player.weapon.visible = false
 	player.weapon.animation_player.call_deferred('stop')
+	# player.weapon.animation_player.play("RESET")
 	player.remove_slow()
 	player.is_invincible = true
 	busy_timer = get_tree().create_timer(busy_value)
@@ -30,4 +32,5 @@ func Physics_Update(_delta: float):
 	
 func Exit():
 	player.is_invincible = false	
+	player.weapon.visible = true
 	pass

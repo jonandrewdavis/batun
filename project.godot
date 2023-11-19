@@ -19,6 +19,10 @@ boot_splash/image="res://CAPLOLGAMES.png"
 config/icon="res://icon.svg"
 boot_splash/minimum_display_time=1
 
+[audio]
+
+driver/mix_rate=48000
+
 [autoload]
 
 SavedData="*res://Autoloads/SavedData.gd"
@@ -38,6 +42,8 @@ window/stretch/mode="canvas_items"
 [gui]
 
 common/snap_controls_to_pixels=false
+theme/custom="res://UI/MinimalUI.tres"
+theme/custom_font="res://UI/Abaddon Bold.ttf"
 
 [input]
 

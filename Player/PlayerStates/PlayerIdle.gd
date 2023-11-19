@@ -3,6 +3,7 @@ class_name PlayerIdle
 
 func Enter():
 	if player.animation_player: player.animation_player.play("PlayerAnimationSaved/move")
+	player.start_recovery()
 	
 func Update(_delta: float):
 	if not is_multiplayer_authority(): return
@@ -16,3 +17,4 @@ func Update(_delta: float):
 	player.evade()
 	player.change_weapon()
 	player.activate()
+	player.recover()

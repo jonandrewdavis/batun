@@ -1,7 +1,11 @@
-[gd_scene load_steps=6 format=3 uid="uid://dwd8xq77iqteb"]
+[gd_scene load_steps=16 format=3 uid="uid://dwd8xq77iqteb"]
 
 [ext_resource type="Script" path="res://Environment/Dummy.gd" id="1_4nv04"]
 [ext_resource type="PackedScene" uid="uid://cbha66ayqfvc6" path="res://Weapons/StatusFeedback.tscn" id="2_m8irt"]
+[ext_resource type="Texture2D" uid="uid://tru1gaoejs3q" path="res://Assets/Training Dummy Sprite Sheet.png" id="3_4r8id"]
+
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_61fej"]
+light_mode = 2
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_gxew5"]
 radius = 5.07788
@@ -13,7 +17,89 @@ light_mode = 2
 radius = 5.0
 height = 22.5
 
+[sub_resource type="Animation" id="Animation_p7m48"]
+resource_name = "dummy"
+length = 0.4
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("AnimatedSprite2D:animation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [&"hit"]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("AnimatedSprite2D:frame")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 1,
+"values": [0, 1, 2, 3]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_no5fp"]
+_data = {
+"dummy": SubResource("Animation_p7m48")
+}
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_nh6ck"]
+atlas = ExtResource("3_4r8id")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_yhuby"]
+atlas = ExtResource("3_4r8id")
+region = Rect2(64, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_q857g"]
+atlas = ExtResource("3_4r8id")
+region = Rect2(32, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_a2oeg"]
+atlas = ExtResource("3_4r8id")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_63up2"]
+atlas = ExtResource("3_4r8id")
+region = Rect2(96, 0, 32, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_ubcb2"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_nh6ck")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_yhuby")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_q857g")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_a2oeg")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_63up2")
+}],
+"loop": true,
+"name": &"hit",
+"speed": 5.0
+}]
+
 [node name="Dummy" type="CharacterBody2D"]
+material = SubResource("CanvasItemMaterial_61fej")
 scale = Vector2(0.8, 0.8)
 motion_mode = 1
 platform_on_leave = 2
@@ -27,6 +113,7 @@ debug_color = Color(0, 0.6, 0.701961, 0.419608)
 [node name="Hurtbox" type="Area2D" parent="."]
 
 [node name="Polygon2D" type="Polygon2D" parent="Hurtbox"]
+visible = false
 material = SubResource("CanvasItemMaterial_7qpxw")
 color = Color(0.478431, 0.376471, 0.0352941, 1)
 polygon = PackedVector2Array(-2, 9, -2, 14, -5, 14, -5, 16, 5, 16, 5, 14, 1, 14, 1, 5, 4, 4, 5, 0, 5, -4, 10, -5, 10, -7, 3, -6, 1, -8, 4, -10, 5, -13, 1, -16, -3, -15, -5, -12, -3, -9, -1, -8, -4, -6, -7, -6, -10, -6, -10, -3, -6, -4, -3, -3, -4, -1, -4, 3, -2, 4, -1, 6)
@@ -51,5 +138,15 @@ one_shot = true
 
 [node name="StatusFeedback" parent="." instance=ExtResource("2_m8irt")]
 position = Vector2(0, -15)
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_no5fp")
+}
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+use_parent_material = true
+sprite_frames = SubResource("SpriteFrames_ubcb2")
+animation = &"hit"
 
 [connection signal="area_entered" from="Hurtbox" to="." method="_on_hurtbox_area_entered"]

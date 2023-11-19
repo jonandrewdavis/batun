@@ -9,17 +9,6 @@
 [sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_uuk6t"]
 light_mode = 2
 
-[sub_resource type="AnimationLibrary" id="AnimationLibrary_srij4"]
-_data = {
-"RESET": ExtResource("2_1yumm")
-}
-
-[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_ap280"]
-radius = 3.0
-
-[sub_resource type="CircleShape2D" id="CircleShape2D_icuoq"]
-radius = 8.29554
-
 [sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_htl3o"]
 properties/0/path = NodePath("AnimationPlayer:current_animation")
 properties/0/spawn = true
@@ -43,8 +32,23 @@ properties/4/sync = true
 properties/4/watch = false
 properties/5/path = NodePath(".:current_weapon_index")
 properties/5/spawn = true
-properties/5/sync = true
-properties/5/watch = false
+properties/5/sync = false
+properties/5/watch = true
+properties/6/path = NodePath(".:visible")
+properties/6/spawn = true
+properties/6/sync = false
+properties/6/watch = true
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_srij4"]
+_data = {
+"RESET": ExtResource("2_1yumm")
+}
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_ap280"]
+radius = 3.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_icuoq"]
+radius = 8.29554
 
 [node name="Weapon" type="Node2D"]
 z_index = 2
@@ -53,12 +57,27 @@ y_sort_enabled = true
 material = SubResource("CanvasItemMaterial_uuk6t")
 script = ExtResource("1_laf63")
 
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
+replication_config = SubResource("SceneReplicationConfig_htl3o")
+visibility_update_mode = 1
+
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 autoplay = "RESET"
 libraries = {
 "": SubResource("AnimationLibrary_srij4"),
 "WeaponAnimations": ExtResource("2_cr52x")
 }
+
+[node name="WeaponAudio" type="AudioStreamPlayer2D" parent="."]
+volume_db = -10.0
+pitch_scale = 0.1
+attenuation = 4.92458
+bus = &"SFX"
+
+[node name="PointLight2D" type="PointLight2D" parent="."]
+editor_only = true
+texture = ExtResource("5_pvhim")
+metadata/_edit_lock_ = true
 
 [node name="Holder" type="Node2D" parent="."]
 use_parent_material = true
@@ -110,22 +129,19 @@ scale = Vector2(-2.09595, 1.90053)
 polygon = PackedVector2Array(-0.466579, 0, -0.466579, -6.03371, -2, -7, -4.81684, -4.42295, -6.26189, -7.07672, -6.74358, -9.28819, -6.26189, -11.942, -4.81684, -14.1534, -2.40842, -11.942, 2.8901, -10.6151, 6, -7, 2, -7, 0.466579, -6.03371, 0.466579, 0)
 disabled = true
 
-[node name="Spear" type="Area2D" parent="."]
+[node name="Shield" type="Area2D" parent="Holder/InnerHolder"]
 visible = false
-use_parent_material = true
-rotation = 1.5708
 script = ExtResource("3_dtosq")
 
-[node name="S1" type="Polygon2D" parent="Spear"]
-use_parent_material = true
-position = Vector2(0, 9)
-scale = Vector2(0.624945, 1.1491)
-polygon = PackedVector2Array(0, -8.76471, -1, -25, -2, -28.1765, 0, -34, 2, -28.1765, 1, -25, 1, -3.91177)
+[node name="ShieldPoly" type="Polygon2D" parent="Holder/InnerHolder/Shield"]
+position = Vector2(-0.5, -0.046875)
+scale = Vector2(8.05148, 8.05148)
+polygon = PackedVector2Array(1.53125, -0.492188, 1.54688, -0.132813, 1.5625, 0.242188, 1.35938, 0.679688, 1.24236, 1.06239, 1.71875, 0.554688, 1.90625, -0.0703125, 1.86108, -0.484403, 1.70313, -0.757813, 1.34375, -1.11719)
 
-[node name="Spear2" type="CollisionPolygon2D" parent="Spear"]
-position = Vector2(0, 6.04733)
-scale = Vector2(-0.58299, 1.09373)
-polygon = PackedVector2Array(0, -8.76471, -1, -25, -2, -28.1765, 0, -34, 2, -28.1765, 1, -25, 1, -3.91177)
+[node name="ShieldCollision" type="CollisionPolygon2D" parent="Holder/InnerHolder/Shield"]
+position = Vector2(0.0468235, 0)
+scale = Vector2(1.63361, 1.63361)
+polygon = PackedVector2Array(6.08735, -4.89003, 7.39837, -1.23791, 7.11744, 1.85235, 5.52549, 5.1299, 8.14752, 2.32057, 8.99032, -0.395109, 8.80303, -2.73621, 6.93015, -4.89003)
 disabled = true
 
 [node name="Hammer" type="Area2D" parent="."]
@@ -164,11 +180,20 @@ position = Vector2(0.944992, -4.54262)
 scale = Vector2(-0.783816, -0.993784)
 polygon = PackedVector2Array(-19.606, -10.3233, -12.1842, -10.1591, -13.2243, -15.6572, -8.76648, -13.2796, -6.68614, -19.0748, -3.86283, -16.2515, -2.07968, -21.3038, 0.892231, -16.5487, 6.53886, -21.1552, 5.05291, -16.4001, 11.2939, -18.9263, 8.76779, -13.874, 15.6032, -15.36, 12.7799, -11.6451, 18.7237, -12.6852, 16.049, -8.52457, 21.7813, -7.68316, 17.1546, -4.35774, 20.9952, -2.85491, 16.6537, -1.4634, 14.7071, -1.88083, 15.1466, -4.15892, 14.4144, -7.93019, 11.7397, -11.0507, 9.06498, -12.6852, 4.75571, -14.9142, -0.742321, -15.5086, -6.2449, -13.3168, -9.21227, -10.9021, -11.887, -7.4844, -13.4573, -4.99488)
 
-[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
-replication_config = SubResource("SceneReplicationConfig_htl3o")
-visibility_update_mode = 1
+[node name="Spear" type="Area2D" parent="."]
+visible = false
+use_parent_material = true
+rotation = 1.5708
+script = ExtResource("3_dtosq")
 
-[node name="PointLight2D" type="PointLight2D" parent="."]
-editor_only = true
-texture = ExtResource("5_pvhim")
-metadata/_edit_lock_ = true
+[node name="S1" type="Polygon2D" parent="Spear"]
+use_parent_material = true
+position = Vector2(0, 9)
+scale = Vector2(0.624945, 1.1491)
+polygon = PackedVector2Array(0, -8.76471, -1, -25, -2, -28.1765, 0, -34, 2, -28.1765, 1, -25, 1, -3.91177)
+
+[node name="Spear2" type="CollisionPolygon2D" parent="Spear"]
+position = Vector2(0, 6.04733)
+scale = Vector2(-0.58299, 1.09373)
+polygon = PackedVector2Array(0, -8.76471, -1, -25, -2, -28.1765, 0, -34, 2, -28.1765, 1, -25, 1, -3.91177)
+disabled = true

@@ -33,7 +33,8 @@ func _prepare_all_weapons():
 	spearAttack1.damage = 10
 	spearAttack1.self_slow = 1
 	spearAttack1.knockback = 100
-
+	spearAttack1.stamina = 4
+	
 	return [
 	{ 
 		'name': 'Sword',
@@ -44,6 +45,7 @@ func _prepare_all_weapons():
 				"damage": 7,
 				"self_slow": 4,
 				"knockback": 50,
+				"stamina": 8,
 			},
 		]
 	},
@@ -56,6 +58,7 @@ func _prepare_all_weapons():
 				"damage": 30,
 				"self_slow": 80,
 				"knockback": 170,
+				"stamina": 18,
 			},
 		]
 	},
@@ -68,6 +71,7 @@ func _prepare_all_weapons():
 				"damage": 15,
 				"self_slow": 12,
 				"knockback": 70,
+				"stamina": 12,
 			},
 		]
 	},
@@ -76,6 +80,19 @@ func _prepare_all_weapons():
 		'node': $Spear,
 		'attacks': [
 			spearAttack1
+		]
+	},
+	{
+		'name': 'Shield',
+		'node': $Spear,
+		'attacks': [
+			{
+				"animation": 'WeaponAnimations/Shield1',
+				"damage": 0,
+				"self_slow": 7,
+				"knockback": 0,
+				"stamina": 7,
+			},
 		]
 	},
 ]
@@ -104,9 +121,15 @@ var mouse_direction = Vector2.ZERO
 func _process(_delta):
 	if not is_multiplayer_authority(): return
 	# Do not allow looking or swinging if we're "mid-swing".
-	if locked == false: 
+	if locked:
+		if pointer.visible: 
+			pointer.visible = false
+	else: 
 		look_at(get_global_mouse_position())
 		mouse_direction = (get_global_mouse_position() - global_position).normalized()
+		if !pointer.visible: 
+			pointer.visible = true
+	
 
 	if mouse_direction.x >= 0:
 		holder.scale.x = 1
@@ -125,15 +148,13 @@ func _process(_delta):
 		else:
 			hammer.skew = -10
 
-	# TODO: Charge attacks
+	# TODO: Charge attacks, COMBO attacks. Just dont work with this system
 
-	# if Input.is_action_just_pressed("left_click") and combo_window == true and combo_factor == 1:
-		# animation_player.seek(0, false)	
-		# attack1_combo()	
+	#if Input.is_action_just_pressed("left_click") and combo_window == true and combo_factor == 1:
+	#	attack1_combo()	
 
-	# if Input.is_action_just_pressed("left_click") and combo_window == true and combo_factor == -1:
-		# animation_player.seek(0, false)
-		#	attack1_combo2()	
+	#if Input.is_action_just_pressed("left_click") and combo_window == true and combo_factor == -1:
+	#	attack1_combo2()	
 
 # TODO: figure out how we want to do "activating". extend from base weapon is probably correct.
 # TODO: Ton of animations, state transition when complete?
@@ -163,22 +184,37 @@ func get_weapon_hit() -> Hit:
 
 func attack1():
 	var current_attack = all_weapons[current_weapon_index].attacks[0]
-	animation_player.speed_scale = 1
-	animation_player.play(current_attack.animation)
-	player.apply_slow(current_attack.self_slow)
-	player.animation_player.play('PlayerAnimationSaved/action')
+	if player.stamina > current_attack.stamina:
+		player.stamina -= current_attack.stamina
+		animation_player.play(current_attack.animation)
+		player.apply_slow(current_attack.self_slow)
+		player.animation_player.play('PlayerAnimationSaved/action')
+	else: 
+		player.UIref.flash_stamina()
 
-
+# Combo may work better with Syncronizer option: Watch, rather than Sync.
 func attack1_combo():
 	combo_factor = -1
 	var current_attack = all_weapons[current_weapon_index].attacks[0]
-	animation_player.play(current_attack.animation)
+	animation_player.call_deferred('seek', 0, true)
+	animation_player.call_deferred('play')
 	player.apply_slow(current_attack.self_slow)
 	player.animation_player.play('PlayerAnimationSaved/action')
 	
 func attack1_combo2():
 	combo_factor = 1
 	var current_attack = all_weapons[current_weapon_index].attacks[0]
+	animation_player.call_deferred('seek', 0, true)
+	animation_player.call_deferred('play')
+	player.apply_slow(current_attack.self_slow)
+	player.animation_player.play('PlayerAnimationSaved/action')
+
+
+func block():
+	# Hardcode shield
+	var current_attack = all_weapons[4].attacks[0]
 	animation_player.play(current_attack.animation)
 	player.apply_slow(current_attack.self_slow)
 	player.animation_player.play('PlayerAnimationSaved/action')
+
+

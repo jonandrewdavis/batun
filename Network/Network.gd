@@ -34,7 +34,7 @@ var Player = preload('res://Player/Player.tscn')
 var nospawn = false
 var debug_override = false
 
-const ip = 'HARDCODE FOR PLAYERS HERE'
+const AWS_SERVER_IP = 'HARDCODE FOR PLAYERS HERE'
 
 func _ready():
 	if OS.is_debug_build() and debug_override == true:
@@ -59,7 +59,7 @@ func _ready():
 		if OS.has_feature('client'):
 			host_button.hide()
 			check_button.hide()
-			address_entry.text = ip
+			address_entry.text = AWS_SERVER_IP
 		multiplayer.peer_connected.connect(_on_player_connected)
 		multiplayer.peer_disconnected.connect(_on_player_disconnected)
 		multiplayer.connected_to_server.connect(_on_connected_ok)
@@ -112,6 +112,7 @@ func _on_color_picker_button_color_changed(new_color):
 	player_info.color = new_color
 	pass # Replace with function body.
 
+
 func upnp_setup():
 	var upnp = UPNP.new()
 	
@@ -152,7 +153,7 @@ func _register_player(new_player_info):
 	players[new_player_id] = new_player_info
 	player_connected.emit(players)
 	for player in players:
-		var world_children = world_ref.get_node(str(player))
+		var world_children = world_ref.get_node_or_null(str(player))
 		if world_children and world_children.animated_sprite != null:
 			world_children.animated_sprite.set_modulate(players[player].color)
 

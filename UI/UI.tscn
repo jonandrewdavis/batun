@@ -1,6 +1,9 @@
-[gd_scene load_steps=5 format=3 uid="uid://cndm01sayqd7b"]
+[gd_scene load_steps=18 format=3 uid="uid://cndm01sayqd7b"]
 
 [ext_resource type="Script" path="res://UI/UIScript.gd" id="1_rkwpo"]
+[ext_resource type="Theme" uid="uid://cogn7csrjrpfw" path="res://UI/small_theme.tres" id="2_id71m"]
+[ext_resource type="Theme" uid="uid://dpjbycgoquxs5" path="res://UI/MinimalUI.tres" id="3_n4g6s"]
+[ext_resource type="FontFile" uid="uid://vvs363rqnjeo" path="res://UI/Abaddon Bold.ttf" id="4_yb4sf"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_na50n"]
 bg_color = Color(0.133333, 0.133333, 0.133333, 0.827451)
@@ -9,11 +12,52 @@ border_width_top = 2
 border_width_right = 2
 border_width_bottom = 2
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ulbpv"]
-bg_color = Color(0, 0, 0, 0.733333)
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_4053h"]
+bg_color = Color(0.129412, 0.14902, 0.180392, 0.690196)
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_fg1ss"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_lq74s"]
+bg_color = Color(0, 0.392157, 0, 1)
+border_color = Color(0, 0.282353, 0, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_v4dg0"]
+bg_color = Color(1, 0.85098, 0, 1)
+border_color = Color(0.643137, 0.545098, 0, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_qab5u"]
+bg_color = Color(0.6, 0.6, 0.6, 0)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_po2rx"]
 bg_color = Color(0.6, 0.580392, 0.6, 0.74902)
+
+[sub_resource type="Theme" id="Theme_ycx6t"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_ryldq"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_klabe"]
+bg_color = Color(0.635294, 0.152941, 0.152941, 1)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_uscyv"]
+bg_color = Color(0.635294, 0.152941, 0.152941, 1)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_4tgjr"]
+bg_color = Color(0.0196078, 0.372549, 0.580392, 1)
+
+[sub_resource type="Theme" id="Theme_ea4hw"]
+default_font_size = 10
+Button/styles/focus = SubResource("StyleBoxEmpty_ryldq")
+Button/styles/hover = SubResource("StyleBoxFlat_klabe")
+Button/styles/normal = SubResource("StyleBoxFlat_uscyv")
+MenuButton/styles/normal = SubResource("StyleBoxFlat_4tgjr")
 
 [node name="UI" type="Node2D"]
 position = Vector2(240, 130)
@@ -38,12 +82,11 @@ theme_override_constants/margin_top = 4
 theme_override_constants/margin_right = 4
 theme_override_constants/margin_bottom = 4
 
-[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/Scores/MarginContainer"]
+[node name="ScoresContainer" type="VBoxContainer" parent="CanvasLayer/Scores/MarginContainer"]
 layout_mode = 2
 theme_override_constants/separation = 4
 
-[node name="Control" type="Control" parent="CanvasLayer"]
-layout_mode = 3
+[node name="Control" type="PanelContainer" parent="CanvasLayer"]
 anchors_preset = 7
 anchor_left = 0.5
 anchor_top = 1.0
@@ -51,46 +94,113 @@ anchor_right = 0.5
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme = ExtResource("3_n4g6s")
+theme_override_styles/panel = SubResource("StyleBoxFlat_4053h")
 
-[node name="PanelContainer" type="PanelContainer" parent="CanvasLayer/Control"]
-layout_mode = 1
-anchors_preset = 7
-anchor_left = 0.5
-anchor_top = 1.0
-anchor_right = 0.5
-anchor_bottom = 1.0
-offset_left = -35.0
-offset_top = -22.0
-offset_right = 35.0
-offset_bottom = -3.0
-grow_horizontal = 2
-grow_vertical = 0
-theme_override_styles/panel = SubResource("StyleBoxFlat_ulbpv")
-
-[node name="WeaponContainer" type="MarginContainer" parent="CanvasLayer/Control/PanelContainer"]
+[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/Control"]
 layout_mode = 2
+theme = ExtResource("2_id71m")
 theme_override_constants/margin_left = 2
 theme_override_constants/margin_top = 2
 theme_override_constants/margin_right = 2
 theme_override_constants/margin_bottom = 2
 
-[node name="WeaponPanels" type="HBoxContainer" parent="CanvasLayer/Control/PanelContainer/WeaponContainer"]
+[node name="VBoxContainer" type="HBoxContainer" parent="CanvasLayer/Control/MarginContainer"]
 layout_mode = 2
+theme = ExtResource("2_id71m")
+alignment = 2
+
+[node name="Bars" type="PanelContainer" parent="CanvasLayer/Control/MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(80, 0)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxEmpty_fg1ss")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/Control/MarginContainer/VBoxContainer/Bars"]
+layout_mode = 2
+theme_override_constants/separation = 3
+
+[node name="Health" type="ProgressBar" parent="CanvasLayer/Control/MarginContainer/VBoxContainer/Bars/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+theme = ExtResource("2_id71m")
+theme_override_constants/outline_size = 1
+theme_override_styles/fill = SubResource("StyleBoxFlat_lq74s")
+value = 80.0
+show_percentage = false
+
+[node name="StamContainer" type="HBoxContainer" parent="CanvasLayer/Control/MarginContainer/VBoxContainer/Bars/VBoxContainer"]
+custom_minimum_size = Vector2(0, 5)
+layout_mode = 2
+
+[node name="Stamina" type="ProgressBar" parent="CanvasLayer/Control/MarginContainer/VBoxContainer/Bars/VBoxContainer/StamContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 1
+theme = ExtResource("2_id71m")
+theme_override_styles/fill = SubResource("StyleBoxFlat_v4dg0")
+max_value = 30.0
+step = 1.0
+value = 26.0
+show_percentage = false
+
+[node name="Panel" type="Panel" parent="CanvasLayer/Control/MarginContainer/VBoxContainer/Bars/VBoxContainer/StamContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme = ExtResource("2_id71m")
+theme_override_styles/panel = SubResource("StyleBoxFlat_qab5u")
+
+[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/Control/MarginContainer/VBoxContainer/Bars"]
+layout_mode = 2
+theme_override_constants/margin_left = 2
+theme_override_constants/margin_top = -5
+theme_override_constants/margin_right = 2
+theme_override_constants/margin_bottom = -2
+
+[node name="Labels" type="VBoxContainer" parent="CanvasLayer/Control/MarginContainer/VBoxContainer/Bars/MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = -5
+
+[node name="HealthLabel" type="Label" parent="CanvasLayer/Control/MarginContainer/VBoxContainer/Bars/MarginContainer/Labels"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = ExtResource("4_yb4sf")
+theme_override_font_sizes/font_size = 6
+text = "100
+"
+vertical_alignment = 2
+
+[node name="StaminaLabel" type="Label" parent="CanvasLayer/Control/MarginContainer/VBoxContainer/Bars/MarginContainer/Labels"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_colors/font_color = Color(0.376471, 0.317647, 0, 1)
+theme_override_fonts/font = ExtResource("4_yb4sf")
+theme_override_font_sizes/font_size = 6
+text = "30"
+vertical_alignment = 2
+
+[node name="WeaponPanels" type="HBoxContainer" parent="CanvasLayer/Control/MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
 theme_override_constants/separation = 2
 
-[node name="Panel" type="Panel" parent="CanvasLayer/Control/PanelContainer/WeaponContainer/WeaponPanels"]
+[node name="Panel" type="Panel" parent="CanvasLayer/Control/MarginContainer/VBoxContainer/WeaponPanels"]
 custom_minimum_size = Vector2(15, 15)
 layout_mode = 2
+theme = ExtResource("2_id71m")
 theme_override_styles/panel = SubResource("StyleBoxFlat_po2rx")
 
-[node name="ColorRect" type="ColorRect" parent="CanvasLayer/Control/PanelContainer/WeaponContainer/WeaponPanels/Panel"]
+[node name="ColorRect" type="ColorRect" parent="CanvasLayer/Control/MarginContainer/VBoxContainer/WeaponPanels/Panel"]
 visible = false
 layout_mode = 0
 offset_right = 15.0
 offset_bottom = 15.0
 color = Color(1, 1, 1, 0.470588)
 
-[node name="TextureRect" type="TextureRect" parent="CanvasLayer/Control/PanelContainer/WeaponContainer/WeaponPanels/Panel"]
+[node name="TextureRect" type="TextureRect" parent="CanvasLayer/Control/MarginContainer/VBoxContainer/WeaponPanels/Panel"]
 visible = false
 layout_mode = 2
 offset_right = 20.0
@@ -98,7 +208,7 @@ offset_bottom = 20.0
 expand_mode = 1
 stretch_mode = 3
 
-[node name="Label" type="Label" parent="CanvasLayer/Control/PanelContainer/WeaponContainer/WeaponPanels/Panel"]
+[node name="Label" type="Label" parent="CanvasLayer/Control/MarginContainer/VBoxContainer/WeaponPanels/Panel"]
 layout_mode = 0
 offset_left = 2.0
 offset_top = 5.0
@@ -107,19 +217,19 @@ offset_bottom = 28.0
 theme_override_font_sizes/font_size = 3
 text = "Sword"
 
-[node name="Panel4" type="Panel" parent="CanvasLayer/Control/PanelContainer/WeaponContainer/WeaponPanels"]
+[node name="Panel4" type="Panel" parent="CanvasLayer/Control/MarginContainer/VBoxContainer/WeaponPanels"]
 custom_minimum_size = Vector2(15, 15)
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_po2rx")
 
-[node name="ColorRect" type="ColorRect" parent="CanvasLayer/Control/PanelContainer/WeaponContainer/WeaponPanels/Panel4"]
+[node name="ColorRect" type="ColorRect" parent="CanvasLayer/Control/MarginContainer/VBoxContainer/WeaponPanels/Panel4"]
 visible = false
 layout_mode = 0
 offset_right = 15.0
 offset_bottom = 15.0
 color = Color(1, 1, 1, 0.470588)
 
-[node name="TextureRect" type="TextureRect" parent="CanvasLayer/Control/PanelContainer/WeaponContainer/WeaponPanels/Panel4"]
+[node name="TextureRect" type="TextureRect" parent="CanvasLayer/Control/MarginContainer/VBoxContainer/WeaponPanels/Panel4"]
 visible = false
 layout_mode = 2
 offset_left = -0.166656
@@ -127,7 +237,7 @@ offset_right = 19.8333
 offset_bottom = 20.0
 expand_mode = 1
 
-[node name="Label" type="Label" parent="CanvasLayer/Control/PanelContainer/WeaponContainer/WeaponPanels/Panel4"]
+[node name="Label" type="Label" parent="CanvasLayer/Control/MarginContainer/VBoxContainer/WeaponPanels/Panel4"]
 layout_mode = 0
 offset_left = 1.0
 offset_top = 5.0
@@ -137,26 +247,26 @@ theme_override_font_sizes/font_size = 3
 text = "Hammer
 "
 
-[node name="Panel2" type="Panel" parent="CanvasLayer/Control/PanelContainer/WeaponContainer/WeaponPanels"]
+[node name="Panel2" type="Panel" parent="CanvasLayer/Control/MarginContainer/VBoxContainer/WeaponPanels"]
 custom_minimum_size = Vector2(15, 15)
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_po2rx")
 
-[node name="ColorRect" type="ColorRect" parent="CanvasLayer/Control/PanelContainer/WeaponContainer/WeaponPanels/Panel2"]
+[node name="ColorRect" type="ColorRect" parent="CanvasLayer/Control/MarginContainer/VBoxContainer/WeaponPanels/Panel2"]
 visible = false
 layout_mode = 0
 offset_right = 15.0
 offset_bottom = 15.0
 color = Color(1, 1, 1, 0.470588)
 
-[node name="TextureRect" type="TextureRect" parent="CanvasLayer/Control/PanelContainer/WeaponContainer/WeaponPanels/Panel2"]
+[node name="TextureRect" type="TextureRect" parent="CanvasLayer/Control/MarginContainer/VBoxContainer/WeaponPanels/Panel2"]
 visible = false
 layout_mode = 2
 offset_right = 20.0
 offset_bottom = 20.0
 expand_mode = 1
 
-[node name="Label" type="Label" parent="CanvasLayer/Control/PanelContainer/WeaponContainer/WeaponPanels/Panel2"]
+[node name="Label" type="Label" parent="CanvasLayer/Control/MarginContainer/VBoxContainer/WeaponPanels/Panel2"]
 layout_mode = 0
 offset_left = 4.0
 offset_top = 5.0
@@ -165,19 +275,19 @@ offset_bottom = 28.0
 theme_override_font_sizes/font_size = 3
 text = "Axe"
 
-[node name="Panel3" type="Panel" parent="CanvasLayer/Control/PanelContainer/WeaponContainer/WeaponPanels"]
+[node name="Panel3" type="Panel" parent="CanvasLayer/Control/MarginContainer/VBoxContainer/WeaponPanels"]
 custom_minimum_size = Vector2(15, 15)
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_po2rx")
 
-[node name="ColorRect" type="ColorRect" parent="CanvasLayer/Control/PanelContainer/WeaponContainer/WeaponPanels/Panel3"]
+[node name="ColorRect" type="ColorRect" parent="CanvasLayer/Control/MarginContainer/VBoxContainer/WeaponPanels/Panel3"]
 visible = false
 layout_mode = 0
 offset_right = 15.0
 offset_bottom = 15.0
 color = Color(1, 1, 1, 0.470588)
 
-[node name="TextureRect" type="TextureRect" parent="CanvasLayer/Control/PanelContainer/WeaponContainer/WeaponPanels/Panel3"]
+[node name="TextureRect" type="TextureRect" parent="CanvasLayer/Control/MarginContainer/VBoxContainer/WeaponPanels/Panel3"]
 visible = false
 layout_mode = 2
 offset_left = 4.0
@@ -185,7 +295,7 @@ offset_right = 14.0
 offset_bottom = 21.0
 expand_mode = 1
 
-[node name="Label" type="Label" parent="CanvasLayer/Control/PanelContainer/WeaponContainer/WeaponPanels/Panel3"]
+[node name="Label" type="Label" parent="CanvasLayer/Control/MarginContainer/VBoxContainer/WeaponPanels/Panel3"]
 layout_mode = 0
 offset_left = 3.0
 offset_top = 5.0
@@ -194,3 +304,110 @@ offset_bottom = 28.0
 theme_override_font_sizes/font_size = 3
 text = "Spear
 "
+
+[node name="Menu" type="PanelContainer" parent="CanvasLayer"]
+visible = false
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/Menu"]
+layout_mode = 2
+size_flags_vertical = 0
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_right = 20
+theme_override_constants/margin_bottom = 20
+
+[node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/Menu/MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 20
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/Menu/MarginContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Label" type="Label" parent="CanvasLayer/Menu/MarginContainer/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+theme = SubResource("Theme_ycx6t")
+text = "Options
+"
+
+[node name="Label2" type="Label" parent="CanvasLayer/Menu/MarginContainer/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+theme = SubResource("Theme_ea4hw")
+text = "Master Volume"
+
+[node name="HSliderMaster" type="HSlider" parent="CanvasLayer/Menu/MarginContainer/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+step = 0.05
+
+[node name="Label3" type="Label" parent="CanvasLayer/Menu/MarginContainer/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+theme = SubResource("Theme_ea4hw")
+text = "Music Volume"
+
+[node name="HSliderMusic" type="HSlider" parent="CanvasLayer/Menu/MarginContainer/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+step = 0.05
+
+[node name="Label4" type="Label" parent="CanvasLayer/Menu/MarginContainer/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+theme = SubResource("Theme_ea4hw")
+text = "SFX Voulme"
+
+[node name="HSliderSFX" type="HSlider" parent="CanvasLayer/Menu/MarginContainer/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+step = 0.05
+
+[node name="QuitButton" type="Button" parent="CanvasLayer/Menu/MarginContainer/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+theme = SubResource("Theme_ea4hw")
+text = "Quit"
+
+[node name="VBoxContainer2" type="VBoxContainer" parent="CanvasLayer/Menu/MarginContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Label" type="Label" parent="CanvasLayer/Menu/MarginContainer/HBoxContainer/VBoxContainer2"]
+layout_mode = 2
+text = "Controls"
+
+[node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/Menu/MarginContainer/HBoxContainer/VBoxContainer2"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="RichTextLabel2" type="RichTextLabel" parent="CanvasLayer/Menu/MarginContainer/HBoxContainer/VBoxContainer2/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme = SubResource("Theme_ea4hw")
+text = "Right Click
+Left Click
+1 - 4 
+Space
+F
+Esc
+"
+fit_content = true
+
+[node name="RichTextLabel" type="RichTextLabel" parent="CanvasLayer/Menu/MarginContainer/HBoxContainer/VBoxContainer2/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme = SubResource("Theme_ea4hw")
+text = "Attack
+Block
+Switch Weapons
+Evade
+Spell
+Menu
+"
+fit_content = true
+autowrap_mode = 0
+
+[connection signal="value_changed" from="CanvasLayer/Menu/MarginContainer/HBoxContainer/VBoxContainer/HSliderMaster" to="." method="_on_h_slider_master_value_changed"]
+[connection signal="value_changed" from="CanvasLayer/Menu/MarginContainer/HBoxContainer/VBoxContainer/HSliderMusic" to="." method="_on_h_slider_music_value_changed"]
+[connection signal="value_changed" from="CanvasLayer/Menu/MarginContainer/HBoxContainer/VBoxContainer/HSliderSFX" to="." method="_on_h_slider_sfx_value_changed"]
+[connection signal="pressed" from="CanvasLayer/Menu/MarginContainer/HBoxContainer/VBoxContainer/QuitButton" to="." method="_on_quit_button_pressed"]
