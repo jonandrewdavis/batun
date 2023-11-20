@@ -5,7 +5,7 @@ extends Node2D
 @onready var animation_player = $AnimationPlayer
 @export var current_weapon_index: int = 0
 
-@onready var player = get_parent()
+@onready var player: Player = get_parent()
 @onready var hammer = $Hammer
 
 # TODO: ALL "swing directional" weapons should use a SINGLE "sheathe",
@@ -42,10 +42,10 @@ func _prepare_all_weapons():
 		'attacks': [
 			{
 				"animation" : 'WeaponAnimations/Sword1',
-				"damage": 7,
+				"damage": 8,
 				"self_slow": 4,
-				"knockback": 50,
-				"stamina": 8,
+				"knockback": 35,
+				"stamina": 6,
 			},
 		]
 	},
@@ -71,7 +71,7 @@ func _prepare_all_weapons():
 				"damage": 15,
 				"self_slow": 12,
 				"knockback": 70,
-				"stamina": 12,
+				"stamina": 9,
 			},
 		]
 	},
@@ -82,20 +82,17 @@ func _prepare_all_weapons():
 			spearAttack1
 		]
 	},
-	{
-		'name': 'Shield',
-		'node': $Spear,
-		'attacks': [
-			{
-				"animation": 'WeaponAnimations/Shield1',
-				"damage": 0,
-				"self_slow": 7,
-				"knockback": 0,
-				"stamina": 7,
-			},
-		]
-	},
 ]
+
+
+const shield = {
+	"animation": 'WeaponAnimations/Shield1',
+	"damage": 0,
+	"self_slow": 7,
+	"knockback": 0,
+	"stamina": 7,
+}
+
 
 var combo_factor = 1
 @export var combo_window = false
@@ -185,6 +182,7 @@ func get_weapon_hit() -> Hit:
 func attack1():
 	var current_attack = all_weapons[current_weapon_index].attacks[0]
 	if player.stamina > current_attack.stamina:
+		player.set_state('PlayerAttack1')
 		player.stamina -= current_attack.stamina
 		animation_player.play(current_attack.animation)
 		player.apply_slow(current_attack.self_slow)
@@ -193,6 +191,7 @@ func attack1():
 		player.UIref.flash_stamina()
 
 # Combo may work better with Syncronizer option: Watch, rather than Sync.
+# Not used
 func attack1_combo():
 	combo_factor = -1
 	var current_attack = all_weapons[current_weapon_index].attacks[0]
@@ -209,12 +208,14 @@ func attack1_combo2():
 	player.apply_slow(current_attack.self_slow)
 	player.animation_player.play('PlayerAnimationSaved/action')
 
-
 func block():
 	# Hardcode shield
-	var current_attack = all_weapons[4].attacks[0]
-	animation_player.play(current_attack.animation)
-	player.apply_slow(current_attack.self_slow)
-	player.animation_player.play('PlayerAnimationSaved/action')
-
-
+	if player.stamina > shield.stamina:
+		player.set_state('PlayerAttack1')
+		player.stamina -= shield.stamina
+		animation_player.play(shield.animation)
+		player.apply_slow(shield.self_slow)
+		player.animation_player.play('PlayerAnimationSaved/action')
+	else:
+		player.UIref.flash_stamina()
+		

@@ -121,11 +121,11 @@ func _on_h_slider_sfx_value_changed(value):
 
 
 func flash_stamina():
-	stamina.self_modulate.a = 0.5
+	stamina.self_modulate.a = 0.1
 	await get_tree().create_timer(0.1).timeout
 	stamina.self_modulate.a = 1
 	await get_tree().create_timer(0.1).timeout
-	stamina.self_modulate.a = 0.5
+	stamina.self_modulate.a = 0.1
 	await get_tree().create_timer(0.1).timeout
 	stamina.self_modulate.a = 1
 

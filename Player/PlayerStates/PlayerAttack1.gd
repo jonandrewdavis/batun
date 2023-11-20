@@ -3,10 +3,7 @@ class_name PlayerAttack1
 
 func Enter():
 	player.animation_player.stop()
-	if player.last_press == 1:
-		player.weapon.attack1()
-	elif player.last_press == 2:
-		player.weapon.block()
+
 		
 func Update(_delta): 
 	if not (player.weapon.animation_player.is_playing()):
@@ -24,3 +21,4 @@ func Exit():
 	# player.weapon.combo_factor = 1
 	player.remove_slow()
 	player.weapon.pointer.visible = true	
+	player.start_recovery()

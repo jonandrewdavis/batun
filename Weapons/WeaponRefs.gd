@@ -15,7 +15,10 @@ func _ready():
 	# The one signal we care about on Area2D. 
 	# A refactor could detect entering another player to _perform_ damage
 	self.connect('area_entered', weapon_ref_collision)
-	self.connect('area_exited', weapon_area_exited)
+	
+	# This is for spawning hit "X" or ticks for damage if needed.
+	# not used.
+	# self.connect('area_exited', weapon_area_exited)
 	
 enum Status {STUN, BURN}
 # when two weapons collide.
@@ -27,16 +30,16 @@ func weapon_ref_collision(incoming_area):
 		return
 	if 'weapon_ref' in incoming_area:
 		if incoming_area.name == 'Shield':
-			print('block deteched')
 			weapon_ref.animation_player.call_deferred('stop')
 			weapon_ref.player.apply_status(Status.STUN, 1)
 			weapon_ref.animation_player.play()
 
 func weapon_area_exited(exiting_area):
 	if exiting_area.get_multiplayer_authority() == get_multiplayer_authority():
-		# do nothing
+		# do nothing, prevent self damage
 		return
+	# we caused damage, play a sound
 	if 'is_player' in exiting_area.get_parent():
-		exiting_area.get_parent().FSM.current_state.name == 'PlayerHurt'
-	
+		if exiting_area.get_parent().FSM.current_state.name == 'PlayerHurt':
+			pass
 	

@@ -25,9 +25,11 @@ func Enter():
 		player.restore_previous_state()
 
 func Update(_delta): 
+	player.recover()
 	pass
 
 func Physics_Update(_delta: float):
+	player.get_input()
 	player.move()
 	
 func Exit():

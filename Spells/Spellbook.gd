@@ -1,7 +1,7 @@
 extends Node2D
 
 @onready var Spell = load("res://Spells/Spell.tscn")
-@onready var player = get_parent()
+@onready var player: Player = get_parent()
 
 # firebolt, lightningbolt, block?, rain of fire, powershot
 # cooldown timer, each spell.
@@ -15,6 +15,7 @@ var all_spells = [
 		'cast_time': 0.8,
 		'speed' : 220,
 		'cooldown': 4,
+		'stamina': 6,
 	},
 	{
 		'name': 'LightningBolt',
@@ -22,22 +23,29 @@ var all_spells = [
 		'slow': 1000,
 		'knockback': 0,
 		'cast_time': 0.8,
-		'speed' : 1000
+		'speed' : 1000,
+		'stamina': 12
 	},
 ]
 
 var current_spell = all_spells[0]
 
 func spell1():
-	player.apply_slow(current_spell.slow)
-	player.animation_player.play('PlayerAnimationSaved/action')
-	await get_tree().create_timer(current_spell.cast_time).timeout
-	var spell_rotation = self.global_position.direction_to(get_global_mouse_position()).angle()
-	var spell_direction = self.global_position.direction_to(get_global_mouse_position())
-	var spell_position = player.global_position
-	spawn_spell.rpc(spell_rotation, spell_direction, spell_position, current_spell, get_multiplayer_authority())
-	await get_tree().create_timer(0.4).timeout
-	player.set_state('PlayerIdle')
+	if player.stamina >= current_spell.stamina:
+		player.set_state('PlayerSpell1')
+		player.stamina -= current_spell.stamina
+		player.apply_slow(current_spell.slow)
+		player.animation_player.play('PlayerAnimationSaved/action')
+		await get_tree().create_timer(current_spell.cast_time).timeout
+		var spell_rotation = self.global_position.direction_to(get_global_mouse_position()).angle()
+		var spell_direction = self.global_position.direction_to(get_global_mouse_position())
+		var spell_position = player.global_position
+		if player.FSM.current_state.name == 'PlayerSpell1':
+			spawn_spell.rpc(spell_rotation, spell_direction, spell_position, current_spell, get_multiplayer_authority())
+			await get_tree().create_timer(0.4).timeout
+			player.set_state('PlayerIdle')
+	else: 
+		player.UIref.flash_stamina()
 
 
 @rpc('call_local', 'authority', 'unreliable')

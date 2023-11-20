@@ -1,12 +1,11 @@
 extends CharacterBody2D
-
+class_name Player
 
 const CONST_MAX_HP = 100;
-const CONST_MAX_STAMNIA = 50;
+const CONST_MAX_STAMNIA = 30;
 const CONST_STARTING_SPEED = 130; # increase for top speed
 const CONST_ACCELERATION = 220 # decrease to cause more startup time
 const CONST_FRICTION = 280
-
 
 @export var max_hp: int = CONST_MAX_HP
 @export var hp: int = CONST_MAX_HP
@@ -130,7 +129,7 @@ func _process(_delta: float) -> void:
 
 	# Debug auto attack
 	if SavedData.username == 'z' and FSM.current_state.name == 'PlayerIdle':
-		set_state('PlayerAttack1')
+		weapon.attack1()
 
 	mouse_direction = (get_global_mouse_position() - global_position).normalized()
 	if mouse_direction.x > 0 and animated_sprite.flip_h:
@@ -160,7 +159,6 @@ func take_damage(damage: int, knockback: int, direction: Vector2, source) -> voi
 		$StatusFeedback/AnimationPlayer.play("show_number")
 		hp -= damage
 		health_bar.value = hp
-		UIref.set_health(hp)
 		health_bar.visible = true
 		velocity += direction * knockback
 		# TODO: keep a log of most recent damage, clear it ~10 seconds
@@ -192,10 +190,11 @@ func restore_previous_state() -> void:
 		position = Vector2(PLAYER_START.x - randf() * RESPAWN_RADIUS, PLAYER_START.y - randf() * RESPAWN_RADIUS)
 
 func _unhandled_input(_event):
-	var debug = false;
+	# menu debug
+	var debug_menu_disabled = false;
 	if not is_multiplayer_authority(): return
 	if Input.is_action_just_pressed("escape"):
-		if OS.is_debug_build() and debug == true:
+		if OS.is_debug_build() and debug_menu_disabled == true:
 			get_tree().quit()
 		else:
 			UIref.toggleMenu()
@@ -205,13 +204,12 @@ func _unhandled_input(_event):
 var last_press = 1
 func attack():
 	if Input.is_action_just_pressed("left_click"):
-		last_press = 1
-		set_state('PlayerAttack1')
+		weapon.attack1()
 	elif Input.is_action_just_pressed("right_click"):
-		last_press = 2
-		set_state('PlayerAttack1')
+		weapon.block()
 	elif Input.is_action_just_pressed('f'):
-		set_state('PlayerSpell1')
+		spellbook.spell1()
+
 
 func activate():
 	if Input.is_action_just_pressed("e"):
@@ -278,16 +276,17 @@ enum Status {STUN, BURN}
 
 func apply_status(status: Status, duration: int):
 	if status == Status.STUN:
+		SFX.play('stunned')
 		set_state('PlayerLocked')
 		await get_tree().create_timer(duration).timeout
 		set_state('PlayerIdle')
 
 func start_recovery():
-	$RecoveryTimer.start()
+	$RecoveryTimer.start(0.6)
 	pass
 	
 func recover():
-	if $RecoveryTimer.time_left == 0 and stamina:
-		print('recover')
-		stamina = clamp(stamina + 8, 0, CONST_MAX_STAMNIA)
-		start_recovery()
+	if $RecoveryTimer.time_left == 0:
+		$RecoveryTimer.start(0.1)
+		stamina = clamp(stamina + 2, 0, CONST_MAX_STAMNIA)
+

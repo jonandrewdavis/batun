@@ -14,6 +14,7 @@ func Enter():
 	Transitioned.emit(self, "PlayerIdle")
 	
 func Update(_delta): 
+	player.recover()
 	player.progress.value = busy_timer.time_left * 100
 
 func Physics_Update(_delta: float):

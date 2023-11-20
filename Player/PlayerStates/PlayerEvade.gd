@@ -9,6 +9,7 @@ func Enter():
 	player.is_invincible = true
 
 func Update(_delta): 
+	player.recover()
 	if not player.animation_player.is_playing():
 		Transitioned.emit(self, "PlayerIdle")
 
@@ -23,3 +24,4 @@ func Exit():
 	player.evade_timer.start()
 	player.remove_slow()
 	player.is_invincible = false
+	player.start_recovery()

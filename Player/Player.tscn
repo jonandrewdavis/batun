@@ -1,4 +1,4 @@
-[gd_scene load_steps=32 format=3 uid="uid://b2m56omrcu8lr"]
+[gd_scene load_steps=30 format=3 uid="uid://b2m56omrcu8lr"]
 
 [ext_resource type="Script" path="res://Player/Player.gd" id="1_bv6p2"]
 [ext_resource type="Shader" path="res://Player/Player.gdshader" id="2_2c6fw"]
@@ -18,7 +18,7 @@
 [ext_resource type="PackedScene" uid="uid://fosuxj5q1tpx" path="res://Spells/Spellbook.tscn" id="14_vfxlj"]
 [ext_resource type="Texture2D" uid="uid://882mh23lath0" path="res://Assets/LightSprite.png" id="15_gi7lm"]
 [ext_resource type="AudioStream" uid="uid://dbxd72e5v12ro" path="res://Assets/Sound/sfx_player_footsteps.mp3" id="17_d02nm"]
-[ext_resource type="AudioStream" uid="uid://dvdrgm8rvxpm7" path="res://Assets/Sound/tick.mp3" id="19_ejft7"]
+[ext_resource type="AnimationLibrary" uid="uid://dy6op1pfmu34u" path="res://Player/AudioSFX.res" id="19_yls4m"]
 
 [sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_jj06v"]
 light_mode = 2
@@ -92,30 +92,6 @@ height = 16.0
 radius = 3.0
 height = 10.0
 
-[sub_resource type="Animation" id="Animation_pco7f"]
-resource_name = "new_animation"
-length = 0.2
-tracks/0/type = "audio"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("PlayerSFX")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"clips": [{
-"end_offset": 0.0513432,
-"start_offset": 0.0,
-"stream": ExtResource("19_ejft7")
-}],
-"times": PackedFloat32Array(-0.000832617)
-}
-tracks/0/use_blend = true
-
-[sub_resource type="AnimationLibrary" id="AnimationLibrary_cv7b3"]
-_data = {
-"tick": SubResource("Animation_pco7f")
-}
-
 [node name="CharacterBody2D" type="CharacterBody2D"]
 y_sort_enabled = true
 material = SubResource("CanvasItemMaterial_jj06v")
@@ -176,7 +152,7 @@ material = SubResource("ShaderMaterial_x0utx")
 use_parent_material = true
 scale = Vector2(0.694979, 0.7)
 sprite_frames = ExtResource("3_6xpi2")
-animation = &"idle"
+animation = &"evade"
 autoplay = "idle"
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
@@ -252,10 +228,12 @@ wait_time = 0.35
 one_shot = true
 
 [node name="PlayerSFX" type="AudioStreamPlayer2D" parent="."]
+max_distance = 1500.0
+attenuation = 4.0
 
 [node name="PlayerSFXAnimations" type="AnimationPlayer" parent="."]
 libraries = {
-"": SubResource("AnimationLibrary_cv7b3")
+"": ExtResource("19_yls4m")
 }
 
 [node name="RecoveryTimer" type="Timer" parent="."]
