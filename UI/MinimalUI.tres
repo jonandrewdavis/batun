@@ -74,7 +74,7 @@ cache/0/12/0/kerning_overrides/5/0 = Vector2(0, 0)
 cache/0/12/0/kerning_overrides/12/0 = Vector2(0, 0)
 
 [sub_resource type="StyleBoxFlat" id="1"]
-bg_color = Color(0, 0, 0, 1)
+bg_color = Color(0, 0, 0, 0.796078)
 border_width_left = 1
 border_width_top = 1
 border_width_right = 1
@@ -249,7 +249,7 @@ border_width_bottom = 1
 border_color = Color(0.282353, 0.282353, 0.282353, 1)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_pvg17"]
-bg_color = Color(0, 0, 0, 1)
+bg_color = Color(0, 0, 0, 0.839216)
 
 [sub_resource type="StyleBoxFlat" id="30"]
 bg_color = Color(0.282353, 0.282353, 0.282353, 1)

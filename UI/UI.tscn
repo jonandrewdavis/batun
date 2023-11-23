@@ -73,6 +73,7 @@ offset_top = 15.0
 offset_right = 95.0
 offset_bottom = 71.0
 size_flags_vertical = 3
+theme = ExtResource("3_n4g6s")
 theme_override_styles/panel = SubResource("StyleBoxFlat_na50n")
 
 [node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/Scores"]
@@ -312,10 +313,12 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+theme = ExtResource("3_n4g6s")
 
 [node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/Menu"]
 layout_mode = 2
 size_flags_vertical = 0
+theme = ExtResource("3_n4g6s")
 theme_override_constants/margin_left = 20
 theme_override_constants/margin_top = 20
 theme_override_constants/margin_right = 20

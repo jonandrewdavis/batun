@@ -1,4 +1,4 @@
-[gd_scene load_steps=30 format=3 uid="uid://b2m56omrcu8lr"]
+[gd_scene load_steps=31 format=3 uid="uid://b2m56omrcu8lr"]
 
 [ext_resource type="Script" path="res://Player/Player.gd" id="1_bv6p2"]
 [ext_resource type="Shader" path="res://Player/Player.gdshader" id="2_2c6fw"]
@@ -15,6 +15,7 @@
 [ext_resource type="Script" path="res://Player/PlayerStates/PlayerSpell1.gd" id="11_kfrwc"]
 [ext_resource type="PackedScene" uid="uid://cbha66ayqfvc6" path="res://Weapons/StatusFeedback.tscn" id="12_xacmc"]
 [ext_resource type="Script" path="res://Player/PlayerStates/PlayerLocked.gd" id="13_u6tnr"]
+[ext_resource type="Script" path="res://Player/PlayerStates/PlayerGhost.gd" id="14_jqqka"]
 [ext_resource type="PackedScene" uid="uid://fosuxj5q1tpx" path="res://Spells/Spellbook.tscn" id="14_vfxlj"]
 [ext_resource type="Texture2D" uid="uid://882mh23lath0" path="res://Assets/LightSprite.png" id="15_gi7lm"]
 [ext_resource type="AudioStream" uid="uid://dbxd72e5v12ro" path="res://Assets/Sound/sfx_player_footsteps.mp3" id="17_d02nm"]
@@ -152,7 +153,7 @@ material = SubResource("ShaderMaterial_x0utx")
 use_parent_material = true
 scale = Vector2(0.694979, 0.7)
 sprite_frames = ExtResource("3_6xpi2")
-animation = &"evade"
+animation = &"idle"
 autoplay = "idle"
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
@@ -202,6 +203,9 @@ script = ExtResource("11_kfrwc")
 [node name="PlayerLocked" type="Node" parent="FSM"]
 script = ExtResource("13_u6tnr")
 
+[node name="PlayerGhost" type="Node" parent="FSM"]
+script = ExtResource("14_jqqka")
+
 [node name="Weapon" parent="." instance=ExtResource("5_cc2db")]
 
 [node name="StatusFeedback" parent="." instance=ExtResource("12_xacmc")]
@@ -219,17 +223,19 @@ texture = ExtResource("15_gi7lm")
 
 [node name="Footsteps" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource("17_d02nm")
-max_distance = 1500.0
+volume_db = 2.0
+max_distance = 1400.0
 attenuation = 4.0
 bus = &"SFX"
+
+[node name="PlayerSFX" type="AudioStreamPlayer2D" parent="."]
+volume_db = -2.0
+max_distance = 1200.0
+attenuation = 6.0
 
 [node name="FootstepsTimer" type="Timer" parent="."]
 wait_time = 0.35
 one_shot = true
-
-[node name="PlayerSFX" type="AudioStreamPlayer2D" parent="."]
-max_distance = 1500.0
-attenuation = 4.0
 
 [node name="PlayerSFXAnimations" type="AnimationPlayer" parent="."]
 libraries = {

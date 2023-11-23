@@ -113,6 +113,20 @@ func _ready():
 
 func set_weapon(index):
 	current_weapon_index = index
+	player.UIref.set_weapon(index)
+		
+func set_weapon_dir(dir):
+	var new_weapon_index = current_weapon_index
+	if dir == 'up' and current_weapon_index == 3:
+		new_weapon_index = -1
+	elif dir == 'down' and current_weapon_index == 0:
+		new_weapon_index = 4
+
+	if dir == 'up':
+		set_weapon(clamp(new_weapon_index + 1, 0, 3))
+	elif dir == 'down':
+		set_weapon(clamp(new_weapon_index - 1, 0, 3))
+		
 
 var mouse_direction = Vector2.ZERO
 func _process(_delta):

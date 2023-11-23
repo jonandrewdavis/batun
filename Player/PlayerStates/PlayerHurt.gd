@@ -26,7 +26,7 @@ func Enter():
 
 func Update(_delta): 
 	player.recover()
-	pass
+
 
 func Physics_Update(_delta: float):
 	player.get_input()
@@ -35,4 +35,4 @@ func Physics_Update(_delta: float):
 func Exit():
 	player.is_invincible = false	
 	player.weapon.visible = true
-	pass
+

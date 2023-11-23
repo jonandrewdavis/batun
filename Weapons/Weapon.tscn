@@ -69,9 +69,9 @@ libraries = {
 }
 
 [node name="WeaponAudio" type="AudioStreamPlayer2D" parent="."]
-volume_db = -10.0
-pitch_scale = 0.1
-attenuation = 4.92458
+volume_db = -5.0
+max_distance = 1400.0
+attenuation = 5.0
 bus = &"SFX"
 
 [node name="PointLight2D" type="PointLight2D" parent="."]

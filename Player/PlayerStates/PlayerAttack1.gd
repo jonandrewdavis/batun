@@ -14,6 +14,7 @@ func Physics_Update(_delta: float):
 	player.move()
 	
 func Exit():
+	if not is_multiplayer_authority(): return
 	# Note: should not need this reset of the weapon if your
 	# animations are properly set up!
 	# player.weapon.animation_player.play("RESET")

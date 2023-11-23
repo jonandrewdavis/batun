@@ -79,6 +79,8 @@ func _ready() -> void:
 func is_player():
 	return true
 	
+
+	
 var shift = false
 	
 @onready var sprint_timer = $SprintTimer
@@ -227,21 +229,24 @@ func evade():
 func change_weapon():
 	if Input.is_action_just_pressed("1"):
 		weapon.set_weapon(0)
-		UIref.set_weapon(0)
 		set_state("PlayerBusy")
 	if Input.is_action_just_pressed("2"):
 		weapon.set_weapon(1)
-		UIref.set_weapon(1)
 		set_state("PlayerBusy")
 	if Input.is_action_just_pressed("3"):
 		weapon.set_weapon(2)
-		UIref.set_weapon(2)
 		set_state("PlayerBusy")
 	if Input.is_action_just_pressed("4"):
 		weapon.set_weapon(3)
-		UIref.set_weapon(3)
 		set_state("PlayerBusy")
-
+	if Input.is_action_just_released("mouse_down"):
+		weapon.set_weapon_dir('down')
+		set_state("PlayerBusy")
+	if Input.is_action_just_released("mouse_up"):
+		weapon.set_weapon_dir('up')
+		set_state("PlayerBusy")		
+	if Input.is_action_just_pressed('z'):
+		set_state('PlayerGhost')
 
 func get_input() -> void:
 	if not is_multiplayer_authority(): return
@@ -271,7 +276,7 @@ func _on_area_2d_area_entered(area: Area2D):
 	if "weapon_ref" in area and area.weapon_ref != null:
 		var hit: Hit = area.weapon_ref.get_weapon_hit()
 		if hit.damage > 0: take_damage(hit.damage, hit.knockback, hit.angle, area.get_multiplayer_authority())
-		
+	
 enum Status {STUN, BURN}
 
 func apply_status(status: Status, duration: int):

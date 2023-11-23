@@ -48,8 +48,6 @@ func _ready():
 	music_slider.value = volume_music_value
 	sfx_slider.value = volume_sfx_value
 	
-	# maybe not correct, but:
-	
 	
 func _process(_delta):
 	var get_hp = player.hp
@@ -71,6 +69,7 @@ func set_weapon(index):
 	for panel in weapon_panels.get_children():
 		panel.get_node("ColorRect").visible = false
 	weapon_panels.get_children()[index].get_node("ColorRect").visible = true
+
 
 func _on_player_connected(players):
 	for n in scores_vbox.get_children():
