@@ -7,6 +7,7 @@ func Enter():
 	# player.weapon.pointer.visible = false	
 	
 func Update(_delta): 
+	player.can_pause()
 	pass
 
 func Physics_Update(_delta: float):

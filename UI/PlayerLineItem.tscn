@@ -8,6 +8,7 @@ theme_override_constants/separation = 4
 script = ExtResource("1_qnsyh")
 
 [node name="Label" type="Label" parent="."]
+visible = false
 layout_mode = 2
 theme_override_font_sizes/font_size = 8
 text = "Player ID:"
@@ -23,4 +24,10 @@ size_flags_horizontal = 3
 theme_override_font_sizes/font_size = 8
 text = "0
 "
+horizontal_alignment = 2
+
+[node name="Label4" type="Label" parent="."]
+layout_mode = 2
+theme_override_font_sizes/font_size = 8
+text = "0"
 horizontal_alignment = 2

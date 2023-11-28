@@ -41,6 +41,8 @@ colors = PackedColorArray(0.847059, 0.815686, 0.831373, 0.572549, 1, 1, 1, 1, 1,
 
 [sub_resource type="GradientTexture2D" id="GradientTexture2D_ed2uj"]
 gradient = SubResource("Gradient_ilpl8")
+width = 16
+height = 16
 use_hdr = true
 fill = 1
 fill_from = Vector2(0.5, 0.5)
@@ -84,6 +86,14 @@ properties/7/path = NodePath("Footsteps:playing")
 properties/7/spawn = true
 properties/7/sync = false
 properties/7/watch = true
+properties/8/path = NodePath(".:is_ghost")
+properties/8/spawn = true
+properties/8/sync = false
+properties/8/watch = true
+properties/9/path = NodePath("AnimatedSprite2D:self_modulate")
+properties/9/spawn = true
+properties/9/sync = false
+properties/9/watch = true
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_kuhee"]
 radius = 5.0
@@ -229,7 +239,7 @@ attenuation = 4.0
 bus = &"SFX"
 
 [node name="PlayerSFX" type="AudioStreamPlayer2D" parent="."]
-volume_db = -2.0
+volume_db = -5.0
 max_distance = 1200.0
 attenuation = 6.0
 

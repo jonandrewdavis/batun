@@ -79,11 +79,16 @@ func _prepare_all_weapons():
 		'name': 'Spear',
 		'node': $Spear,
 		'attacks': [
-			spearAttack1
+			{
+				"animation": 'WeaponAnimations/Spear1',
+				"damage": 10,
+				"self_slow": 1,
+				"knockback": 100,
+				"stamina": 4,
+			},
 		]
 	},
 ]
-
 
 const shield = {
 	"animation": 'WeaponAnimations/Shield1',

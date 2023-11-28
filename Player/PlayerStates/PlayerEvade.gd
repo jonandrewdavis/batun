@@ -7,6 +7,7 @@ func Enter():
 	player.acceleration = player.acceleration * 1.8
 	await get_tree().create_timer(0.1).timeout
 	player.is_invincible = true
+	player.UIref.show_evade_highlight()
 
 func Update(_delta): 
 	player.recover()
@@ -22,6 +23,7 @@ func Exit():
 	player.evade_timer.one_shot = true
 	player.evade_timer.wait_time = 6
 	player.evade_timer.start()
+	player.UIref.show_evade_timer(6)
 	player.remove_slow()
 	player.is_invincible = false
 	player.start_recovery()

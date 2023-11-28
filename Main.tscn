@@ -11,5 +11,5 @@ metadata/_edit_lock_ = true
 [node name="Network" parent="." instance=ExtResource("2_gevnj")]
 
 [node name="MultiplayerSpawner" type="MultiplayerSpawner" parent="."]
-_spawnable_scenes = PackedStringArray("res://Player/Player.tscn")
+_spawnable_scenes = PackedStringArray("res://Player/Player.tscn", "res://Spells/Spell.tscn")
 spawn_path = NodePath("../World")

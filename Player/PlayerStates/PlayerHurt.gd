@@ -22,16 +22,14 @@ func Enter():
 		player.animation_player.play("PlayerAnimationSaved/dead")
 		death_timer = get_tree().create_timer(death_value)
 		await death_timer.timeout
-		player.restore_previous_state()
+		player.set_state("PlayerGhost")
 
 func Update(_delta): 
+	if not is_multiplayer_authority(): return
 	player.recover()
-
-
-func Physics_Update(_delta: float):
 	player.get_input()
 	player.move()
-	
+
 func Exit():
 	player.is_invincible = false	
 	player.weapon.visible = true

@@ -17,3 +17,4 @@ func Update(_delta: float):
 	player.change_weapon()
 	player.activate()
 	player.recover()
+	player.can_pause()

@@ -4,6 +4,7 @@ signal player_connected(peer_id, player_info)
 signal player_disconnected(peer_id)
 signal server_disconnected
 signal score_signal(peer_id)
+signal win_signal(peer_id)
 
 # This will contain player info for every player,
 # with the keys being each player's unique IDs.
@@ -15,7 +16,6 @@ var players = {}
 # entered in a UI scene.
 var player_info = {"name": "Name", "score": 0, "color": Color(1,1,1,1)}
 # var chosen_color_ui: Color = Color(0.35, 0.22, 0.46, 1)
-var players_loaded = 0
 
 @onready var main_menu = $MainMenuCanvas/MainMenu
 @onready var username = $MainMenuCanvas/MainMenu/MarginContainer/VBoxContainer/user
@@ -87,6 +87,8 @@ func _on_host_pressed():
 	multiplayer.peer_disconnected.connect(remove_player)
 	print('DEBUG: SEVER IS READY:', multiplayer.get_unique_id())
 	add_player(multiplayer.get_unique_id())
+	world_ref.is_host = true
+	world_ref.RoundTimer.start()
 	if toggle_upnp == true:
 		upnp_setup()
 
@@ -151,6 +153,7 @@ func _on_player_connected(id):
 func _register_player(new_player_info):
 	var new_player_id = multiplayer.get_remote_sender_id()
 	players[new_player_id] = new_player_info
+	# emits: on_connected_ok
 	player_connected.emit(players)
 	for player in players:
 		var world_children = world_ref.get_node_or_null(str(player))
@@ -161,16 +164,13 @@ func _on_player_disconnected(id):
 	players.erase(id)
 	player_disconnected.emit(id)
 
-
 func _on_connected_ok():
 	var peer_id = multiplayer.get_unique_id()
 	players[peer_id] = player_info
 	player_connected.emit(peer_id, player_info)
 
-
 func _on_connected_fail():
 	multiplayer.multiplayer_peer = null
-
 
 func _on_server_disconnected():
 	multiplayer.multiplayer_peer = null
@@ -183,3 +183,6 @@ func _on_player_scored(player_id):
 	print('This player scored: ', player_id)
 	score_signal.emit(player_id)
 
+@rpc("any_peer", "call_local", "reliable")
+func _on_player_win(player_id):
+	win_signal.emit(player_id)

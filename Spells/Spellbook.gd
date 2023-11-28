@@ -5,7 +5,6 @@ extends Node2D
 
 # firebolt, lightningbolt, block?, rain of fire, powershot
 # cooldown timer, each spell.
-
 var all_spells = [
 	{
 		'name': 'Firebolt',
@@ -15,27 +14,28 @@ var all_spells = [
 		'cast_time': 0.8,
 		'speed' : 220,
 		'cooldown': 4,
-		'stamina': 6,
+		'stamina': 12,
 	},
-	{
-		'name': 'LightningBolt',
-		'damage': 13,
-		'slow': 1000,
-		'knockback': 0,
-		'cast_time': 0.8,
-		'speed' : 1000,
-		'stamina': 12
-	},
+#	{
+#		'name': 'LightningBolt',
+#		'damage': 13,
+#		'slow': 1000,
+#		'knockback': 0,
+#		'cast_time': 0.8,
+#		'speed' : 1000,
+#		'stamina': 12
+#	},
 ]
 
 var current_spell = all_spells[0]
 
 func spell1():
-	if player.stamina >= current_spell.stamina:
+	if player.stamina >= current_spell.stamina and player.FSM.current_state.name != 'PlayerSpell1':
 		player.set_state('PlayerSpell1')
 		player.stamina -= current_spell.stamina
 		player.apply_slow(current_spell.slow)
 		player.animation_player.play('PlayerAnimationSaved/action')
+		
 		await get_tree().create_timer(current_spell.cast_time).timeout
 		var spell_rotation = self.global_position.direction_to(get_global_mouse_position()).angle()
 		var spell_direction = self.global_position.direction_to(get_global_mouse_position())

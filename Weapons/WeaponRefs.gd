@@ -31,7 +31,7 @@ func weapon_ref_collision(incoming_area):
 	if 'weapon_ref' in incoming_area:
 		if incoming_area.name == 'Shield':
 			weapon_ref.animation_player.call_deferred('stop')
-			weapon_ref.player.apply_status(Status.STUN, 1)
+			weapon_ref.player.apply_status(Status.STUN, 2)
 			weapon_ref.animation_player.play()
 
 func weapon_area_exited(exiting_area):
@@ -42,4 +42,4 @@ func weapon_area_exited(exiting_area):
 	if 'is_player' in exiting_area.get_parent():
 		if exiting_area.get_parent().FSM.current_state.name == 'PlayerHurt':
 			pass
-	
+

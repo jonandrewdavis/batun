@@ -5,6 +5,7 @@ var busy_timer
 const busy_value = 0.5
 
 func Enter():
+	player.SFX.play('swap')
 	player.animation_player.play("PlayerAnimationSaved/idle",true)
 	player.apply_slow()
 	busy_timer = get_tree().create_timer(busy_value)

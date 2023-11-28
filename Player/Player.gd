@@ -32,7 +32,7 @@ const CONST_FRICTION = 280
 @onready var Network = get_tree().get_root().get_node('/root/Main/Network')
 
 var evade_timer = Timer.new()
-var is_invincible = false
+var is_invincible = true
 
 # TODO: UI, weapon swapz
 var UI = load("res://UI/UI.tscn")
@@ -41,9 +41,10 @@ var UIref = null
 var PlayerLight = preload("res://Player/PlayerLight.tscn")
 
 var mouse_direction: Vector2
+@export var is_ghost = false
 
 const RESPAWN_RADIUS = 60
-var PLAYER_START: Vector2 = Vector2(-5, -35)
+var PLAYER_START: Vector2 = Vector2(-5, -33)
 
 func _enter_tree():
 	set_multiplayer_authority(str(name).to_int())
@@ -79,7 +80,6 @@ func _ready() -> void:
 func is_player():
 	return true
 	
-
 	
 var shift = false
 	
@@ -138,11 +138,7 @@ func _process(_delta: float) -> void:
 		animated_sprite.flip_h = false
 	elif mouse_direction.x < 0 and not animated_sprite.flip_h:
 		animated_sprite.flip_h = true
-	# NOTE: maybe have a node that mounts the timers and UI? 
-	# the UI node would be persistent, that way it's _process
-	# can be used instead of crowding up the Player one.
-	if not evade_timer.is_stopped():
-		radial.value = 	evade_timer.time_left * 100
+
 
 func set_state(state):
 	# userlabel.text = state
@@ -167,7 +163,7 @@ func take_damage(damage: int, knockback: int, direction: Vector2, source) -> voi
 		# Credit the one with the most damage in last 5-10 seconds
 		if (hp <= 0):
 			Network._on_player_scored.rpc(source)
-
+			
 func apply_slow(_factor = 10):
 	if _factor != 0:
 		max_speed = CONST_STARTING_SPEED / _factor
@@ -179,20 +175,21 @@ func remove_slow():
 func restore_previous_state() -> void:
 	if not is_multiplayer_authority(): return
 	# TODO: Better "respawn" logic
+	var rng = RandomNumberGenerator.new()
+	var posIndex = rng.randi_range(0, 50)
+	var rndX = rng.randi_range(PLAYER_START.x - 50, PLAYER_START.x + 50)
+	var rndY = rng.randi_range(PLAYER_START.y - 50, PLAYER_START.y + 50)
+	position = Vector2(rndX, rndY)
+
 	hp = CONST_MAX_HP
 	max_speed = CONST_STARTING_SPEED
 	health_bar.max_value = CONST_MAX_HP
 	health_bar.value = CONST_MAX_HP
+	health_bar.visible = false
+	is_invincible = true
 	set_state("PlayerIdle")
-	if self.name == str(1):
-		PLAYER_START = Vector2.ZERO
-	if randi() % 2 == 0:
-		position = Vector2(PLAYER_START.x + randf() * RESPAWN_RADIUS, PLAYER_START.y + randf() * RESPAWN_RADIUS)
-	else:
-		position = Vector2(PLAYER_START.x - randf() * RESPAWN_RADIUS, PLAYER_START.y - randf() * RESPAWN_RADIUS)
-
-func _unhandled_input(_event):
-	# menu debug
+	
+func can_pause():
 	var debug_menu_disabled = false;
 	if not is_multiplayer_authority(): return
 	if Input.is_action_just_pressed("escape"):
@@ -212,18 +209,15 @@ func attack():
 	elif Input.is_action_just_pressed('f'):
 		spellbook.spell1()
 
-
 func activate():
+#		SFX.play('gather')
 	if Input.is_action_just_pressed("e"):
 		set_state('PlayerBusy')
+	pass
 
 func evade():
 	if Input.is_action_just_pressed("space") and evade_timer.is_stopped():
 		set_state('PlayerEvade')
-	elif Input.is_action_just_pressed("space"):
-		radial.visible = true
-		await get_tree().create_timer(1.4).timeout
-		radial.visible = false
 
 # TODO: Improve saftey. Check weapon length to make sure it's present.
 func change_weapon():
@@ -245,8 +239,9 @@ func change_weapon():
 	if Input.is_action_just_released("mouse_up"):
 		weapon.set_weapon_dir('up')
 		set_state("PlayerBusy")		
-	if Input.is_action_just_pressed('z'):
-		set_state('PlayerGhost')
+	if Input.is_action_just_pressed("z"):
+		set_state("PlayerGhost")
+
 
 func get_input() -> void:
 	if not is_multiplayer_authority(): return
@@ -295,3 +290,6 @@ func recover():
 		$RecoveryTimer.start(0.1)
 		stamina = clamp(stamina + 2, 0, CONST_MAX_STAMNIA)
 
+func show_winner(text, _visible):
+	if not is_multiplayer_authority(): return
+	UIref.show_round_end(text, _visible)

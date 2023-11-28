@@ -87,7 +87,7 @@ use_parent_material = true
 
 [node name="Sword" type="Area2D" parent="Holder/InnerHolder"]
 visible = false
-modulate = Color(1, 1, 1, 0.835294)
+modulate = Color(1, 1, 1, 0.184314)
 use_parent_material = true
 position = Vector2(4, 2)
 rotation = -0.959931

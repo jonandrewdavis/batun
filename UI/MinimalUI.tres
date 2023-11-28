@@ -1,8 +1,9 @@
-[gd_resource type="Theme" load_steps=54 format=3 uid="uid://dpjbycgoquxs5"]
+[gd_resource type="Theme" load_steps=56 format=3 uid="uid://dpjbycgoquxs5"]
 
 [ext_resource type="FontFile" uid="uid://ybdvqry4t682" path="res://UI/OpenSans-Regular.ttf" id="1"]
 [ext_resource type="Texture2D" uid="uid://csiseyhhalv6" path="res://UI/icons.svg" id="2"]
 [ext_resource type="FontFile" uid="uid://dbvlh7iiult7b" path="res://UI/Abaddon Light.ttf" id="3_3swok"]
+[ext_resource type="FontFile" uid="uid://vvs363rqnjeo" path="res://UI/Abaddon Bold.ttf" id="4_okl36"]
 
 [sub_resource type="FontFile" id="21"]
 fallbacks = Array[Font]([ExtResource("1")])
@@ -295,27 +296,15 @@ content_margin_right = 5.0
 content_margin_bottom = 2.0
 bg_color = Color(0.282353, 0.282353, 0.282353, 1)
 
-[sub_resource type="StyleBoxFlat" id="43"]
-content_margin_left = 10.0
-content_margin_right = 10.0
-bg_color = Color(0, 0, 0, 1)
-border_width_left = 1
-border_width_top = 1
-border_width_right = 1
-border_width_bottom = 1
-border_color = Color(0.129412, 0.129412, 0.129412, 1)
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_gxtlq"]
+bg_color = Color(0.301961, 0.0431373, 0.0431373, 1)
 
-[sub_resource type="StyleBoxFlat" id="44"]
-content_margin_left = 10.0
-content_margin_top = 0.0
-content_margin_right = 10.0
-bg_color = Color(0, 0, 0, 1)
-border_width_left = 1
-border_width_top = 1
-border_width_right = 1
-border_color = Color(0.282353, 0.282353, 0.282353, 1)
-expand_margin_top = 2.0
-expand_margin_bottom = 1.0
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ih1jn"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_w77kt"]
+content_margin_left = 8.0
+content_margin_right = 8.0
+bg_color = Color(0.6, 0, 0, 1)
 
 [sub_resource type="StyleBoxFlat" id="34"]
 content_margin_left = 5.0
@@ -512,25 +501,25 @@ ProgressBar/colors/font_color_shadow = Color(0, 0, 0, 1)
 ProgressBar/fonts/font = SubResource("21")
 ProgressBar/styles/bg = SubResource("41")
 ProgressBar/styles/fg = SubResource("42")
+TabBar/fonts/font = ExtResource("3_3swok")
+TabBar/styles/tab_selected = SubResource("StyleBoxFlat_gxtlq")
+TabBar/styles/tab_unselected = SubResource("StyleBoxFlat_ih1jn")
 TabContainer/colors/font_color_bg = Color(0.69, 0.69, 0.69, 1)
 TabContainer/colors/font_color_disabled = Color(0.9, 0.9, 0.9, 0.2)
 TabContainer/colors/font_color_fg = Color(0.94, 0.94, 0.94, 1)
 TabContainer/constants/hseparation = 4
 TabContainer/constants/label_valign_bg = 2
 TabContainer/constants/label_valign_fg = 0
-TabContainer/constants/side_margin = 8
+TabContainer/constants/side_margin = 10
 TabContainer/constants/top_margin = 24
-TabContainer/fonts/font = SubResource("21")
+TabContainer/fonts/font = ExtResource("4_okl36")
 TabContainer/icons/decrement = null
 TabContainer/icons/decrement_highlight = null
 TabContainer/icons/increment = null
 TabContainer/icons/increment_highlight = null
 TabContainer/icons/menu = null
 TabContainer/icons/menu_highlight = null
-TabContainer/styles/panel = SubResource("1")
-TabContainer/styles/tab_bg = SubResource("43")
-TabContainer/styles/tab_disabled = SubResource("43")
-TabContainer/styles/tab_fg = SubResource("44")
+TabContainer/styles/tab_selected = SubResource("StyleBoxFlat_w77kt")
 TextEdit/colors/background_color = Color(0, 0, 0, 0)
 TextEdit/colors/bookmark_color = Color(0.08, 0.49, 0.98, 1)
 TextEdit/colors/brace_mismatch_color = Color(1, 0.2, 0.2, 1)
