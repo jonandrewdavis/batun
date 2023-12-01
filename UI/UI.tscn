@@ -79,7 +79,7 @@ script = ExtResource("1_rkwpo")
 
 [node name="Scores" type="PanelContainer" parent="CanvasLayer"]
 visible = false
-custom_minimum_size = Vector2(80, 30)
+custom_minimum_size = Vector2(150, 30)
 offset_left = 15.0
 offset_top = 15.0
 offset_right = 95.0
@@ -104,6 +104,7 @@ theme = ExtResource("3_n4g6s")
 
 [node name="Player" type="Label" parent="CanvasLayer/Scores/MarginContainer/VBoxContainer/HBoxContainer"]
 layout_mode = 2
+size_flags_horizontal = 3
 theme_override_font_sizes/font_size = 5
 text = "Player"
 
@@ -112,10 +113,15 @@ layout_mode = 2
 theme_override_font_sizes/font_size = 5
 text = "Kills"
 
-[node name="Rounds Won" type="Label" parent="CanvasLayer/Scores/MarginContainer/VBoxContainer/HBoxContainer"]
+[node name="Coins" type="Label" parent="CanvasLayer/Scores/MarginContainer/VBoxContainer/HBoxContainer"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 5
-text = "Rounds Won"
+text = "Coins"
+
+[node name="Wins" type="Label" parent="CanvasLayer/Scores/MarginContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 5
+text = "Wins"
 
 [node name="ScoresContainer" type="VBoxContainer" parent="CanvasLayer/Scores/MarginContainer/VBoxContainer"]
 layout_mode = 2

@@ -1,4 +1,4 @@
-[gd_scene load_steps=31 format=3 uid="uid://b2m56omrcu8lr"]
+[gd_scene load_steps=32 format=3 uid="uid://b2m56omrcu8lr"]
 
 [ext_resource type="Script" path="res://Player/Player.gd" id="1_bv6p2"]
 [ext_resource type="Shader" path="res://Player/Player.gdshader" id="2_2c6fw"]
@@ -20,6 +20,7 @@
 [ext_resource type="Script" path="res://Player/PlayerStates/PlayerChanneling.gd" id="15_qllcl"]
 [ext_resource type="AudioStream" uid="uid://dbxd72e5v12ro" path="res://Assets/Sound/sfx_player_footsteps.mp3" id="17_d02nm"]
 [ext_resource type="AnimationLibrary" uid="uid://dy6op1pfmu34u" path="res://Player/AudioSFX.res" id="19_yls4m"]
+[ext_resource type="Texture2D" uid="uid://882mh23lath0" path="res://Assets/LightSprite.png" id="21_s5e5o"]
 
 [sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_jj06v"]
 light_mode = 2
@@ -94,6 +95,10 @@ properties/9/path = NodePath("AnimatedSprite2D:self_modulate")
 properties/9/spawn = true
 properties/9/sync = false
 properties/9/watch = true
+properties/10/path = NodePath("PlayerSFXAnimations:current_animation")
+properties/10/spawn = true
+properties/10/sync = true
+properties/10/watch = false
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_kuhee"]
 radius = 5.0
@@ -253,5 +258,10 @@ libraries = {
 [node name="RecoveryTimer" type="Timer" parent="."]
 wait_time = 1.5
 one_shot = true
+
+[node name="DEBUG_ONLY_LIGHT" type="PointLight2D" parent="."]
+editor_only = true
+energy = 0.0
+texture = ExtResource("21_s5e5o")
 
 [connection signal="area_entered" from="PlayerArea" to="." method="_on_area_2d_area_entered"]

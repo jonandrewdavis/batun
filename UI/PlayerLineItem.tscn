@@ -11,23 +11,24 @@ script = ExtResource("1_qnsyh")
 visible = false
 layout_mode = 2
 theme_override_font_sizes/font_size = 8
-text = "Player ID:"
 
 [node name="Label2" type="Label" parent="."]
 layout_mode = 2
 theme_override_font_sizes/font_size = 8
-text = "Name"
 
 [node name="Label3" type="Label" parent="."]
 layout_mode = 2
 size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.423529, 0, 0, 1)
 theme_override_font_sizes/font_size = 8
-text = "0
-"
 horizontal_alignment = 2
+
+[node name="Label5" type="Label" parent="."]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.988235, 0.627451, 0, 1)
+theme_override_font_sizes/font_size = 8
 
 [node name="Label4" type="Label" parent="."]
 layout_mode = 2
 theme_override_font_sizes/font_size = 8
-text = "0"
 horizontal_alignment = 2

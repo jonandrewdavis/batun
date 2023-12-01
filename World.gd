@@ -12,6 +12,7 @@ extends Node2D
 var round_players = 0
 var round_started = false
 var is_host = false
+
 	
 func start_round():
 	if HomeTeleport.current_players == Network.players.values().size() and HomeTeleport.current_players > 1:
@@ -26,26 +27,38 @@ func start_round():
 func end_round():
 	# if round_players 
 	var ghosts = 0
-	var winner_id = null
-	var winner_label = ''
 	for body in BattleArea.get_overlapping_bodies():
 		if body is Player:
 			if body.is_ghost == true:
 				ghosts = ghosts + 1
 
 	if ghosts == round_players - 1:
-		RoundTimer.stop()
 		for body in BattleArea.get_overlapping_bodies():
 			if body is Player and body.is_ghost == false:
-				winner_id = body.get_multiplayer_authority()
-				winner_label = body.userlabel.text
-		Network._on_player_win.rpc(winner_id)
-		$Timers/ChestTimer.stop()
-		# _clear_chests()
-		reset_all_players.rpc(winner_label)
-		RoundTimer.start()
-		round_started = false
+				trigger_end_round(body.get_multiplayer_authority(), body.userlabel.text)
+				return 
+				
+	for player in Network.players:
+		if Network.players[player].coins >= 8:
+			trigger_end_round(player, Network.players[player].name)
+			return
+		
+func trigger_end_round(winner_id, winner_label):
 
+	RoundTimer.stop()
+	Network.reset_coins.rpc()
+	Network._on_player_win.rpc(winner_id)		
+		
+	# Chests Remove and stop:
+	$Timers/ChestTimer.stop()
+	for area in BattleArea.get_overlapping_areas():
+		if area.name == 'ChestArea':
+			area.get_parent().destroy.rpc()
+
+	# Players, remove and make a new round, show Win screen
+	reset_all_players.rpc(winner_label)
+	RoundTimer.start()
+	round_started = false
 
 @rpc('authority', 'reliable')
 func reset_all_players(winner_label):
@@ -97,12 +110,17 @@ func get_random_spawn():
 	return Vector2(rndX, rndY)
 
 func _on_chest_timer_timeout():
-	print('1 chest')
-	var new_chest = chest.instantiate()
-	new_chest.position = get_random_spawn()
-	#$ChestHolder.add_child(new_chest, true)
-	get_node("/root/Main/World").add_child(new_chest, true)
-	$Timers/ChestTimer.start(2)
+	var chest_counter = 0
+	for area in BattleArea.get_overlapping_areas():
+		if area.name == 'ChestArea':
+			chest_counter += 1
+
+	if chest_counter <= 12: 
+		var new_chest = chest.instantiate()
+		new_chest.position = get_random_spawn()
+		get_node("/root/Main/World").add_child(new_chest, true)
+
+	$Timers/ChestTimer.start(12)
 	pass # Replace with function body.
 	
 func _clear_chests():

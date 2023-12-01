@@ -206,10 +206,8 @@ func attack():
 		spellbook.spell1()
 
 func activate():
-#		SFX.play('gather')
+	if not is_multiplayer_authority(): return
 	if Input.is_action_just_pressed("e"):
-		set_state('PlayerBusy')
-		if not is_multiplayer_authority(): return
 		if $PlayerArea.has_overlapping_areas() == true:
 			var get_areas = $PlayerArea.get_overlapping_areas()
 			for area in get_areas:
@@ -223,6 +221,8 @@ func open_chest():
 		for area in get_areas:
 			if area.name == 'ChestArea':
 				area.get_parent().destroy.rpc()
+				Network._on_player_coin.rpc(get_multiplayer_authority())
+				SFX.play('coin')
 
 func evade():
 	if Input.is_action_just_pressed("space") and evade_timer.is_stopped():
@@ -248,8 +248,8 @@ func change_weapon():
 	if Input.is_action_just_released("mouse_up"):
 		weapon.set_weapon_dir('up')
 		set_state("PlayerBusy")		
-	if Input.is_action_just_pressed("z"):
-		set_state("PlayerGhost")
+#	if Input.is_action_just_pressed("z"):
+#		set_state("PlayerGhost")
 
 
 func get_input() -> void:

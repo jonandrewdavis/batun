@@ -2087,52 +2087,32 @@ shape = SubResource("RectangleShape2D_04eud")
 debug_color = Color(0.917647, 0.266667, 0.258824, 0.247059)
 metadata/_edit_lock_ = true
 
-[node name="ColorRect1" type="ColorRect" parent="."]
-offset_left = 6170.0
-offset_top = 1313.0
-offset_right = 7059.0
-offset_bottom = 1704.0
-pivot_offset = Vector2(441.5, 200.5)
-color = Color(1, 0.529412, 1, 0.415686)
-
-[node name="ColorRect2" type="ColorRect" parent="."]
-offset_left = 5136.0
-offset_top = 1303.0
-offset_right = 6025.0
-offset_bottom = 1694.0
-pivot_offset = Vector2(416.5, 224)
-color = Color(1, 0.529412, 1, 0.415686)
-
-[node name="ColorRect3" type="ColorRect" parent="."]
-offset_left = 4963.0
-offset_top = 2855.0
-offset_right = 5852.0
-offset_bottom = 3246.0
-pivot_offset = Vector2(460, 208)
-color = Color(1, 0.529412, 1, 0.415686)
-
 [node name="Polygon2D2" type="Polygon2D" parent="."]
 position = Vector2(4384, 1912)
 color = Color(0.164706, 0.517647, 1, 0.266667)
 offset = Vector2(-379.464, 165.21)
 polygon = PackedVector2Array(-4.53564, 2.79028, -4.53564, 426.79, 731.464, 426.79, 731.464, 330.79, 891.464, 330.79, 891.464, 154.79, 867.464, 154.79, 867.464, 162.79, 859.464, 162.79, 859.464, 130.79, 803.464, 130.79, 803.464, 26.7903, 723.464, 26.7903, 723.464, -21.2097, 667.464, -21.2097, 667.464, 26.7903, 579.464, 26.7903, 579.464, -93.2097, 243.464, -93.2097, 243.464, -61.2097, 3.12869, -61.2097, 3.46436, 2.79028)
+metadata/_edit_lock_ = true
 
 [node name="Polygon2D" type="Polygon2D" parent="."]
 position = Vector2(5376, 1912)
 color = Color(1, 0, 1, 0.176471)
 offset = Vector2(-382, 205.5)
 polygon = PackedVector2Array(766, -5.5, 701.85, -5.5, 702, 26.5, 694, 26.5, 694, 18.5, 646, 18.5, 645.635, 26.5, 638, 26.5, 638.21, -5.5, 549, -5.5, 550, -61.5, 542, -157.5, 414.345, -157.5, 414, -165.5, 350, -165.5, 349.998, -157.5, 222, -157.5, 214, -5.5, 118, -5.5, 118, -53.5, 70, -53.5, 70, -5.5, -2, -5.5, -2, 34.5, -66, 34.5, -66, 122.086, -74, 122.5, -74, 114.5, -98, 114.5, -98, 122.5, -98, 290.5, 62, 290.5, 62, 386.5, 766, 386.5)
+metadata/_edit_lock_ = true
 
 [node name="Polygon2D3" type="Polygon2D" parent="."]
 position = Vector2(4408, 1736)
 color = Color(0.380392, 0, 0.666667, 0.168627)
 offset = Vector2(-250.519, 62.3964)
 polygon = PackedVector2Array(-157.481, -38.3964, -157.481, 225.604, 98.5186, 225.604, 98.5186, 185.604, 426.519, 185.604, 426.519, 249.604, 650.519, 249.604, 650.519, 225.604, 714.519, 225.604, 714.519, 185.604, 738.519, 185.604, 738.519, -38.3964)
+metadata/_edit_lock_ = true
 
 [node name="Polygon2D4" type="Polygon2D" parent="."]
 position = Vector2(4901.44, 1756.18)
 color = Color(1, 1, 1, 0.0941176)
 polygon = PackedVector2Array(-5.43652, 3.82275, -5.43652, 227.823, 18.5635, 227.823, 18.5635, 267.823, 82.5635, 267.823, 82.5635, 291.823, 314.563, 291.823, 314.563, 195.823, 642.563, 195.823, 642.563, 291.823, 738.563, 291.823, 738.563, 299.823, 786.563, 299.823, 786.563, 291.823, 858.563, 291.823, 858.563, 3.82275)
+metadata/_edit_lock_ = true
 
 [node name="Fire" type="Area2D" parent="."]
 position = Vector2(4894, 2061)

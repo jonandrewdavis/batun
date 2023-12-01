@@ -34,7 +34,7 @@ func spell1():
 		player.set_state('PlayerSpell1')
 		player.stamina -= current_spell.stamina
 		player.apply_slow(current_spell.slow)
-		player.animation_player.play('PlayerAnimationSaved/action')
+		player.animation_player.play('PlayerAnimationSaved/channel')
 		
 		await get_tree().create_timer(current_spell.cast_time).timeout
 		player.SFX.play('fireball')

@@ -1,4 +1,4 @@
-[gd_resource type="SpriteFrames" load_steps=29 format=3 uid="uid://d2tsowqgx0ycq"]
+[gd_resource type="SpriteFrames" load_steps=30 format=3 uid="uid://d2tsowqgx0ycq"]
 
 [ext_resource type="Texture2D" uid="uid://cti4uf3g4lyj3" path="res://Assets/ghostco.png" id="2_dy8s1"]
 [ext_resource type="Texture2D" uid="uid://c1d3bran06gqc" path="res://Assets/ghostwalk.png" id="3_687do"]
@@ -16,6 +16,10 @@ atlas = ExtResource("2_dy8s1")
 region = Rect2(32, 224, 32, 32)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_nmik6"]
+atlas = ExtResource("2_dy8s1")
+region = Rect2(64, 224, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_f5db0"]
 atlas = ExtResource("2_dy8s1")
 region = Rect2(64, 224, 32, 32)
 
@@ -124,6 +128,14 @@ animations = [{
 }],
 "loop": false,
 "name": &"action",
+"speed": 2.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_f5db0")
+}],
+"loop": false,
+"name": &"channel",
 "speed": 2.0
 }, {
 "frames": [{

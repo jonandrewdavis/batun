@@ -34,7 +34,8 @@ func _ready():
 	primary.connect("player_connected", _on_player_connected)
 	primary.connect("score_signal", _on_player_scored)
 	primary.connect("win_signal", _on_player_win)
-	
+	primary.connect("coin_signal", _on_player_coin)
+		
 	volume_master_value = db_to_linear(AudioServer.get_bus_volume_db(bus_master))
 	volume_music_value = db_to_linear(AudioServer.get_bus_volume_db(bus_music))
 	volume_sfx_value = db_to_linear(AudioServer.get_bus_volume_db(bus_sfx))
@@ -104,7 +105,7 @@ func _on_player_connected(players):
 			# Player name
 			new_line_item.player_name = players[player_id].name
 			new_line_item.score = players[player_id].score
-			new_line_item.win = 0
+			new_line_item.win = players[player_id].wins
 			scores_vbox.add_child(new_line_item)
 
 # TODO: keep a struct of all the players, and update that.
@@ -119,6 +120,12 @@ func _on_player_win(player_id: int):
 		if n.id == str(player_id):
 			n.win = n.win + 1
 			n.make_win(0)
+
+
+func _on_player_coin(player_id: int, new_coin):
+	for n in scores_vbox.get_children():
+		if n.id == str(player_id):
+			n.make_coin(new_coin)
 
 var last_state = ''
 

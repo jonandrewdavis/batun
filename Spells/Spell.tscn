@@ -1,4 +1,4 @@
-[gd_scene load_steps=4 format=3 uid="uid://g7iggehxwgwl"]
+[gd_scene load_steps=6 format=3 uid="uid://g7iggehxwgwl"]
 
 [ext_resource type="Script" path="res://Spells/Spell.gd" id="1_oyb3y"]
 
@@ -27,6 +27,15 @@ properties/4/path = NodePath(".:position")
 properties/4/spawn = true
 properties/4/sync = true
 properties/4/watch = false
+
+[sub_resource type="Gradient" id="Gradient_ttwje"]
+colors = PackedColorArray(1, 1, 1, 1, 0, 0, 0, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_5s6at"]
+gradient = SubResource("Gradient_ttwje")
+fill = 1
+fill_from = Vector2(0.497863, 0.5)
+fill_to = Vector2(0.878205, 0.858974)
 
 [node name="Spell" type="Node2D"]
 z_index = 10
@@ -61,6 +70,14 @@ replication_config = SubResource("SceneReplicationConfig_3g3dl")
 wait_time = 4.0
 one_shot = true
 autostart = true
+
+[node name="PointLight2D" type="PointLight2D" parent="."]
+color = Color(1, 0.478431, 0.145098, 1)
+energy = 0.8
+shadow_enabled = true
+shadow_item_cull_mask = 0
+texture = SubResource("GradientTexture2D_5s6at")
+texture_scale = 1.2
 
 [connection signal="area_entered" from="Area2D" to="." method="_on_area_2d_area_entered"]
 [connection signal="area_exited" from="Area2D" to="." method="_on_area_2d_area_exited"]
