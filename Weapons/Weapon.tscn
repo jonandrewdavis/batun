@@ -1,7 +1,6 @@
-[gd_scene load_steps=11 format=3 uid="uid://bwhwvvqj2od7u"]
+[gd_scene load_steps=10 format=3 uid="uid://bwhwvvqj2od7u"]
 
 [ext_resource type="Script" path="res://Weapons/Weapon.gd" id="1_laf63"]
-[ext_resource type="Animation" uid="uid://b6uwcb5qvr3h7" path="res://Weapons/WeaponRESET.res" id="2_1yumm"]
 [ext_resource type="AnimationLibrary" uid="uid://dxdajaufgkl4x" path="res://Weapons/WeaponAnimations.res" id="2_cr52x"]
 [ext_resource type="Script" path="res://Weapons/WeaponRefs.gd" id="3_dtosq"]
 [ext_resource type="Texture2D" uid="uid://882mh23lath0" path="res://Assets/LightSprite.png" id="5_pvhim"]
@@ -40,9 +39,6 @@ properties/6/sync = false
 properties/6/watch = true
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_srij4"]
-_data = {
-"RESET": ExtResource("2_1yumm")
-}
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_ap280"]
 radius = 3.0

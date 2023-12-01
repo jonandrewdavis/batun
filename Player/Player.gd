@@ -38,7 +38,8 @@ var is_invincible = true
 var UI = load("res://UI/UI.tscn")
 var UIref = null
 
-var PlayerLight = preload("res://Player/PlayerLight.tscn")
+var PlayerLight = load("res://Player/PlayerLight.tscn")
+var light = null
 
 var mouse_direction: Vector2
 @export var is_ghost = false
@@ -62,8 +63,8 @@ func _ready() -> void:
 	var newCamera = Camera2D.new()
 	var newLight = PlayerLight.instantiate()
 	
-	# music
-	if !OS.is_debug_build(): get_parent().get_node('AudioStreamPlayer').play()
+	# music DEBUG
+	if str(name) != '1': get_parent().get_node('AudioStreamPlayer').play()
 
 	userlabel.text = SavedData.username
 	newCamera.ignore_rotation = true
@@ -72,10 +73,10 @@ func _ready() -> void:
 	add_child(evade_timer)
 	add_child(newUI)
 	add_child(newLight)
+	light = get_node("PlayerLight")
 	UIref = get_node("UI")
 	restore_previous_state()
 	animated_sprite.set_modulate(Network.player_info.color)
-
 
 func is_player():
 	return true
@@ -129,10 +130,6 @@ func _process(_delta: float) -> void:
 	# if OS.is_debug_build(): userlabel.text = FSM.current_state.name
 	if not is_multiplayer_authority(): return
 
-	# Debug auto attack
-	if SavedData.username == 'z' and FSM.current_state.name == 'PlayerIdle':
-		weapon.attack1()
-
 	mouse_direction = (get_global_mouse_position() - global_position).normalized()
 	if mouse_direction.x > 0 and animated_sprite.flip_h:
 		animated_sprite.flip_h = false
@@ -176,9 +173,8 @@ func restore_previous_state() -> void:
 	if not is_multiplayer_authority(): return
 	# TODO: Better "respawn" logic
 	var rng = RandomNumberGenerator.new()
-	var posIndex = rng.randi_range(0, 50)
-	var rndX = rng.randi_range(PLAYER_START.x - 50, PLAYER_START.x + 50)
-	var rndY = rng.randi_range(PLAYER_START.y - 50, PLAYER_START.y + 50)
+	var rndX = int(rng.randi_range(int(PLAYER_START.x) - 50, int(PLAYER_START.x) + 50))
+	var rndY = int(rng.randi_range(int(PLAYER_START.y) - 50, int(PLAYER_START.y) + 50))
 	position = Vector2(rndX, rndY)
 
 	hp = CONST_MAX_HP
@@ -213,7 +209,20 @@ func activate():
 #		SFX.play('gather')
 	if Input.is_action_just_pressed("e"):
 		set_state('PlayerBusy')
+		if not is_multiplayer_authority(): return
+		if $PlayerArea.has_overlapping_areas() == true:
+			var get_areas = $PlayerArea.get_overlapping_areas()
+			for area in get_areas:
+				if area.name == 'ChestArea':
+					set_state("PlayerChanneling")
 	pass
+
+func open_chest():
+	if $PlayerArea.has_overlapping_areas() == true:
+		var get_areas = $PlayerArea.get_overlapping_areas()
+		for area in get_areas:
+			if area.name == 'ChestArea':
+				area.get_parent().destroy.rpc()
 
 func evade():
 	if Input.is_action_just_pressed("space") and evade_timer.is_stopped():
@@ -251,7 +260,7 @@ func get_input() -> void:
 	mov_direction = mov_direction.normalized()
 
 func interact():
-	# Look for interactable bodies,
+	# Look for interactable bodies,		
 	# pick closest
 	pass
 
@@ -270,7 +279,8 @@ func _on_area_2d_area_entered(area: Area2D):
 
 	if "weapon_ref" in area and area.weapon_ref != null:
 		var hit: Hit = area.weapon_ref.get_weapon_hit()
-		if hit.damage > 0: take_damage(hit.damage, hit.knockback, hit.angle, area.get_multiplayer_authority())
+		#TODO: this is a bad hardcode. Just re-do all hit stuff.
+		if hit.damage > 0 and area.name != 'Shield': take_damage(hit.damage, hit.knockback, hit.angle, area.get_multiplayer_authority())
 	
 enum Status {STUN, BURN}
 

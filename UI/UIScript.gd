@@ -98,13 +98,14 @@ func _on_player_connected(players):
 	for player_id in players:
 		var new_line_item = LineItem.instantiate()
 		# Node name
-		new_line_item.name = str(player_id)
-		new_line_item.id = str(player_id)
-		# Player name
-		new_line_item.player_name = players[player_id].name
-		new_line_item.score = players[player_id].score
-		new_line_item.win = 0
-		scores_vbox.add_child(new_line_item)
+		if str(player_id) != '1':
+			new_line_item.name = str(player_id)
+			new_line_item.id = str(player_id)
+			# Player name
+			new_line_item.player_name = players[player_id].name
+			new_line_item.score = players[player_id].score
+			new_line_item.win = 0
+			scores_vbox.add_child(new_line_item)
 
 # TODO: keep a struct of all the players, and update that.
 func _on_player_scored(player_id: int):

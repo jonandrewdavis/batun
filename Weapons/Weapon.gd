@@ -109,6 +109,9 @@ func _ready():
 		single_weapon.node.weapon_ref = self
 	current_weapon = all_weapons[current_weapon_index]
 	
+	# custom for gadgets..
+	$Holder/InnerHolder/Shield.weapon_ref = self
+	
 	if not is_multiplayer_authority(): return
 	# Client only effects
 	self.set_material(null)

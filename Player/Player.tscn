@@ -17,7 +17,7 @@
 [ext_resource type="Script" path="res://Player/PlayerStates/PlayerLocked.gd" id="13_u6tnr"]
 [ext_resource type="Script" path="res://Player/PlayerStates/PlayerGhost.gd" id="14_jqqka"]
 [ext_resource type="PackedScene" uid="uid://fosuxj5q1tpx" path="res://Spells/Spellbook.tscn" id="14_vfxlj"]
-[ext_resource type="Texture2D" uid="uid://882mh23lath0" path="res://Assets/LightSprite.png" id="15_gi7lm"]
+[ext_resource type="Script" path="res://Player/PlayerStates/PlayerChanneling.gd" id="15_qllcl"]
 [ext_resource type="AudioStream" uid="uid://dbxd72e5v12ro" path="res://Assets/Sound/sfx_player_footsteps.mp3" id="17_d02nm"]
 [ext_resource type="AnimationLibrary" uid="uid://dy6op1pfmu34u" path="res://Player/AudioSFX.res" id="19_yls4m"]
 
@@ -216,6 +216,9 @@ script = ExtResource("13_u6tnr")
 [node name="PlayerGhost" type="Node" parent="FSM"]
 script = ExtResource("14_jqqka")
 
+[node name="PlayerChanneling" type="Node" parent="FSM"]
+script = ExtResource("15_qllcl")
+
 [node name="Weapon" parent="." instance=ExtResource("5_cc2db")]
 
 [node name="StatusFeedback" parent="." instance=ExtResource("12_xacmc")]
@@ -225,11 +228,6 @@ script = ExtResource("14_jqqka")
 [node name="SprintTimer" type="Timer" parent="."]
 wait_time = 0.3
 one_shot = true
-
-[node name="PointLight2D" type="PointLight2D" parent="."]
-editor_only = true
-energy = 0.0
-texture = ExtResource("15_gi7lm")
 
 [node name="Footsteps" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource("17_d02nm")

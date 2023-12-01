@@ -8,11 +8,11 @@ extends Node2D
 var all_spells = [
 	{
 		'name': 'Firebolt',
-		'damage': 9,
+		'damage': 12,
 		'slow': 1000,
 		'knockback': 100,
 		'cast_time': 0.8,
-		'speed' : 220,
+		'speed' : 200,
 		'cooldown': 4,
 		'stamina': 12,
 	},
@@ -37,6 +37,7 @@ func spell1():
 		player.animation_player.play('PlayerAnimationSaved/action')
 		
 		await get_tree().create_timer(current_spell.cast_time).timeout
+		player.SFX.play('fireball')
 		var spell_rotation = self.global_position.direction_to(get_global_mouse_position()).angle()
 		var spell_direction = self.global_position.direction_to(get_global_mouse_position())
 		var spell_position = player.global_position

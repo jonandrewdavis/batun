@@ -1,0 +1,51 @@
+[gd_scene load_steps=7 format=3 uid="uid://c77nimntr7rmq"]
+
+[ext_resource type="Texture2D" uid="uid://bl5nka005u7k6" path="res://Assets/PROPSONLY.png" id="1_6sbd1"]
+[ext_resource type="Script" path="res://Environment/Chest.gd" id="1_y7vyk"]
+
+[sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_eujfk"]
+polygon = PackedVector2Array(-15, 2.5, -15, 27.5, 15, 27.5, 15, 2.5)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_6lga5"]
+size = Vector2(30, 14.25)
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_d6buq"]
+radius = 15.0
+height = 50.0
+
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_avkqn"]
+properties/0/path = NodePath(".:position")
+properties/0/spawn = true
+properties/0/sync = false
+properties/0/watch = true
+
+[node name="Chest" type="Node2D"]
+scale = Vector2(0.4, 0.4)
+script = ExtResource("1_y7vyk")
+
+[node name="LightOccluder2D" type="LightOccluder2D" parent="."]
+position = Vector2(0, -30)
+occluder = SubResource("OccluderPolygon2D_eujfk")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(0, -29)
+texture = ExtResource("1_6sbd1")
+region_enabled = true
+region_rect = Rect2(96, 0, 32, 64)
+
+[node name="StaticBody2D" type="StaticBody2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
+position = Vector2(-5.96046e-08, -13)
+scale = Vector2(1, 1)
+shape = SubResource("RectangleShape2D_6lga5")
+
+[node name="ChestArea" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ChestArea"]
+position = Vector2(0, -12.5)
+rotation = 1.5708
+shape = SubResource("CapsuleShape2D_d6buq")
+
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
+replication_config = SubResource("SceneReplicationConfig_avkqn")

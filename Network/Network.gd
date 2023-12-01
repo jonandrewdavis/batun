@@ -33,6 +33,7 @@ var Player = preload('res://Player/Player.tscn')
 
 var nospawn = false
 var debug_override = false
+var include_host_player_body = false
 
 const AWS_SERVER_IP = 'HARDCODE FOR PLAYERS HERE'
 
@@ -86,7 +87,8 @@ func _on_host_pressed():
 	multiplayer.peer_connected.connect(add_player)
 	multiplayer.peer_disconnected.connect(remove_player)
 	print('DEBUG: SEVER IS READY:', multiplayer.get_unique_id())
-	add_player(multiplayer.get_unique_id())
+	if include_host_player_body == true: 
+		add_player(multiplayer.get_unique_id())
 	world_ref.is_host = true
 	world_ref.RoundTimer.start()
 	if toggle_upnp == true:
@@ -111,7 +113,7 @@ func _on_user_text_changed(new_text):
 		join_button.disabled = true
 		
 func _on_color_picker_button_color_changed(new_color):
-	player_info.color = new_color
+	player_info.color = new_color.lightened(0.2)
 	pass # Replace with function body.
 
 

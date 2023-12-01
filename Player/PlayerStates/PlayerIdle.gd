@@ -13,7 +13,8 @@ func Update(_delta: float):
 	player.get_input()
 	player.move()
 	player.attack()
-	player.evade()
+	if player.is_invincible == false:
+		player.evade()
 	player.change_weapon()
 	player.activate()
 	player.recover()

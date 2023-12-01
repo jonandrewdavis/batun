@@ -12,15 +12,16 @@ extends Node2D
 var round_players = 0
 var round_started = false
 var is_host = false
-
+	
 func start_round():
-	if HomeTeleport.current_players == Network.players.values().size():
+	if HomeTeleport.current_players == Network.players.values().size() and HomeTeleport.current_players > 1:
 		round_players = Network.players.values().size()
 		round_started = true
 		var spawn_positions = []
 		for spawn in Spawns.get_children():
 			spawn_positions.append(spawn.global_position)
 		HomeTeleport.spawn.rpc(spawn_positions)
+		$Timers/ChestTimer.start(4)
 
 func end_round():
 	# if round_players 
@@ -39,9 +40,12 @@ func end_round():
 				winner_id = body.get_multiplayer_authority()
 				winner_label = body.userlabel.text
 		Network._on_player_win.rpc(winner_id)
+		$Timers/ChestTimer.stop()
+		# _clear_chests()
 		reset_all_players.rpc(winner_label)
 		RoundTimer.start()
 		round_started = false
+
 
 @rpc('authority', 'reliable')
 func reset_all_players(winner_label):
@@ -66,3 +70,42 @@ func _on_round_timer_timeout():
 func _on_battle_area_body_entered(body):
 	if body is Player:
 		body.is_invincible = false
+
+func _on_fire_body_entered(body):
+	if body.has_method('is_player') and body.light != null:
+		body.light.energy = 0.5
+		body.light.set_texture_scale(0.8)
+		body.light.set_item_shadow_cull_mask(0)
+
+func _on_fire_body_exited(body):
+	if body.has_method('is_player') and body.light != null:
+		body.light.energy = 0.3
+		body.light.set_texture_scale(1.1)
+		body.light.set_item_shadow_cull_mask(1)
+		
+
+var chest = preload("res://Environment/Chest.tscn")
+
+func get_random_spawn():
+	var all_spawns = []
+	for spawn in Spawns.get_children():
+		all_spawns.append(spawn.global_position)
+	var rng = RandomNumberGenerator.new()
+	var posIndex = rng.randi_range(0, all_spawns.size() - 1)
+	var rndX = rng.randi_range(all_spawns[posIndex].x - 50, all_spawns[posIndex].x + 50)
+	var rndY = rng.randi_range(all_spawns[posIndex].y - 50, all_spawns[posIndex].y + 50)
+	return Vector2(rndX, rndY)
+
+func _on_chest_timer_timeout():
+	print('1 chest')
+	var new_chest = chest.instantiate()
+	new_chest.position = get_random_spawn()
+	#$ChestHolder.add_child(new_chest, true)
+	get_node("/root/Main/World").add_child(new_chest, true)
+	$Timers/ChestTimer.start(2)
+	pass # Replace with function body.
+	
+func _clear_chests():
+	for n in $ChestHolder.get_children():	
+		$ChestHolder.remove_child(n)
+		n.queue_free()
