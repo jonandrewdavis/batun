@@ -30,13 +30,13 @@ var toggle_upnp = false
 const PORT = 9999
 var enet_peer = ENetMultiplayerPeer.new()
 
-var Player = preload('res://Player/Player.tscn')
+var Player = load("res://Player/Player.tscn")
 
 var nospawn = false
 var debug_override = false
 var include_host_player_body = false
 
-const AWS_SERVER_IP = 'HARDCODE FOR PLAYERS HERE'
+const AWS_SERVER_IP = ''
 
 func _ready():
 	if OS.is_debug_build() and debug_override == true:
@@ -62,6 +62,8 @@ func _ready():
 			host_button.hide()
 			check_button.hide()
 			address_entry.text = AWS_SERVER_IP
+		
+		address_entry.text = AWS_SERVER_IP
 		multiplayer.peer_connected.connect(_on_player_connected)
 		multiplayer.peer_disconnected.connect(_on_player_disconnected)
 		multiplayer.connected_to_server.connect(_on_connected_ok)
@@ -75,8 +77,8 @@ func _on_join_pressed():
 	if username.text != '': SavedData.username = username.text
 	if OS.has_feature('client'):
 		enet_peer.create_client(address_entry.text, PORT)
-	else:
-		enet_peer.create_client('', PORT)
+	else: 
+		enet_peer.create_client(address_entry.text, PORT)
 	multiplayer.multiplayer_peer = enet_peer
 
 

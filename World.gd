@@ -75,6 +75,11 @@ func reset_all_players(winner_label):
 
 func _on_round_timer_timeout():
 	# all but 1 dead.
+	var complete = ''
+	for _player_id in Network.players:
+		complete += str('ID: ', _player_id, ', NAME: ', Network.players[_player_id].name, ', WINS: ', Network.players[_player_id].wins, ', ')
+
+	print('DEBUG: ', Network.players.size(), ' PLAYERS: ', complete)
 	if round_started == false:
 		start_round()
 	else: 

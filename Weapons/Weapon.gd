@@ -47,6 +47,13 @@ func _prepare_all_weapons():
 				"knockback": 35,
 				"stamina": 6,
 			},
+			{
+				"animation" : 'WeaponAnimations/Sword2',
+				"damage": 8,
+				"self_slow": 4,
+				"knockback": 35,
+				"stamina": 6,
+			},
 		]
 	},
 	{ 
@@ -82,7 +89,7 @@ func _prepare_all_weapons():
 			{
 				"animation": 'WeaponAnimations/Spear1',
 				"damage": 10,
-				"self_slow": 1,
+				"self_slow": 8,
 				"knockback": 100,
 				"stamina": 4,
 			},
@@ -97,7 +104,26 @@ const shield = {
 	"knockback": 0,
 	"stamina": 7,
 }
+# 
+# hammer is hold until release is better
+# perfect release moment, but you will do less later, zenith
+# mvoe your hammer circle a little bit
+# hammer can be twice as slow, but more controllable, no lock, drag it around
+# fill in the hammer
 
+# ghost effect, area of deniel, 
+
+# on release: locked
+# normalized
+# spread
+
+
+# show them down and do much damage
+
+# launch forward
+# doomfist
+
+# evade through walls
 
 var combo_factor = 1
 @export var combo_window = false

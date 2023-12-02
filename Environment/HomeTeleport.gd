@@ -23,14 +23,14 @@ func spawn(spawn_positions):
 func _on_area_2d_area_entered(area):
 	if area.name == "PlayerArea":
 		animation_player.play("fade")
-		current_players = current_players + 1
-		if current_players + 1 == Network.players.values().size() and current_players + 1 > 2:
+		current_players += 1
+		if current_players + 1 >= Network.players.size():
 			animation_player.stop()
 			animation_player.play('blink')
 
 func _on_area_2d_area_exited(area):
 	if area.name == "PlayerArea":
-		current_players = current_players - 1
+		current_players -= 1
 		if current_players == 0:
 			animation_player.stop()
 			$Effects.modulate.a = 0

@@ -1,4 +1,4 @@
-[gd_scene load_steps=32 format=3 uid="uid://b2m56omrcu8lr"]
+[gd_scene load_steps=31 format=3 uid="uid://b2m56omrcu8lr"]
 
 [ext_resource type="Script" path="res://Player/Player.gd" id="1_bv6p2"]
 [ext_resource type="Shader" path="res://Player/Player.gdshader" id="2_2c6fw"]
@@ -13,13 +13,12 @@
 [ext_resource type="Script" path="res://Player/PlayerStates/PlayerBusy.gd" id="10_5i5je"]
 [ext_resource type="Script" path="res://Player/PlayerStates/PlayerHurt.gd" id="11_g31tm"]
 [ext_resource type="Script" path="res://Player/PlayerStates/PlayerSpell1.gd" id="11_kfrwc"]
-[ext_resource type="PackedScene" uid="uid://cbha66ayqfvc6" path="res://Weapons/StatusFeedback.tscn" id="12_xacmc"]
 [ext_resource type="Script" path="res://Player/PlayerStates/PlayerLocked.gd" id="13_u6tnr"]
 [ext_resource type="Script" path="res://Player/PlayerStates/PlayerGhost.gd" id="14_jqqka"]
 [ext_resource type="PackedScene" uid="uid://fosuxj5q1tpx" path="res://Spells/Spellbook.tscn" id="14_vfxlj"]
 [ext_resource type="Script" path="res://Player/PlayerStates/PlayerChanneling.gd" id="15_qllcl"]
 [ext_resource type="AudioStream" uid="uid://dbxd72e5v12ro" path="res://Assets/Sound/sfx_player_footsteps.mp3" id="17_d02nm"]
-[ext_resource type="AnimationLibrary" uid="uid://dy6op1pfmu34u" path="res://Player/AudioSFX.res" id="19_yls4m"]
+[ext_resource type="AnimationLibrary" uid="uid://dsb5op3s58tyh" path="res://Player/AudioSFXv2.res" id="20_t5yn4"]
 [ext_resource type="Texture2D" uid="uid://882mh23lath0" path="res://Assets/LightSprite.png" id="21_s5e5o"]
 
 [sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_jj06v"]
@@ -65,12 +64,12 @@ properties/1/sync = true
 properties/1/watch = false
 properties/2/path = NodePath(".:hp")
 properties/2/spawn = true
-properties/2/sync = true
-properties/2/watch = false
+properties/2/sync = false
+properties/2/watch = true
 properties/3/path = NodePath("AnimatedSprite2D:flip_h")
 properties/3/spawn = true
-properties/3/sync = true
-properties/3/watch = false
+properties/3/sync = false
+properties/3/watch = true
 properties/4/path = NodePath("AnimationPlayer:current_animation")
 properties/4/spawn = true
 properties/4/sync = true
@@ -97,8 +96,8 @@ properties/9/sync = false
 properties/9/watch = true
 properties/10/path = NodePath("PlayerSFXAnimations:current_animation")
 properties/10/spawn = true
-properties/10/sync = true
-properties/10/watch = false
+properties/10/sync = false
+properties/10/watch = true
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_kuhee"]
 radius = 5.0
@@ -173,12 +172,14 @@ autoplay = "idle"
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 autoplay = "PlayerAnimationSaved/idle"
+playback_process_mode = 0
 libraries = {
 "PlayerAnimationSaved": ExtResource("2_lwcqa")
 }
 
 [node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
 replication_config = SubResource("SceneReplicationConfig_rdcvt")
+visibility_update_mode = 1
 
 [node name="PlayerArea" type="Area2D" parent="."]
 
@@ -226,8 +227,6 @@ script = ExtResource("15_qllcl")
 
 [node name="Weapon" parent="." instance=ExtResource("5_cc2db")]
 
-[node name="StatusFeedback" parent="." instance=ExtResource("12_xacmc")]
-
 [node name="Spellbook" parent="." instance=ExtResource("14_vfxlj")]
 
 [node name="SprintTimer" type="Timer" parent="."]
@@ -252,7 +251,7 @@ one_shot = true
 
 [node name="PlayerSFXAnimations" type="AnimationPlayer" parent="."]
 libraries = {
-"": ExtResource("19_yls4m")
+"": ExtResource("20_t5yn4")
 }
 
 [node name="RecoveryTimer" type="Timer" parent="."]

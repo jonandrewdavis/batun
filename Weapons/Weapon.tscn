@@ -59,13 +59,15 @@ visibility_update_mode = 1
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 autoplay = "RESET"
+playback_process_mode = 0
 libraries = {
 "": SubResource("AnimationLibrary_srij4"),
 "WeaponAnimations": ExtResource("2_cr52x")
 }
 
 [node name="WeaponAudio" type="AudioStreamPlayer2D" parent="."]
-volume_db = -5.0
+volume_db = -8.0
+pitch_scale = 0.1
 max_distance = 1400.0
 attenuation = 5.0
 bus = &"SFX"
@@ -144,7 +146,7 @@ disabled = true
 visible = false
 use_parent_material = true
 position = Vector2(25, 0)
-scale = Vector2(0.4, 0.4)
+scale = Vector2(1.5, 1.5)
 script = ExtResource("3_dtosq")
 
 [node name="H1" type="Line2D" parent="Hammer"]
@@ -152,7 +154,7 @@ use_parent_material = true
 position = Vector2(0, 11)
 points = PackedVector2Array(1.09375, -0.980469, 2.65625, -1.09766, 6.9256, -4.00003, 9.89371, -8.00004, 9.89369, -14, 6.92555, -18, 1.97867, -21, -2.9682, -21, -6.92568, -18, -9.89379, -14, -9.89377, -7.99996, -6.92563, -3.99998, -2.96813, -0.999989, -0.546875, -0.785156, 1.09375, -0.941406)
 width = 2.0
-default_color = Color(1, 1, 1, 0.156863)
+default_color = Color(1, 1, 1, 0.419608)
 
 [node name="H2" type="CollisionShape2D" parent="Hammer"]
 scale = Vector2(1.8, 1.8)
@@ -179,6 +181,7 @@ polygon = PackedVector2Array(-19.606, -10.3233, -12.1842, -10.1591, -13.2243, -1
 [node name="Spear" type="Area2D" parent="."]
 visible = false
 use_parent_material = true
+position = Vector2(5, 0)
 rotation = 1.5708
 script = ExtResource("3_dtosq")
 

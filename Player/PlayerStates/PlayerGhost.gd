@@ -18,6 +18,7 @@ func Update(_delta: float):
 	player.move()
 	player.can_pause()
 
+
 func Exit():
 	player.animated_sprite.self_modulate.a = 1.0
 	player.is_ghost = false

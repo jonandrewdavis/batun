@@ -29,6 +29,15 @@ var all_spells = [
 
 var current_spell = all_spells[0]
 
+# channeling fireball is disconnected
+# charge up
+
+# Acid bomb denial / AOE
+# you got to pick your layout
+
+# tell:
+
+
 func spell1():
 	if player.stamina >= current_spell.stamina and player.FSM.current_state.name != 'PlayerSpell1':
 		player.set_state('PlayerSpell1')

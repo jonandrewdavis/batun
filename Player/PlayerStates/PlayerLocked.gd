@@ -3,6 +3,8 @@ class_name PlayerLocked
 
 func Enter():
 	player.animation_player.play("PlayerAnimationSaved/idle",true)
+	player.velocity = Vector2.ZERO
+	player.mov_direction = Vector2.ZERO
 	# player.weapon.pointer.visible = false	
 	
 func Update(_delta): 
@@ -10,7 +12,8 @@ func Update(_delta):
 	pass
 
 func Physics_Update(_delta: float):
-	player.move()
+	pass
+	# player.move()
 	
 func Exit():
 	# player.weapon.pointer.visible = true	

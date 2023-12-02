@@ -30,6 +30,7 @@ func Update(_delta):
 	player.get_input()
 	player.move()
 
+	
 func Exit():
 	player.is_invincible = false	
 	player.weapon.visible = true

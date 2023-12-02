@@ -1,4 +1,4 @@
-[gd_scene load_steps=6 format=3 uid="uid://cbha66ayqfvc6"]
+[gd_scene load_steps=5 format=3 uid="uid://cbha66ayqfvc6"]
 
 [ext_resource type="Script" path="res://Weapons/StatusFeedback.gd" id="1_4ufy1"]
 
@@ -75,16 +75,6 @@ _data = {
 "show_number": SubResource("Animation_xbo0p")
 }
 
-[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_odtry"]
-properties/0/path = NodePath("AnimationPlayer:current_animation")
-properties/0/spawn = true
-properties/0/sync = true
-properties/0/watch = false
-properties/1/path = NodePath("Label:text")
-properties/1/spawn = true
-properties/1/sync = false
-properties/1/watch = true
-
 [node name="StatusFeedback" type="Node2D"]
 script = ExtResource("1_4ufy1")
 
@@ -106,6 +96,3 @@ theme_override_font_sizes/font_size = 8
 text = "8
 "
 horizontal_alignment = 1
-
-[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
-replication_config = SubResource("SceneReplicationConfig_odtry")

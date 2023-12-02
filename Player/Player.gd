@@ -55,7 +55,6 @@ func _ready() -> void:
 	# code runs only on the client. (Since each player is it's own authority).
 	# All nodes within these are LOCAL (client) only. Camera, Inventory, UI, etc.
 	# TODO: Move `userlabel.text` above this line and remove from sync
-	
 	if not is_multiplayer_authority():
 		return
 	# ---- Player Client Nodes -----
@@ -115,7 +114,6 @@ func _physics_process(delta: float) -> void:
 	else:
 		velocity = velocity.move_toward(Vector2.ZERO, friction * delta)
 
-		
 	if is_on_wall():
 		velocity = velocity.move_toward(mov_direction * max_speed * 0.9, (acceleration * 1.05) * delta)
 
@@ -150,8 +148,6 @@ func take_damage(damage: int, knockback: int, direction: Vector2, source) -> voi
 	if not is_multiplayer_authority(): return
 	if is_invincible == false:
 		set_state('PlayerHurt')
-		$StatusFeedback/Label.text = "%s" % damage
-		$StatusFeedback/AnimationPlayer.play("show_number")
 		hp -= damage
 		health_bar.value = hp
 		health_bar.visible = true
@@ -227,6 +223,7 @@ func open_chest():
 func evade():
 	if Input.is_action_just_pressed("space") and evade_timer.is_stopped():
 		set_state('PlayerEvade')
+
 
 # TODO: Improve saftey. Check weapon length to make sure it's present.
 func change_weapon():

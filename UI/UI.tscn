@@ -1,9 +1,19 @@
-[gd_scene load_steps=20 format=3 uid="uid://cndm01sayqd7b"]
+[gd_scene load_steps=30 format=3 uid="uid://cndm01sayqd7b"]
 
 [ext_resource type="Script" path="res://UI/UIScript.gd" id="1_rkwpo"]
 [ext_resource type="Theme" uid="uid://cogn7csrjrpfw" path="res://UI/small_theme.tres" id="2_id71m"]
 [ext_resource type="Theme" uid="uid://dpjbycgoquxs5" path="res://UI/MinimalUI.tres" id="3_n4g6s"]
 [ext_resource type="FontFile" uid="uid://vvs363rqnjeo" path="res://UI/Abaddon Bold.ttf" id="4_yb4sf"]
+[ext_resource type="Texture2D" uid="uid://ddesatefvq70r" path="res://Assets/keys/1.png" id="5_nso60"]
+[ext_resource type="Texture2D" uid="uid://d2cm4qcg5ccft" path="res://Assets/keys/2.png" id="6_r71dg"]
+[ext_resource type="Texture2D" uid="uid://b0hgfindcfacs" path="res://Assets/keys/3.png" id="7_0q78w"]
+[ext_resource type="Texture2D" uid="uid://cc6f7yp8bufd1" path="res://Assets/keys/4.png" id="8_ens1r"]
+[ext_resource type="Texture2D" uid="uid://bhoquoqxlqvng" path="res://Assets/keys/SPACE.png" id="9_qbj5u"]
+[ext_resource type="Texture2D" uid="uid://dbk8mt5wc2gpd" path="res://Assets/keys/E.png" id="11_11t2p"]
+[ext_resource type="Texture2D" uid="uid://0mpxjg8mapd5" path="res://Assets/keys/S.png" id="12_4n7b2"]
+[ext_resource type="Texture2D" uid="uid://nyteaulj7vmi" path="res://Assets/keys/TAB.png" id="12_t53pk"]
+[ext_resource type="Texture2D" uid="uid://caeuymgmcsgdo" path="res://Assets/keys/C.png" id="13_0s4t1"]
+[ext_resource type="Texture2D" uid="uid://bfohj47l3jre4" path="res://Assets/keys/F.png" id="14_3063x"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_na50n"]
 bg_color = Color(0.133333, 0.133333, 0.133333, 0.827451)
@@ -76,6 +86,33 @@ position = Vector2(240, 130)
 script = ExtResource("1_rkwpo")
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="MenuKeys" type="MarginContainer" parent="CanvasLayer"]
+custom_minimum_size = Vector2(117, 53)
+offset_right = 117.0
+offset_bottom = 53.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Sprite2D" type="Sprite2D" parent="CanvasLayer/MenuKeys"]
+position = Vector2(4, 4)
+scale = Vector2(0.3, 0.3)
+texture = ExtResource("11_11t2p")
+
+[node name="Sprite2D2" type="Sprite2D" parent="CanvasLayer/MenuKeys"]
+position = Vector2(10, 4)
+scale = Vector2(0.3, 0.3)
+texture = ExtResource("12_4n7b2")
+
+[node name="Sprite2D3" type="Sprite2D" parent="CanvasLayer/MenuKeys"]
+position = Vector2(16, 4)
+scale = Vector2(0.3, 0.3)
+texture = ExtResource("13_0s4t1")
+
+[node name="Sprite2D4" type="Sprite2D" parent="CanvasLayer/MenuKeys"]
+position = Vector2(6.33597, 12)
+scale = Vector2(0.3, 0.3)
+texture = ExtResource("12_t53pk")
 
 [node name="Scores" type="PanelContainer" parent="CanvasLayer"]
 visible = false
@@ -252,11 +289,16 @@ stretch_mode = 3
 [node name="Label" type="Label" parent="CanvasLayer/Control/MarginContainer/VBoxContainer/WeaponPanels/Panel"]
 layout_mode = 0
 offset_left = 2.0
-offset_top = 5.0
+offset_top = 1.0
 offset_right = 42.0
-offset_bottom = 28.0
+offset_bottom = 24.0
 theme_override_font_sizes/font_size = 3
 text = "Sword"
+
+[node name="Sprite2D" type="Sprite2D" parent="CanvasLayer/Control/MarginContainer/VBoxContainer/WeaponPanels/Panel"]
+position = Vector2(7.75873, 10.5118)
+scale = Vector2(0.3, 0.3)
+texture = ExtResource("5_nso60")
 
 [node name="Panel4" type="Panel" parent="CanvasLayer/Control/MarginContainer/VBoxContainer/WeaponPanels"]
 custom_minimum_size = Vector2(15, 15)
@@ -281,12 +323,17 @@ expand_mode = 1
 [node name="Label" type="Label" parent="CanvasLayer/Control/MarginContainer/VBoxContainer/WeaponPanels/Panel4"]
 layout_mode = 0
 offset_left = 1.0
-offset_top = 5.0
+offset_top = 1.0
 offset_right = 41.0
-offset_bottom = 28.0
+offset_bottom = 24.0
 theme_override_font_sizes/font_size = 3
 text = "Hammer
 "
+
+[node name="Sprite2D2" type="Sprite2D" parent="CanvasLayer/Control/MarginContainer/VBoxContainer/WeaponPanels/Panel4"]
+position = Vector2(7.94476, 10.5118)
+scale = Vector2(0.3, 0.3)
+texture = ExtResource("6_r71dg")
 
 [node name="Panel2" type="Panel" parent="CanvasLayer/Control/MarginContainer/VBoxContainer/WeaponPanels"]
 custom_minimum_size = Vector2(15, 15)
@@ -310,11 +357,16 @@ expand_mode = 1
 [node name="Label" type="Label" parent="CanvasLayer/Control/MarginContainer/VBoxContainer/WeaponPanels/Panel2"]
 layout_mode = 0
 offset_left = 4.0
-offset_top = 5.0
+offset_top = 1.0
 offset_right = 44.0
-offset_bottom = 28.0
+offset_bottom = 24.0
 theme_override_font_sizes/font_size = 3
 text = "Axe"
+
+[node name="Sprite2D3" type="Sprite2D" parent="CanvasLayer/Control/MarginContainer/VBoxContainer/WeaponPanels/Panel2"]
+position = Vector2(8.02859, 10.5118)
+scale = Vector2(0.3, 0.3)
+texture = ExtResource("7_0q78w")
 
 [node name="Panel3" type="Panel" parent="CanvasLayer/Control/MarginContainer/VBoxContainer/WeaponPanels"]
 custom_minimum_size = Vector2(15, 15)
@@ -339,12 +391,17 @@ expand_mode = 1
 [node name="Label" type="Label" parent="CanvasLayer/Control/MarginContainer/VBoxContainer/WeaponPanels/Panel3"]
 layout_mode = 0
 offset_left = 3.0
-offset_top = 5.0
+offset_top = 1.0
 offset_right = 43.0
-offset_bottom = 28.0
+offset_bottom = 24.0
 theme_override_font_sizes/font_size = 3
 text = "Spear
 "
+
+[node name="Sprite2D3" type="Sprite2D" parent="CanvasLayer/Control/MarginContainer/VBoxContainer/WeaponPanels/Panel3"]
+position = Vector2(7.49887, 10.5118)
+scale = Vector2(0.3, 0.3)
+texture = ExtResource("8_ens1r")
 
 [node name="SpellPanels" type="VBoxContainer" parent="CanvasLayer/Control/MarginContainer/VBoxContainer"]
 layout_mode = 2
@@ -374,12 +431,17 @@ texture_progress = SubResource("GradientTexture2D_ed2uj")
 [node name="Label2" type="Label" parent="CanvasLayer/Control/MarginContainer/VBoxContainer/SpellPanels/Spells/Evade"]
 layout_mode = 0
 offset_left = 3.8425
-offset_top = 4.80157
+offset_top = 1.80157
 offset_right = 43.8425
-offset_bottom = 27.8016
+offset_bottom = 24.8016
 theme_override_font_sizes/font_size = 3
 text = "Evade
 "
+
+[node name="Sprite2D3" type="Sprite2D" parent="CanvasLayer/Control/MarginContainer/VBoxContainer/SpellPanels/Spells/Evade"]
+position = Vector2(7.49887, 10.5118)
+scale = Vector2(0.1, 0.2)
+texture = ExtResource("9_qbj5u")
 
 [node name="Spell" type="Panel" parent="CanvasLayer/Control/MarginContainer/VBoxContainer/SpellPanels/Spells"]
 custom_minimum_size = Vector2(15, 15)
@@ -388,11 +450,16 @@ layout_mode = 2
 [node name="Label3" type="Label" parent="CanvasLayer/Control/MarginContainer/VBoxContainer/SpellPanels/Spells/Spell"]
 layout_mode = 0
 offset_left = 4.48657
-offset_top = 5.19843
+offset_top = 2.19843
 offset_right = 44.4866
-offset_bottom = 28.1984
+offset_bottom = 25.1984
 theme_override_font_sizes/font_size = 3
 text = "Spell"
+
+[node name="Sprite2D3" type="Sprite2D" parent="CanvasLayer/Control/MarginContainer/VBoxContainer/SpellPanels/Spells/Spell"]
+position = Vector2(7.49887, 10.5118)
+scale = Vector2(0.3, 0.3)
+texture = ExtResource("14_3063x")
 
 [node name="Menu" type="PanelContainer" parent="CanvasLayer"]
 visible = false
