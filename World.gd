@@ -13,7 +13,7 @@ var round_players = 0
 var round_started = false
 var is_host = false
 
-	
+
 func start_round():
 	if HomeTeleport.current_players == Network.players.values().size() and HomeTeleport.current_players > 1:
 		round_players = Network.players.values().size()
@@ -39,7 +39,7 @@ func end_round():
 				return 
 				
 	for player in Network.players:
-		if Network.players[player].coins >= 8:
+		if Network.players[player].coins >= 5:
 			trigger_end_round(player, Network.players[player].name)
 			return
 		

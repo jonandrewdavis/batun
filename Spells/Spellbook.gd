@@ -36,8 +36,6 @@ var current_spell = all_spells[0]
 # you got to pick your layout
 
 # tell:
-
-
 func spell1():
 	if player.stamina >= current_spell.stamina and player.FSM.current_state.name != 'PlayerSpell1':
 		player.set_state('PlayerSpell1')
@@ -54,7 +52,7 @@ func spell1():
 			spawn_spell.rpc(spell_rotation, spell_direction, spell_position, current_spell, get_multiplayer_authority())
 			await get_tree().create_timer(0.4).timeout
 			player.set_state('PlayerIdle')
-	else: 
+	else:
 		player.UIref.flash_stamina()
 
 
@@ -76,4 +74,4 @@ func spawn_spell(_rotation, _direction, _position, _current_spell, playerID):
 
 func ult():
 	print('ult')
-	pass 
+	pass

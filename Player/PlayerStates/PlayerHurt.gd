@@ -24,6 +24,7 @@ func Enter():
 		await death_timer.timeout
 		player.set_state("PlayerGhost")
 
+# TODO: Determine if these get multiplayer authority checks are necessary??? 
 func Update(_delta): 
 	if not is_multiplayer_authority(): return
 	player.recover()
@@ -32,6 +33,6 @@ func Update(_delta):
 
 	
 func Exit():
+	player.animation_player.play("PlayerAnimationSaved/RESET")
 	player.is_invincible = false	
 	player.weapon.visible = true
-

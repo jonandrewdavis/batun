@@ -23,6 +23,8 @@ var bus_master = AudioServer.get_bus_index("Master")
 var bus_music = AudioServer.get_bus_index("Music")
 var bus_sfx = AudioServer.get_bus_index("SFX")
 
+
+
 # TODO: programatically do all this from a List[]
 var volume_master_value
 var volume_music_value
@@ -155,14 +157,15 @@ func _on_h_slider_sfx_value_changed(value):
 	pass # Replace with function body.
 
 func flash_stamina():
-	stamina.self_modulate.a = 0.1
+	player.start_recovery()
+	player.animation_player.play("PlayerAnimationSaved/RESET")
+	stamina.self_modulate.a = 0
 	await get_tree().create_timer(0.1).timeout
 	stamina.self_modulate.a = 1
 	await get_tree().create_timer(0.1).timeout
-	stamina.self_modulate.a = 0.1
+	stamina.self_modulate.a = 0
 	await get_tree().create_timer(0.1).timeout
 	stamina.self_modulate.a = 1
-
 
 func show_evade_timer(time):
 	$CanvasLayer/Control/MarginContainer/VBoxContainer/SpellPanels/Spells/Evade/EvadeHighlight.visible = false
@@ -175,5 +178,4 @@ func show_evade_timer(time):
 func show_evade_highlight():
 	$CanvasLayer/Control/MarginContainer/VBoxContainer/SpellPanels/Spells/Evade/EvadeHighlight.visible = true
 
-func flush_max():
-	pass
+

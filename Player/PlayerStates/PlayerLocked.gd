@@ -2,7 +2,7 @@ extends State
 class_name PlayerLocked
 
 func Enter():
-	player.animation_player.play("PlayerAnimationSaved/idle",true)
+	player.animation_player.play("PlayerAnimationSaved/locked")
 	player.velocity = Vector2.ZERO
 	player.mov_direction = Vector2.ZERO
 	# player.weapon.pointer.visible = false	

@@ -72,7 +72,7 @@ max_distance = 1400.0
 attenuation = 5.0
 bus = &"SFX"
 
-[node name="PointLight2D" type="PointLight2D" parent="."]
+[node name="DEBUG LIGHT" type="PointLight2D" parent="."]
 editor_only = true
 texture = ExtResource("5_pvhim")
 metadata/_edit_lock_ = true
@@ -92,6 +92,7 @@ rotation = -0.959931
 script = ExtResource("3_dtosq")
 
 [node name="S1" type="Polygon2D" parent="Holder/InnerHolder/Sword"]
+visible = false
 use_parent_material = true
 scale = Vector2(2.10345, 2.10345)
 polygon = PackedVector2Array(0.800534, -0.337672, 1.90296, -0.573908, 2.06045, -1.51885, 2.25732, -0.416418, 9.34437, -0.810143, 10.0531, -0.573908, 9.42312, -0.14081, 2.37543, 0.292288, 2.37543, 1.00099, 1.86359, 0.213543, 0.721788, 0.292288, 0.328063, 0.449778, 0.1312, -0.416418)
@@ -132,13 +133,13 @@ visible = false
 script = ExtResource("3_dtosq")
 
 [node name="ShieldPoly" type="Polygon2D" parent="Holder/InnerHolder/Shield"]
-position = Vector2(-0.5, -0.046875)
-scale = Vector2(8.05148, 8.05148)
+position = Vector2(0.912182, -0.046875)
+scale = Vector2(5.99059, 5.4412)
 polygon = PackedVector2Array(1.53125, -0.492188, 1.54688, -0.132813, 1.5625, 0.242188, 1.35938, 0.679688, 1.24236, 1.06239, 1.71875, 0.554688, 1.90625, -0.0703125, 1.86108, -0.484403, 1.70313, -0.757813, 1.34375, -1.11719)
 
 [node name="ShieldCollision" type="CollisionPolygon2D" parent="Holder/InnerHolder/Shield"]
-position = Vector2(0.0468235, 0)
-scale = Vector2(1.63361, 1.63361)
+position = Vector2(1.45901, 0)
+scale = Vector2(1.20019, 1.20019)
 polygon = PackedVector2Array(6.08735, -4.89003, 7.39837, -1.23791, 7.11744, 1.85235, 5.52549, 5.1299, 8.14752, 2.32057, 8.99032, -0.395109, 8.80303, -2.73621, 6.93015, -4.89003)
 disabled = true
 
@@ -146,7 +147,7 @@ disabled = true
 visible = false
 use_parent_material = true
 position = Vector2(25, 0)
-scale = Vector2(1.5, 1.5)
+scale = Vector2(0.5, 0.5)
 script = ExtResource("3_dtosq")
 
 [node name="H1" type="Line2D" parent="Hammer"]
@@ -154,7 +155,7 @@ use_parent_material = true
 position = Vector2(0, 11)
 points = PackedVector2Array(1.09375, -0.980469, 2.65625, -1.09766, 6.9256, -4.00003, 9.89371, -8.00004, 9.89369, -14, 6.92555, -18, 1.97867, -21, -2.9682, -21, -6.92568, -18, -9.89379, -14, -9.89377, -7.99996, -6.92563, -3.99998, -2.96813, -0.999989, -0.546875, -0.785156, 1.09375, -0.941406)
 width = 2.0
-default_color = Color(1, 1, 1, 0.419608)
+default_color = Color(1, 1, 1, 0.156863)
 
 [node name="H2" type="CollisionShape2D" parent="Hammer"]
 scale = Vector2(1.8, 1.8)

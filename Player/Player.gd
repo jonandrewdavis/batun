@@ -32,7 +32,7 @@ const CONST_FRICTION = 280
 @onready var Network = get_tree().get_root().get_node('/root/Main/Network')
 
 var evade_timer = Timer.new()
-var is_invincible = true
+var is_invincible = false
 
 # TODO: UI, weapon swapz
 var UI = load("res://UI/UI.tscn")
@@ -62,9 +62,6 @@ func _ready() -> void:
 	var newCamera = Camera2D.new()
 	var newLight = PlayerLight.instantiate()
 	
-	# music DEBUG
-	if str(name) != '1': get_parent().get_node('AudioStreamPlayer').play()
-
 	userlabel.text = SavedData.username
 	newCamera.ignore_rotation = true
 	newCamera.limit_smoothed = true
@@ -102,7 +99,9 @@ func cancel_sprint():
 
 # TODO: Fatigue
 func _physics_process(delta: float) -> void:
+
 	if not is_multiplayer_authority(): return
+
 	# if Input.is_action_pressed("shift") and shift == false:
 		# sprint()
 	
@@ -114,16 +113,18 @@ func _physics_process(delta: float) -> void:
 	else:
 		velocity = velocity.move_toward(Vector2.ZERO, friction * delta)
 
-	if is_on_wall():
+	if is_on_wall() and FSM.current_state.name != 'PlayerMove':
 		velocity = velocity.move_toward(mov_direction * max_speed * 0.9, (acceleration * 1.05) * delta)
 
 	if velocity != Vector2.ZERO and $FootstepsTimer.time_left <= 0 and FSM.current_state.name == 'PlayerIdle':
 		$Footsteps.play()
 		$FootstepsTimer.start(0.35)
+	
+
 
 	move_and_slide()
 
-	
+
 func _process(_delta: float) -> void:
 	# if OS.is_debug_build(): userlabel.text = FSM.current_state.name
 	if not is_multiplayer_authority(): return
@@ -134,6 +135,8 @@ func _process(_delta: float) -> void:
 	elif mouse_direction.x < 0 and not animated_sprite.flip_h:
 		animated_sprite.flip_h = true
 
+	if SavedData.username == 'z':
+		weapon.attack1()
 
 func set_state(state):
 	# userlabel.text = state
@@ -178,7 +181,7 @@ func restore_previous_state() -> void:
 	health_bar.max_value = CONST_MAX_HP
 	health_bar.value = CONST_MAX_HP
 	health_bar.visible = false
-	is_invincible = true
+	is_invincible = false
 	set_state("PlayerIdle")
 	
 func can_pause():
@@ -291,7 +294,8 @@ func apply_status(status: Status, duration: int):
 func start_recovery():
 	$RecoveryTimer.start(0.6)
 	pass
-	
+
+
 func recover():
 	if $RecoveryTimer.time_left == 0:
 		$RecoveryTimer.start(0.1)
@@ -300,3 +304,18 @@ func recover():
 func show_winner(text, _visible):
 	if not is_multiplayer_authority(): return
 	UIref.show_round_end(text, _visible)
+	
+# TODO: these are all really fun numbers to play around with!!
+func dash():
+	if Input.is_action_just_pressed("space"):
+		if stamina >= 20:
+			stamina -= 20
+			set_state("PlayerMove")
+			acceleration = CONST_ACCELERATION * 8
+			max_speed = CONST_STARTING_SPEED * 1.8
+			# ALT: use higher accel, lower max speed
+			await get_tree().create_timer(0.2).timeout
+			velocity = velocity.move_toward(Vector2.ZERO, 150)
+			set_state('PlayerIdle')
+		else:
+			UIref.flash_stamina()

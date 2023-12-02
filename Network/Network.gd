@@ -16,8 +16,8 @@ var players = {}
 # For example, the value of "name" can be set to something the player
 # entered in a UI scene.
 var player_info = {"name": "Name", "score": 0, "wins": 0, "color": Color(1,1,1,1), "coins": 0}
-# var chosen_color_ui: Color = Color(0.35, 0.22, 0.46, 1)
 
+## TODO: Use a Syncronizer in network or health
 @onready var main_menu = $MainMenuCanvas/MainMenu
 @onready var username = $MainMenuCanvas/MainMenu/MarginContainer/VBoxContainer/user
 @onready var address_entry = $MainMenuCanvas/MainMenu/MarginContainer/VBoxContainer/address
@@ -25,6 +25,23 @@ var player_info = {"name": "Name", "score": 0, "wins": 0, "color": Color(1,1,1,1
 @onready var host_button = $MainMenuCanvas/MainMenu/MarginContainer/VBoxContainer/HBoxContainer/Host
 @onready var check_button = $MainMenuCanvas/MainMenu/MarginContainer/VBoxContainer/CheckButton
 @onready var world_ref =  get_tree().get_root().get_node('/root/Main/World')
+
+
+
+
+# TODO: The Network component needs to be completely re-done.
+# We should have a strategy more similar to the one in this video: 
+# ----- https://www.youtube.com/watch?v=AytWpymeVJw
+# A short to do list:
+# - Enable PNP
+# - Treat host as a "real player"
+# - use the `is_server` for ALL game logic, on $World,
+# - Treat multiplayer spawner, better, generally.  at that time, re-do Spellbook to function more sensibly,
+# - Allows us to remove RPC calls that do weird shit on client /server double up. It's unpredictable.
+# - Server / Player responsbility is more clear when doing RPCs
+# - Use a Multiplayer Syncronizer to track score or world events?
+# - Just... fix everything. Re-do it. As, it stands it's not maintainable. 
+# - Long term goal to make the UI tolerable. Menus and HUD are not great.
 
 var toggle_upnp = false
 const PORT = 9999
@@ -34,7 +51,7 @@ var Player = load("res://Player/Player.tscn")
 
 var nospawn = false
 var debug_override = false
-var include_host_player_body = false
+var include_host_player_body = true
 
 const AWS_SERVER_IP = ''
 

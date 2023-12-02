@@ -63,7 +63,7 @@ func _prepare_all_weapons():
 			{
 				"animation": 'WeaponAnimations/Hammer1',
 				"damage": 30,
-				"self_slow": 80,
+				"self_slow": 6,
 				"knockback": 170,
 				"stamina": 18,
 			},
@@ -91,7 +91,7 @@ func _prepare_all_weapons():
 				"damage": 10,
 				"self_slow": 8,
 				"knockback": 100,
-				"stamina": 4,
+				"stamina": 7,
 			},
 		]
 	},
@@ -104,6 +104,7 @@ const shield = {
 	"knockback": 0,
 	"stamina": 7,
 }
+
 # 
 # hammer is hold until release is better
 # perfect release moment, but you will do less later, zenith
@@ -116,7 +117,6 @@ const shield = {
 # on release: locked
 # normalized
 # spread
-
 
 # show them down and do much damage
 
@@ -227,16 +227,30 @@ func get_weapon_hit() -> Hit:
 			return hit
 	return Hit.new()
 
+
+# TODO: capitalization, refactor animations. 
 func attack1():
 	var current_attack = all_weapons[current_weapon_index].attacks[0]
 	if player.stamina > current_attack.stamina:
 		player.set_state('PlayerAttack1')
 		player.stamina -= current_attack.stamina
-		animation_player.play(current_attack.animation)
 		player.apply_slow(current_attack.self_slow)
-		player.animation_player.play('PlayerAnimationSaved/action')
+		if all_weapons[current_weapon_index].name == 'Hammer':
+			animation_player.play('WeaponAnimations/Charge')
+			player.animation_player.play('PlayerAnimationSaved/channel')
+			$Hammer.visible = true
+			$Hammer.scale.x = 0.5
+			$Hammer.scale.y = 0.5
+		else:
+			animation_player.play(current_attack.animation)
+			player.animation_player.play('PlayerAnimationSaved/action')
 	else: 
 		player.UIref.flash_stamina()
+
+func attack1_release():
+	var current_attack = all_weapons[current_weapon_index].attacks[0]
+	animation_player.play(current_attack.animation)
+	player.animation_player.play('PlayerAnimationSaved/action', true)
 
 # Combo may work better with Syncronizer option: Watch, rather than Sync.
 # Not used
@@ -247,6 +261,7 @@ func attack1_combo():
 	animation_player.call_deferred('play')
 	player.apply_slow(current_attack.self_slow)
 	player.animation_player.play('PlayerAnimationSaved/action')
+	
 	
 func attack1_combo2():
 	combo_factor = 1
