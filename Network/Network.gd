@@ -47,7 +47,7 @@ var toggle_upnp = false
 const PORT = 9999
 var enet_peer = ENetMultiplayerPeer.new()
 
-var Player = load("res://Player/Player.tscn")
+var _Player = load("res://Player/Player.tscn")
 
 var nospawn = false
 var debug_override = false
@@ -92,30 +92,31 @@ func _on_join_pressed():
 	main_menu.hide()
 	player_info = {"name" : username.text, "score": 0, "wins": 0, "color": player_info.color, "coins": 0}
 	if username.text != '': SavedData.username = username.text
-	if OS.has_feature('client'):
-		enet_peer.create_client(address_entry.text, PORT)
-	else: 
-		enet_peer.create_client(address_entry.text, PORT)
-	multiplayer.multiplayer_peer = enet_peer
+	#if OS.has_feature('client'):
+		#enet_peer.create_client(address_entry.text, PORT)
+	#else: 
+		#enet_peer.create_client(address_entry.text, PORT)
+	#multiplayer.multiplayer_peer = enet_peer
 
 
 func _on_host_pressed():
 	main_menu.hide()
 	if username.text != '': SavedData.username = username.text
-	enet_peer.create_server(PORT)
-	multiplayer.multiplayer_peer = enet_peer
+	#enet_peer.create_server(PORT)
+	#multiplayer.multiplayer_peer = enet_peer
 	multiplayer.peer_connected.connect(add_player)
 	multiplayer.peer_disconnected.connect(remove_player)
-	print('DEBUG: SEVER IS READY:', multiplayer.get_unique_id())
+	#print('DEBUG: SEVER IS READY:', multiplayer.get_unique_id())
 	if include_host_player_body == true: 
+		print("ADDING A PLA AYER", username.text)
 		add_player(multiplayer.get_unique_id())
+		_register_player.rpc({"name" : username.text, "score": 0, "wins": 0, "color": player_info.color, "coins": 0})
+
 	world_ref.is_host = true
 	world_ref.RoundTimer.start()
-	if toggle_upnp == true:
-		upnp_setup()
 
 func add_player(peer_id):
-	var player = Player.instantiate()
+	var player = _Player.instantiate()
 	player.name = str(peer_id)
 	print('DEBUG: Add player: ', peer_id)
 	world_ref.add_child.call_deferred(player)
@@ -171,7 +172,7 @@ func _on_player_connected(id):
 	_register_player.rpc_id(id, player_info)
 
 
-@rpc("any_peer", "reliable")
+@rpc("any_peer", "call_local")
 func _register_player(new_player_info):
 	var new_player_id = multiplayer.get_remote_sender_id()
 	players[new_player_id] = new_player_info

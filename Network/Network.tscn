@@ -1,9 +1,10 @@
-[gd_scene load_steps=6 format=3 uid="uid://3s30xhs7xn4c"]
+[gd_scene load_steps=7 format=3 uid="uid://3s30xhs7xn4c"]
 
-[ext_resource type="Script" path="res://Network/Network.gd" id="1_63yud"]
+[ext_resource type="Script" uid="uid://gr8gr0o1njsk" path="res://Network/Network.gd" id="1_63yud"]
 [ext_resource type="Theme" uid="uid://dpjbycgoquxs5" path="res://UI/MinimalUI.tres" id="2_g3vca"]
 [ext_resource type="FontFile" uid="uid://dbvlh7iiult7b" path="res://UI/Abaddon Light.ttf" id="3_2ytxj"]
 [ext_resource type="FontFile" uid="uid://vvs363rqnjeo" path="res://UI/Abaddon Bold.ttf" id="4_uattg"]
+[ext_resource type="PackedScene" uid="uid://badtpsxn5lago" path="res://shared/ui/network-popup.tscn" id="5_yc2la"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_mtm5q"]
 bg_color = Color(0.278431, 0.117647, 0.156863, 1)
@@ -36,6 +37,7 @@ layout_mode = 2
 theme_override_constants/separation = 15
 
 [node name="VBoxContainer" type="VBoxContainer" parent="MainMenuCanvas/MainMenu/MarginContainer/VBoxContainer"]
+visible = false
 layout_mode = 2
 theme_override_constants/separation = 0
 
@@ -62,6 +64,7 @@ caret_blink = true
 caret_blink_interval = 0.5
 
 [node name="address" type="LineEdit" parent="MainMenuCanvas/MainMenu/MarginContainer/VBoxContainer"]
+visible = false
 layout_mode = 2
 theme = ExtResource("2_g3vca")
 theme_override_fonts/font = ExtResource("3_2ytxj")
@@ -90,6 +93,7 @@ color = Color(1, 1, 1, 1)
 edit_alpha = false
 
 [node name="HBoxContainer" type="HBoxContainer" parent="MainMenuCanvas/MainMenu/MarginContainer/VBoxContainer"]
+visible = false
 layout_mode = 2
 
 [node name="Host" type="Button" parent="MainMenuCanvas/MainMenu/MarginContainer/VBoxContainer/HBoxContainer"]
@@ -110,10 +114,25 @@ text = "Join
 "
 
 [node name="CheckButton" type="CheckButton" parent="MainMenuCanvas/MainMenu/MarginContainer/VBoxContainer"]
+visible = false
 layout_mode = 2
 theme_override_fonts/font = ExtResource("4_uattg")
 theme_override_font_sizes/font_size = 12
 text = "UPNP"
+
+[node name="Network Popup" parent="MainMenuCanvas" node_paths=PackedStringArray("old_menu") instance=ExtResource("5_yc2la")]
+anchors_preset = 12
+anchor_left = 0.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 110.0
+offset_top = -177.0
+offset_right = 110.0
+offset_bottom = 166.0
+grow_vertical = 0
+scale = Vector2(0.5, 0.5)
+old_menu = NodePath("../..")
 
 [connection signal="text_changed" from="MainMenuCanvas/MainMenu/MarginContainer/VBoxContainer/user" to="." method="_on_user_text_changed"]
 [connection signal="color_changed" from="MainMenuCanvas/MainMenu/MarginContainer/VBoxContainer/VBoxContainer2/HBoxContainer/ColorPickerButton" to="." method="_on_color_picker_button_color_changed"]

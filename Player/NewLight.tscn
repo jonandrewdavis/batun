@@ -1,0 +1,14 @@
+[gd_scene load_steps=3 format=3 uid="uid://cqsfr7mewag2x"]
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_i2ss6"]
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_5d27q"]
+as_normal_map = true
+noise = SubResource("FastNoiseLite_i2ss6")
+
+[node name="NewLight" type="PointLight2D"]
+enabled = false
+editor_only = true
+shadow_enabled = true
+shadow_item_cull_mask = 35847
+texture = SubResource("NoiseTexture2D_5d27q")

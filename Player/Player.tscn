@@ -1,22 +1,22 @@
 [gd_scene load_steps=31 format=3 uid="uid://b2m56omrcu8lr"]
 
-[ext_resource type="Script" path="res://Player/Player.gd" id="1_bv6p2"]
-[ext_resource type="Shader" path="res://Player/Player.gdshader" id="2_2c6fw"]
+[ext_resource type="Script" uid="uid://cj22acq5wj5uo" path="res://Player/Player.gd" id="1_bv6p2"]
+[ext_resource type="Shader" uid="uid://ojl2sybf30md" path="res://Player/Player.gdshader" id="2_2c6fw"]
 [ext_resource type="AnimationLibrary" uid="uid://cgd5bhyubfwyp" path="res://Player/PlayerAnimationSaved.res" id="2_lwcqa"]
 [ext_resource type="SpriteFrames" uid="uid://d2tsowqgx0ycq" path="res://Player/PlayerSpriteSaved.tres" id="3_6xpi2"]
 [ext_resource type="PackedScene" uid="uid://bwhwvvqj2od7u" path="res://Weapons/Weapon.tscn" id="5_cc2db"]
-[ext_resource type="Script" path="res://Player/FSM.gd" id="5_ckd0r"]
-[ext_resource type="Script" path="res://Player/PlayerStates/PlayerIdle.gd" id="6_bcrpe"]
-[ext_resource type="Script" path="res://Player/PlayerStates/PlayerMove.gd" id="7_g0cqa"]
-[ext_resource type="Script" path="res://Player/PlayerStates/PlayerAttack1.gd" id="8_ym6h3"]
-[ext_resource type="Script" path="res://Player/PlayerStates/PlayerEvade.gd" id="9_mj8we"]
-[ext_resource type="Script" path="res://Player/PlayerStates/PlayerBusy.gd" id="10_5i5je"]
-[ext_resource type="Script" path="res://Player/PlayerStates/PlayerHurt.gd" id="11_g31tm"]
-[ext_resource type="Script" path="res://Player/PlayerStates/PlayerSpell1.gd" id="11_kfrwc"]
-[ext_resource type="Script" path="res://Player/PlayerStates/PlayerLocked.gd" id="13_u6tnr"]
-[ext_resource type="Script" path="res://Player/PlayerStates/PlayerGhost.gd" id="14_jqqka"]
+[ext_resource type="Script" uid="uid://wvemfyx10bti" path="res://Player/FSM.gd" id="5_ckd0r"]
+[ext_resource type="Script" uid="uid://dmmhyei1y3lr1" path="res://Player/PlayerStates/PlayerIdle.gd" id="6_bcrpe"]
+[ext_resource type="Script" uid="uid://brj2vx6jwi33j" path="res://Player/PlayerStates/PlayerMove.gd" id="7_g0cqa"]
+[ext_resource type="Script" uid="uid://de8lmn011j6x2" path="res://Player/PlayerStates/PlayerAttack1.gd" id="8_ym6h3"]
+[ext_resource type="Script" uid="uid://bs8v6v3chtalc" path="res://Player/PlayerStates/PlayerEvade.gd" id="9_mj8we"]
+[ext_resource type="Script" uid="uid://dcbtx6plvqws6" path="res://Player/PlayerStates/PlayerBusy.gd" id="10_5i5je"]
+[ext_resource type="Script" uid="uid://1ort1pmvj1pk" path="res://Player/PlayerStates/PlayerHurt.gd" id="11_g31tm"]
+[ext_resource type="Script" uid="uid://dmmwhgop3vx0d" path="res://Player/PlayerStates/PlayerSpell1.gd" id="11_kfrwc"]
+[ext_resource type="Script" uid="uid://dhi0x5pmt660t" path="res://Player/PlayerStates/PlayerLocked.gd" id="13_u6tnr"]
+[ext_resource type="Script" uid="uid://cae2qv475kx37" path="res://Player/PlayerStates/PlayerGhost.gd" id="14_jqqka"]
 [ext_resource type="PackedScene" uid="uid://fosuxj5q1tpx" path="res://Spells/Spellbook.tscn" id="14_vfxlj"]
-[ext_resource type="Script" path="res://Player/PlayerStates/PlayerChanneling.gd" id="15_qllcl"]
+[ext_resource type="Script" uid="uid://dp8amgumpdjul" path="res://Player/PlayerStates/PlayerChanneling.gd" id="15_qllcl"]
 [ext_resource type="AudioStream" uid="uid://dbxd72e5v12ro" path="res://Assets/Sound/sfx_player_footsteps.mp3" id="17_d02nm"]
 [ext_resource type="AnimationLibrary" uid="uid://dsb5op3s58tyh" path="res://Player/AudioSFXv2.res" id="20_t5yn4"]
 [ext_resource type="Texture2D" uid="uid://882mh23lath0" path="res://Assets/LightSprite.png" id="21_s5e5o"]
@@ -56,48 +56,37 @@ shader_parameter/NEWCOLOR1 = Color(1, 0, 0, 1)
 [sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_rdcvt"]
 properties/0/path = NodePath("Label:text")
 properties/0/spawn = true
-properties/0/sync = false
-properties/0/watch = true
+properties/0/replication_mode = 2
 properties/1/path = NodePath(".:position")
 properties/1/spawn = true
-properties/1/sync = true
-properties/1/watch = false
+properties/1/replication_mode = 1
 properties/2/path = NodePath(".:hp")
 properties/2/spawn = true
-properties/2/sync = false
-properties/2/watch = true
+properties/2/replication_mode = 2
 properties/3/path = NodePath("AnimatedSprite2D:flip_h")
 properties/3/spawn = true
-properties/3/sync = false
-properties/3/watch = true
+properties/3/replication_mode = 2
 properties/4/path = NodePath("AnimationPlayer:current_animation")
 properties/4/spawn = true
-properties/4/sync = true
-properties/4/watch = false
+properties/4/replication_mode = 1
 properties/5/path = NodePath("Healthbar:value")
 properties/5/spawn = true
-properties/5/sync = false
-properties/5/watch = true
+properties/5/replication_mode = 2
 properties/6/path = NodePath("Healthbar:visible")
 properties/6/spawn = true
-properties/6/sync = false
-properties/6/watch = true
+properties/6/replication_mode = 2
 properties/7/path = NodePath("Footsteps:playing")
 properties/7/spawn = true
-properties/7/sync = false
-properties/7/watch = true
+properties/7/replication_mode = 2
 properties/8/path = NodePath(".:is_ghost")
 properties/8/spawn = true
-properties/8/sync = false
-properties/8/watch = true
+properties/8/replication_mode = 2
 properties/9/path = NodePath("AnimatedSprite2D:self_modulate")
 properties/9/spawn = true
-properties/9/sync = false
-properties/9/watch = true
+properties/9/replication_mode = 2
 properties/10/path = NodePath("PlayerSFXAnimations:current_animation")
 properties/10/spawn = true
-properties/10/sync = false
-properties/10/watch = true
+properties/10/replication_mode = 2
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_kuhee"]
 radius = 5.0
@@ -171,11 +160,11 @@ animation = &"idle"
 autoplay = "idle"
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
-autoplay = "PlayerAnimationSaved/idle"
-playback_process_mode = 0
+callback_mode_process = 0
 libraries = {
-"PlayerAnimationSaved": ExtResource("2_lwcqa")
+&"PlayerAnimationSaved": ExtResource("2_lwcqa")
 }
+autoplay = "PlayerAnimationSaved/idle"
 
 [node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
 replication_config = SubResource("SceneReplicationConfig_rdcvt")
@@ -251,7 +240,7 @@ one_shot = true
 
 [node name="PlayerSFXAnimations" type="AnimationPlayer" parent="."]
 libraries = {
-"": ExtResource("20_t5yn4")
+&"": ExtResource("20_t5yn4")
 }
 
 [node name="RecoveryTimer" type="Timer" parent="."]

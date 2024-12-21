@@ -10,7 +10,7 @@ extends Node2D
 var current_players = 0
 var player_nodes = []
 
-@rpc('authority', 'reliable')
+@rpc('authority', 'call_local')
 func spawn(spawn_positions):
 	for child in get_parent().get_children():
 		if child is Player:

@@ -1,10 +1,11 @@
 [gd_scene load_steps=2 format=3 uid="uid://ctfp7r0jynv3n"]
 
-[ext_resource type="Texture2D" uid="uid://882mh23lath0" path="res://Assets/LightSprite.png" id="1_ufwkc"]
+[ext_resource type="Texture2D" uid="uid://882mh23lath0" path="res://Assets/LightSprite.png" id="1_51ejp"]
 
 [node name="PlayerLight" type="PointLight2D"]
+visible = false
+enabled = false
 energy = 0.3
 shadow_enabled = true
 shadow_filter = 2
-texture = ExtResource("1_ufwkc")
-texture_scale = 1.1
+texture = ExtResource("1_51ejp")

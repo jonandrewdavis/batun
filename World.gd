@@ -60,7 +60,7 @@ func trigger_end_round(winner_id, winner_label):
 	RoundTimer.start()
 	round_started = false
 
-@rpc('authority', 'reliable')
+@rpc('authority', 'call_local')
 func reset_all_players(winner_label):
 	for child in get_children():
 		if child is Player:

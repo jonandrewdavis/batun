@@ -29,16 +29,16 @@ const CONST_FRICTION = 280
 @onready var spellbook = $Spellbook
 @onready var SFX = $PlayerSFXAnimations
 
-@onready var Network = get_tree().get_root().get_node('/root/Main/Network')
+@onready var Network = get_tree().get_root().get_node('Main/Network')
 
 var evade_timer = Timer.new()
 var is_invincible = false
 
 # TODO: UI, weapon swapz
-var UI = load("res://UI/UI.tscn")
+var UI = preload("res://UI/UI.tscn")
 var UIref = null
 
-var PlayerLight = load("res://Player/PlayerLight.tscn")
+var PlayerLight = preload("res://Player/PlayerLight.tscn")
 var light = null
 
 var mouse_direction: Vector2
@@ -69,8 +69,8 @@ func _ready() -> void:
 	add_child(evade_timer)
 	add_child(newUI)
 	add_child(newLight)
-	light = get_node("PlayerLight")
-	UIref = get_node("UI")
+	light = newLight
+	UIref = newUI
 	restore_previous_state()
 	animated_sprite.set_modulate(Network.player_info.color)
 
