@@ -1,4 +1,4 @@
-[gd_scene load_steps=31 format=3 uid="uid://b2m56omrcu8lr"]
+[gd_scene load_steps=32 format=3 uid="uid://b2m56omrcu8lr"]
 
 [ext_resource type="Script" uid="uid://cj22acq5wj5uo" path="res://Player/Player.gd" id="1_bv6p2"]
 [ext_resource type="Shader" uid="uid://ojl2sybf30md" path="res://Player/Player.gdshader" id="2_2c6fw"]
@@ -18,6 +18,7 @@
 [ext_resource type="PackedScene" uid="uid://fosuxj5q1tpx" path="res://Spells/Spellbook.tscn" id="14_vfxlj"]
 [ext_resource type="Script" uid="uid://dp8amgumpdjul" path="res://Player/PlayerStates/PlayerChanneling.gd" id="15_qllcl"]
 [ext_resource type="AudioStream" uid="uid://dbxd72e5v12ro" path="res://Assets/Sound/sfx_player_footsteps.mp3" id="17_d02nm"]
+[ext_resource type="PackedScene" uid="uid://ctfp7r0jynv3n" path="res://Player/PlayerLight.tscn" id="17_roy6y"]
 [ext_resource type="AnimationLibrary" uid="uid://dsb5op3s58tyh" path="res://Player/AudioSFXv2.res" id="20_t5yn4"]
 [ext_resource type="Texture2D" uid="uid://882mh23lath0" path="res://Assets/LightSprite.png" id="21_s5e5o"]
 
@@ -215,6 +216,9 @@ script = ExtResource("14_jqqka")
 script = ExtResource("15_qllcl")
 
 [node name="Weapon" parent="." instance=ExtResource("5_cc2db")]
+
+[node name="PlayerLight" parent="." instance=ExtResource("17_roy6y")]
+visible = true
 
 [node name="Spellbook" parent="." instance=ExtResource("14_vfxlj")]
 

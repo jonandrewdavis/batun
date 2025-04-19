@@ -4,7 +4,6 @@
 
 [node name="PlayerLight" type="PointLight2D"]
 visible = false
-enabled = false
 energy = 0.3
 shadow_enabled = true
 shadow_filter = 2
